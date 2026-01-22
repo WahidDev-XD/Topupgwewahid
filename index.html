@@ -209,7 +209,7 @@ button{
 <body>
 
 <div class="container">
-<h1>⚡ TOP UP GAME ADMIN</h1>
+<h1>⚡ gwewahid Top Up</h1>
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
@@ -225,7 +225,8 @@ button{
 <div class="notice" contenteditable="true">
 ⚠️ <b>PERHATIAN</b><br>
 • Pastikan User ID benar<br>
-• Diamond tidak bisa direfund<br>
+• Input ID ML : 111111111 (2026)<br>
+• Input ID FF : 111111111<br>
 • Salah input bukan tanggung jawab admin
 </div>
 
@@ -234,7 +235,7 @@ button{
 
 <div class="check">
   <input type="checkbox" id="agree">
-  <label for="agree">Saya sudah memastikan data di atas benar</label>
+  <label for="agree">Saya sudah memastikan ID di atas benar</label>
 </div>
 
 <label>Pilih Nominal</label>
@@ -256,7 +257,7 @@ button{
 <div id="orderNote" class="note" style="display:none"></div>
 
 <button id="waBtn" class="wa" style="display:none">
-💬 Konfirmasi via WhatsApp
+📞 Konfirmasi via WhatsApp
 </button>
 
 <button id="resetBtn" class="reset" style="display:none">
@@ -272,12 +273,60 @@ let countdown;
 
 const price={
   ml:[
-    {d:"💎 86 Diamonds",h:20000},
-    {d:"💎 Weekly Diamond Pass",h:29000}
-  ],
+   {d:"💎 Weekly Diamond Pass",h:29000}
+   {d:"💎 36 Diamonds",h:10500},
+   {d:"💎 56 Diamonds",h:15500},
+   {d:"💎 70 Diamonds",h:19500},
+   {d:"💎 112 Diamonds",h:31000},
+   {d:"💎 140 Diamonds",h:38000},
+   {d:"💎 170 Diamonds",h:46000},
+   {d:"💎 184 Diamonds",h:50000},
+   {d:"💎 222 Diamonds",h:58000},
+   {d:"💎 240 Diamonds",h:63000},
+   {d:"💎 258 Diamonds",h:70000},
+   {d:"💎 284 Diamonds",h:75000},
+   {d:"💎 296 Diamonds",h:78000},
+   {d:"💎 344 Diamonds",h:91000},
+   {d:"💎 355 Diamonds",h:93000},
+   {d:"💎 408 Diamonds",h:108000},
+   {d:"💎 429 Diamonds",h:113000},
+   {d:"💎 514 Diamonds",h:135000},
+   {d:"💎 568 Diamonds",h:147000},
+   {d:"💎 706 Diamonds",h:183000},
+   {d:"💎 878 Diamonds",h:225000},
+   {d:"💎 963 Diamonds",h:244000},
+   {d:"💎 1159 Diamonds",h:295000},
+   {d:"💎 1412 Diamonds",h:362000},
+   {d:"💎 2195 Diamonds",h:530000},
+   {d:"💎 3688 Diamonds",h:915000}
+  ] 
   ff:[
-    {d:"💎 70 Diamonds",h:15000},
-    {d:"💎 Membership Bulanan",h:81000}
+   {d:"💎 Membership Mingguan",h:28000},
+   {d:"💎 Membership Bulanan",h:81000},
+   {d:"💎 50 Diamonds",h:7000},
+   {d:"💎 70 Diamonds",h:10000},
+   {d:"💎 100 Diamonds",h:14000},
+   {d:"💎 140 Diamonds",h:18000},
+   {d:"💎 160Diamonds",h:21000},
+   {d:"💎 200 Diamonds",h:26000},
+   {d:"💎 250 Diamonds",h:33000},
+   {d:"💎 300 Diamonds",h:39000},
+   {d:"💎 355 Diamonds",h:43500},
+   {d:"💎 405 Diamonds",h:50000},
+   {d:"💎 475 Diamonds",h:62000},
+   {d:"💎 500 Diamonds",h:65000},
+   {d:"💎 565 Diamonds",h:71000},
+   {d:"💎 600 Diamonds",h:77000},
+   {d:"💎 720 Diamonds",h:88000},
+   {d:"💎 770 Diamonds",h:96000},
+   {d:"💎 800 Diamonds",h:100000},
+   {d:"💎 860 Diamonds",h:107000},
+   {d:"💎 930 Diamonds",h:115000},
+   {d:"💎 1000 Diamonds",h:125000},
+   {d:"💎 1080 Diamonds",h:135000},
+   {d:"💎 1450 Diamonds",h:180000},
+   {d:"💎 2000 Diamonds",h:247000},
+   {d:"💎 2160 Diamonds",h:267000}
   ]
 };
 
@@ -320,30 +369,32 @@ btn.onclick=()=>{
     resetBtn.style.display="block";
 
     time=300;
-    timer.textContent="⏳ Waktu pembayaran: 05:00";
+    timer.textContent="⏳ WAKTU PEMBAYARAN 05:00";
     countdown=setInterval(()=>{
       time--;
       let m=String(Math.floor(time/60)).padStart(2,"0");
       let s=String(time%60).padStart(2,"0");
-      timer.textContent=`⏳ Waktu pembayaran: ${m}:${s}`;
+      timer.textContent=`⏳ WAKTU PEMBAYARAN ${m}:${s}`;
       if(time<=0){
         clearInterval(countdown);
         timer.textContent="❌ QRIS kadaluarsa";
       }
     },1000);
 
-    let pesan=`Halo Admin, saya ingin konfirmasi top up:
-Game: ${game.toUpperCase()}
-User ID: ${userid.value}
-Item: ${selected.d}
-Harga: Rp ${selected.h.toLocaleString()}`;
+    let pesan=`
+Halo gwewahid, saya ingin konfirmasi top up :
+
+Game : ${game.toUpperCase()}
+User ID : ${userid.value}
+Item : ${selected.d}
+Harga : Rp ${selected.h.toLocaleString()}`;
 
     orderNote.innerHTML=`
     <b>DETAIL PESANAN</b><br>
-    Game: ${game.toUpperCase()}<br>
-    User ID: ${userid.value}<br>
-    Item: ${selected.d}<br>
-    Harga: Rp ${selected.h.toLocaleString()}
+    Game : ${game.toUpperCase()}<br>
+    User ID : ${userid.value}<br>
+    Item : ${selected.d}<br>
+    Harga : Rp ${selected.h.toLocaleString()}
     `;
 
     waBtn.onclick=()=>{
