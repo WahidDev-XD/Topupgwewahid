@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TopUp ML & FF</title>
+
+<style>
+:root{
+  --bg:#020617;
+  --card:rgba(30,41,59,.9);
+  --text:#e5e7eb;
+  --accent:#38bdf8;
+  --glow:0 0 25px rgba(56,189,248,.4);
+}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,Segoe UI,Arial;
+  background:radial-gradient(circle at top,#020617,#000);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.container{
+  width:95%;
+  max-width:420px;
+  background:var(--card);
+  backdrop-filter:blur(14px);
+  border-radius:20px;
+  box-shadow:var(--glow);
+  padding:25px;
+}
+h1{margin:0;font-size:22px;color:var(--accent);}
+
+.game-list{
+  display:flex;
+  justify-content:space-around;
+  margin:15px 0;
+}
+.game{
+  text-align:center;
+  cursor:pointer;
+  opacity:.6;
+  transition:.2s;
+}
+.game img{width:60px;border-radius:12px;}
+.game.active{opacity:1;transform:scale(1.1);}
+
+label{margin-top:10px;display:block;font-size:13px;}
+input,select{
+  width:100%;margin-top:5px;padding:10px;
+  border-radius:10px;border:none;
+  background:#020617;color:#fff;
+}
+button.main{
+  width:100%;margin-top:15px;padding:12px;
+  background:var(--accent);color:#000;
+  border:none;border-radius:12px;font-weight:bold;
+  cursor:pointer;box-shadow:var(--glow);
+}
+.note{
+  margin-top:15px;font-size:12px;
+  background:#020617;padding:10px;
+  border-radius:10px;color:#38bdf8;
+}
+#qrisBox img{
+  margin-top:10px;width:220px;border-radius:12px;
+  box-shadow:0 0 15px rgba(56,189,248,.5);
+}
+.loader{
+  width:40px;height:40px;border:4px solid #38bdf8;
+  border-top:4px solid transparent;border-radius:50%;
+  animation:spin 1s linear infinite;margin:10px auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.history{
+  margin-top:15px;max-height:120px;overflow:auto;
+  font-size:11px;background:#020617;padding:10px;border-radius:10px;
+}
+.history div{border-bottom:1px dashed #38bdf8;padding:4px 0;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>⚡ TopUp Game || gwewahid</h1>
+
+<div class="game-list">
+  <div class="game active" id="ml" onclick="setGame('ml')">
+    <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Mobile_Legends_Bang_Bang_logo.png">
+    <div>Mobile Legends</div>
+  </div>
+  <div class="game" id="ff" onclick="setGame('ff')">
+    <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Free_Fire_Logo.png">
+    <div>Free Fire</div>
+  </div>
+</div>
+
+<label>User ID</label>
+<input type="text" id="userid" placeholder="Masukkan ID">
+
+<label>Nominal</label>
+<select id="nominal"></select>
+
+<label>Metode Pembayaran</label>
+<input type="text" value="DANA (QRIS)" disabled>
+
+<button class="main" id="btn">Top Up Sekarang</button>
+
+<div id="loader" class="loader" style="display:none;"></div>
+<div id="result"></div>
+
+<div id="qrisBox" style="display:none;text-align:center;">
+  <h3>Scan QRIS DANA</h3>
+  <img src="qris.png" alt="QRIS">
+</div>
+
+<div id="orderNote" class="note" style="display:none;"></div>
+
+<button id="waBtn" class="main" style="display:none;background:#22c55e;">
+  💬 Konfirmasi via WhatsApp
+</button>
+
+<div class="history" id="historyBox" style="display:none;">
+  <b>Riwayat Order</b>
+  <div id="historyList"></div>
+</div>
+
+</div>
+
+<script>
+let game="ml";
+const price={
+ ml:[{d:"86 Diamonds",h:20000},{d:"172 Diamonds",h:40000},{d:"257 Diamonds",h:60000},{d:"514 Diamonds",h:120000}],
+ ff:[{d:"70 Diamonds",h:15000},{d:"140 Diamonds",h:30000},{d:"355 Diamonds",h:70000},{d:"720 Diamonds",h:130000}]
+};
+
+function loadNominal(){
+ nominal.innerHTML="";
+ price[game].forEach(p=>{
+  let o=document.createElement("option");
+  o.textContent=`${p.d} - Rp ${p.h.toLocaleString()}`;
+  o.value=p.h;o.dataset.diamond=p.d;
+  nominal.appendChild(o);
+ });
+}
+loadNominal();
+
+function setGame(g){
+ game=g;
+ ml.classList.toggle("active",g==="ml");
+ ff.classList.toggle("active",g==="ff");
+ loadNominal();
+}
+
+let history=[];
+function addHistory(t){
+ history.push(t);
+ historyList.innerHTML=history.map(h=>`<div>${h}</div>`).join("");
+ historyBox.style.display="block";
+}
+
+btn.onclick=()=>{
+ let id=userid.value.trim();
+ if(!id) return alert("Masukkan User ID!");
+
+ loader.style.display="block";
+ result.innerHTML="";
+ qrisBox.style.display="none";
+ orderNote.style.display="none";
+ waBtn.style.display="none";
+
+ setTimeout(()=>{
+  loader.style.display="none";
+  let opt=nominal.options[nominal.selectedIndex];
+  let diamond=opt.dataset.diamond;
+  let harga=opt.value;
+
+  qrisBox.style.display="block";
+  result.innerHTML="Silakan scan QRIS untuk membayar";
+  orderNote.style.display="block";
+  waBtn.style.display="block";
+
+  let pesan=
+`Halo Admin, saya sudah melakukan pembayaran.
+User ID: ${id}
+Game: ${game.toUpperCase()}
+Jumlah: ${diamond}
+Harga: Rp ${Number(harga).toLocaleString()}
+Payment: DANA (QRIS)`;
+
+  orderNote.innerHTML=`
+  🧾 <b>CATATAN ORDER</b><br><br>
+  User ID : <b>${id}</b><br>
+  Game : <b>${game.toUpperCase()}</b><br>
+  Jumlah : <b>${diamond}</b><br>
+  Harga : <b>Rp ${Number(harga).toLocaleString()}</b><br>
+  Payment : <b>DANA (QRIS)</b>
+  `;
+
+  waBtn.onclick=()=>{
+   window.open("https://wa.me/6282195594060?text="+encodeURIComponent(pesan));
+  };
+
+  addHistory(`${id} - ${diamond} - Rp ${Number(harga).toLocaleString()}`);
+ },1200);
+};
+
+// 🔐 ANTI INSPECT
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.onkeydown=e=>{
+ if(e.keyCode==123) return false;
+ if(e.ctrlKey&&e.shiftKey&&e.keyCode==73) return false;
+ if(e.ctrlKey&&e.shiftKey&&e.keyCode==74) return false;
+ if(e.ctrlKey&&e.keyCode==85) return false;
+};
+</script>
+
+</body>
+</html>
