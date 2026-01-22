@@ -3,223 +3,208 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>gwewahid top up</title>
+<title>gwewahid Top Up</title>
 
 <style>
 :root{
   --accent:#38bdf8;
-  --text:#e5e7eb;
 }
-*{box-sizing:border-box}
 
 body{
   margin:0;
   min-height:100vh;
-  font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,#0f172a,#000);
-  color:var(--text);
+  background:radial-gradient(circle at top,#020617,#000);
+  font-family:system-ui;
   display:flex;
   justify-content:center;
   align-items:center;
+  color:#e5e7eb;
 }
 
 .container{
   width:95%;
-  max-width:460px;
-  background:linear-gradient(180deg,#0f172a,#020617);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 0 45px rgba(56,189,248,.25);
+  max-width:420px;
+  background:rgba(30,41,59,.9);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 0 25px rgba(56,189,248,.4);
 }
 
-/* TITLE */
-h1{
+/* 🔥 NEON + GLITCH */
+.glow-text{
   text-align:center;
-  font-size:17px;
-  margin-top:-6px;
-  margin-bottom:12px;
-  color:#7dd3fc;
-  text-shadow:0 0 8px rgba(56,189,248,.9);
+  font-size:22px;
+  margin-bottom:25px;
+  color:#38bdf8;
+  position:relative;
+  animation:glow 2s infinite alternate, glitch 4s infinite;
 }
 
-/* GAME */
+.glow-text::before,
+.glow-text::after{
+  content:attr(data-text);
+  position:absolute;
+  left:0;
+  width:100%;
+  opacity:.7;
+}
+
+.glow-text::before{
+  color:#0ff;
+  animation:glitchTop .3s infinite linear alternate-reverse;
+}
+
+.glow-text::after{
+  color:#38bdf8;
+  animation:glitchBot .4s infinite linear alternate-reverse;
+}
+
+@keyframes glow{
+  from{ text-shadow:0 0 5px #38bdf8; }
+  to{ text-shadow:0 0 25px #38bdf8,0 0 50px #38bdf8; }
+}
+
+@keyframes glitch{
+  0%,90%,100%{transform:none;}
+  92%{transform:skew(1deg);}
+  94%{transform:skew(-1deg);}
+}
+
+@keyframes glitchTop{
+  from{transform:translate(-2px,-2px);}
+  to{transform:translate(2px,2px);}
+}
+
+@keyframes glitchBot{
+  from{transform:translate(2px,2px);}
+  to{transform:translate(-2px,-2px);}
+}
+
 .game-list{
   display:flex;
-  gap:14px;
-}
-.game{
-  flex:1;
-  background:#020617;
-  border-radius:22px;
-  padding:14px 10px;
-  text-align:center;
-  cursor:pointer;
-  opacity:.5;
-  transition:.3s;
-}
-.game.active{
-  opacity:1;
-  border:1px solid var(--accent);
-}
-.game img{
-  width:76px;
-  height:76px;
-  border-radius:18px;
-}
-.game span{
-  display:block;
-  margin-top:6px;
-  font-weight:800;
-  font-size:13px;
+  justify-content:space-around;
+  margin-bottom:15px;
 }
 
-/* SEARCH */
-.search{
-  margin-top:14px;
+.game{
+  text-align:center;
+  opacity:.6;
 }
-.search input{
+.game.active{opacity:1;transform:scale(1.1);}
+.game img{width:60px;border-radius:12px;}
+
+input,select,button{
   width:100%;
-  padding:12px;
-  border-radius:14px;
+  margin-top:10px;
+  padding:10px;
   border:none;
+  border-radius:10px;
   background:#020617;
   color:#fff;
 }
 
-/* NOMINAL */
-.nominal-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-.nominal{
-  background:#020617;
-  border-radius:14px;
-  padding:12px;
+button{
+  background:#38bdf8;
+  color:#000;
+  font-weight:bold;
   cursor:pointer;
-  font-size:13px;
-  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 0 15px rgba(56,189,248,.6);
 }
-.nominal.active{
-  border-color:var(--accent);
-  box-shadow:0 0 14px rgba(56,189,248,.35);
-}
-.nominal small{
-  display:block;
-  margin-top:4px;
-  opacity:.7;
+
+.note{
+  margin-top:15px;
+  background:#020617;
+  padding:10px;
+  border-radius:10px;
+  font-size:12px;
+  color:#38bdf8;
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<h1>⚡ gwewahid top up</h1>
+<h1 class="glow-text" data-text="⚡ gwewahid Top Up">⚡ gwewahid Top Up</h1>
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
-    <img src="ml.png">
-    <span>Mobile Legends</span>
+    <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Mobile_Legends_Bang_Bang_logo.png">
+    <div>ML</div>
   </div>
   <div class="game" id="ff" onclick="setGame('ff')">
-    <img src="ff.png">
-    <span>Free Fire</span>
+    <img src="https://upload.wikimedia.org/wikipedia/en/0/05/Free_Fire_Logo.png">
+    <div>FF</div>
   </div>
 </div>
 
-<div class="search">
-  <input id="search" placeholder="Cari diamond...">
+<input id="userid" placeholder="User ID">
+<select id="nominal"></select>
+
+<button id="btn">Top Up Sekarang</button>
+
+<div class="note" id="orderNote" style="display:none;"></div>
+
 </div>
 
-<div class="nominal-grid" id="nominalBox"></div>
-
-</div>
+<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
 
 <script>
 let game="ml";
+let startTime, timer;
+
 const price={
- ml:[
-  {d:"💎 Weekly Diamond Pass",h:29000},
-  {d:"💎 36 Diamonds",h:10500},
-  {d:"💎 56 Diamonds",h:15500},
-  {d:"💎 70 Diamonds",h:19500},
-  {d:"💎 112 Diamonds",h:31000},
-  {d:"💎 140 Diamonds",h:38000},
-  {d:"💎 170 Diamonds",h:46000},
-  {d:"💎 184 Diamonds",h:50000},
-  {d:"💎 222 Diamonds",h:58000},
-  {d:"💎 240 Diamonds",h:63000},
-  {d:"💎 258 Diamonds",h:70000},
-  {d:"💎 284 Diamonds",h:75000},
-  {d:"💎 296 Diamonds",h:78000},
-  {d:"💎 344 Diamonds",h:91000},
-  {d:"💎 355 Diamonds",h:93000},
-  {d:"💎 408 Diamonds",h:108000},
-  {d:"💎 429 Diamonds",h:113000},
-  {d:"💎 514 Diamonds",h:135000},
-  {d:"💎 568 Diamonds",h:147000},
-  {d:"💎 706 Diamonds",h:183000},
-  {d:"💎 878 Diamonds",h:225000},
-  {d:"💎 963 Diamonds",h:244000},
-  {d:"💎 1159 Diamonds",h:295000},
-  {d:"💎 1412 Diamonds",h:362000},
-  {d:"💎 2195 Diamonds",h:530000},
-  {d:"💎 3688 Diamonds",h:915000}
- ],
- ff:[
-  {d:"💎 Membership Mingguan",h:28000},
-  {d:"💎 Membership Bulanan",h:81000},
-  {d:"💎 50 Diamonds",h:7000},
-  {d:"💎 70 Diamonds",h:10000},
-  {d:"💎 100 Diamonds",h:14000},
-  {d:"💎 140 Diamonds",h:18000},
-  {d:"💎 160 Diamonds",h:21000},
-  {d:"💎 200 Diamonds",h:26000},
-  {d:"💎 250 Diamonds",h:33000},
-  {d:"💎 300 Diamonds",h:39000},
-  {d:"💎 355 Diamonds",h:43500},
-  {d:"💎 405 Diamonds",h:50000},
-  {d:"💎 475 Diamonds",h:62000},
-  {d:"💎 500 Diamonds",h:65000},
-  {d:"💎 565 Diamonds",h:71000},
-  {d:"💎 600 Diamonds",h:77000},
-  {d:"💎 720 Diamonds",h:88000},
-  {d:"💎 770 Diamonds",h:96000},
-  {d:"💎 800 Diamonds",h:100000},
-  {d:"💎 860 Diamonds",h:107000},
-  {d:"💎 930 Diamonds",h:115000},
-  {d:"💎 1000 Diamonds",h:125000},
-  {d:"💎 1080 Diamonds",h:135000},
-  {d:"💎 1450 Diamonds",h:180000},
-  {d:"💎 2000 Diamonds",h:247000},
-  {d:"💎 2160 Diamonds",h:267000}
- ]
+ ml:[{d:"86 Diamonds",h:20000},{d:"172 Diamonds",h:40000}],
+ ff:[{d:"70 Diamonds",h:15000},{d:"140 Diamonds",h:30000}]
 };
 
 function loadNominal(){
-  nominalBox.innerHTML="";
-  const key=search.value.toLowerCase();
-  price[game]
-   .filter(p=>p.d.toLowerCase().includes(key))
-   .forEach(p=>{
-    const div=document.createElement("div");
-    div.className="nominal";
-    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
-    nominalBox.appendChild(div);
-   });
-}
-
-search.oninput=loadNominal;
-
-function setGame(g){
-  game=g;
-  ml.classList.toggle("active",g==="ml");
-  ff.classList.toggle("active",g==="ff");
-  loadNominal();
+ nominal.innerHTML="";
+ price[game].forEach(p=>{
+  let o=document.createElement("option");
+  o.textContent=`${p.d} - Rp ${p.h.toLocaleString()}`;
+  o.value=p.h;
+  o.dataset.d=p.d;
+  nominal.appendChild(o);
+ });
 }
 loadNominal();
+
+function setGame(g){
+ game=g;
+ ml.classList.toggle("active",g==="ml");
+ ff.classList.toggle("active",g==="ff");
+ loadNominal();
+}
+
+btn.onclick=()=>{
+ document.getElementById("clickSound").play();
+
+ let id=userid.value.trim();
+ if(!id) return alert("Masukkan User ID");
+
+ let opt=nominal.options[nominal.selectedIndex];
+ startTime=Date.now();
+
+ orderNote.style.display="block";
+ updateTimer();
+ timer=setInterval(updateTimer,1000);
+
+ function updateTimer(){
+  let diff=Math.floor((Date.now()-startTime)/1000);
+  let m=String(Math.floor(diff/60)).padStart(2,"0");
+  let s=String(diff%60).padStart(2,"0");
+
+  orderNote.innerHTML=`
+  🧾 <b>CATATAN ORDER</b><br>
+  ⏱️ Durasi Order : <b>${m}:${s}</b><br>
+  ID : <b>${id}</b><br>
+  Game : <b>${game.toUpperCase()}</b><br>
+  Paket : <b>${opt.dataset.d}</b>
+  `;
+ }
+};
 </script>
 
 </body>
