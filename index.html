@@ -7,11 +7,7 @@
 
 <style>
 :root{
-  --bg:#020617;
-  --card:#0f172a;
-  --soft:#020617;
   --accent:#38bdf8;
-  --green:#22c55e;
   --text:#e5e7eb;
 }
 *{box-sizing:border-box}
@@ -20,108 +16,79 @@ body{
   margin:0;
   min-height:100vh;
   font-family:system-ui,Arial;
-  background:
-    radial-gradient(circle at top,#0f172a,#000);
+  background:radial-gradient(circle at top,#0f172a,#000);
   color:var(--text);
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* ===== CARD ===== */
 .container{
   width:95%;
   max-width:430px;
   background:linear-gradient(180deg,#0f172a,#020617);
   border-radius:28px;
   padding:22px;
-  box-shadow:
-    0 0 45px rgba(56,189,248,.22),
-    inset 0 0 0 1px rgba(255,255,255,.05);
+  box-shadow:0 0 45px rgba(56,189,248,.25);
 }
 
-/* ===== TITLE ===== */
 h1{
-  margin:0 0 18px;
   text-align:center;
-  font-size:22px;
   color:var(--accent);
-  letter-spacing:.6px;
-  text-shadow:0 0 16px rgba(56,189,248,.5);
+  margin-bottom:18px;
 }
 
-/* ===== GAME SELECT ===== */
+/* GAME CARD */
 .game-list{
   display:flex;
   gap:14px;
-  margin-bottom:18px;
 }
 .game{
   flex:1;
   background:#020617;
   border-radius:22px;
-  padding:18px 10px;
+  padding:16px 10px;
   text-align:center;
   cursor:pointer;
-  transition:.35s cubic-bezier(.4,0,.2,1);
   opacity:.55;
-  border:1px solid transparent;
-  position:relative;
-}
-.game::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:22px;
-  box-shadow:0 0 25px var(--accent);
-  opacity:0;
-  transition:.35s;
-}
-.game:hover{
-  transform:translateY(-4px) scale(1.03);
+  transition:.3s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 .game.active{
   opacity:1;
-  border-color:var(--accent);
+  border:1px solid var(--accent);
 }
-.game.active::after{opacity:.35}
-
-/* IMAGE */
 .game img{
-  width:78px;
-  height:78px;
-  object-fit:cover;
+  width:76px;
+  height:76px;
   border-radius:20px;
-  margin-bottom:8px;
-  box-shadow:0 0 16px rgba(0,0,0,.6);
+  object-fit:cover;
 }
-
-/* NAME */
 .game span{
+  margin-top:6px;
   font-weight:800;
   font-size:13px;
-  letter-spacing:.5px;
 }
 
-/* ===== FORM ===== */
+/* FORM */
 label{
   display:block;
+  margin-top:14px;
   font-size:13px;
-  margin-top:12px;
-  opacity:.85;
 }
 input{
   width:100%;
-  padding:12px 14px;
-  border-radius:16px;
+  padding:12px;
+  border-radius:14px;
   border:none;
   margin-top:6px;
   background:#020617;
   color:#fff;
-  outline:none;
 }
 
-/* ===== NOMINAL GRID ===== */
+/* NOMINAL */
 .nominal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -130,76 +97,59 @@ input{
 }
 .nominal{
   background:#020617;
-  border-radius:16px;
+  border-radius:14px;
   padding:12px;
-  font-size:13px;
   cursor:pointer;
-  border:1px solid rgba(255,255,255,.05);
-  transition:.3s;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,.08);
 }
 .nominal.active{
   border-color:var(--accent);
-  box-shadow:0 0 18px rgba(56,189,248,.35);
+  box-shadow:0 0 16px rgba(56,189,248,.35);
 }
 .nominal small{
   display:block;
-  opacity:.7;
   margin-top:4px;
+  opacity:.75;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 button{
   width:100%;
   padding:14px;
-  margin-top:18px;
   border-radius:18px;
   border:none;
+  margin-top:18px;
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
-  color:#000;
   font-weight:900;
-  letter-spacing:.7px;
   cursor:pointer;
-  box-shadow:0 0 24px rgba(56,189,248,.5);
 }
 
-/* ===== LOADER ===== */
-.loader{
-  width:44px;
-  height:44px;
-  border:4px solid var(--accent);
-  border-top:4px solid transparent;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin:16px auto;
-  display:none;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ===== QRIS ===== */
+/* QRIS */
 #qrisBox{
   text-align:center;
-  animation:fade .6s ease;
+  margin-top:16px;
 }
 #qrisBox img{
   width:240px;
-  margin-top:14px;
   border-radius:18px;
-  box-shadow:0 0 28px rgba(56,189,248,.45);
-}
-@keyframes fade{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1;transform:scale(1)}
+  box-shadow:0 0 24px rgba(56,189,248,.4);
 }
 
-/* ===== ORDER NOTE ===== */
+/* NOTE */
 .note{
   background:#020617;
   padding:14px;
-  border-radius:16px;
-  font-size:12px;
+  border-radius:14px;
   margin-top:14px;
+  font-size:12px;
   line-height:1.6;
-  border:1px solid rgba(255,255,255,.05);
+}
+
+/* WA */
+.wa{
+  background:#22c55e;
+  color:#000;
 }
 </style>
 </head>
@@ -228,14 +178,16 @@ button{
 
 <button id="btn">LANJUT PEMBAYARAN</button>
 
-<div class="loader" id="loader"></div>
-
 <div id="qrisBox" style="display:none">
   <h3>Scan QRIS</h3>
   <img src="qris.png">
 </div>
 
 <div id="orderNote" class="note" style="display:none"></div>
+
+<button id="waBtn" class="wa" style="display:none">
+  💬 Konfirmasi via WhatsApp
+</button>
 </div>
 
 <script>
@@ -244,16 +196,16 @@ let selected=null;
 
 const price={
   ml:[
-    {d:"86 Diamonds",h:20000},
-    {d:"172 Diamonds",h:40000},
-    {d:"257 Diamonds",h:60000},
-    {d:"344 Diamonds",h:80000}
+    {d:"💎 86 Diamonds",h:20000},
+    {d:"💎 172 Diamonds",h:40000},
+    {d:"💎 257 Diamonds",h:60000},
+    {d:"💎 Weekly Diamond Pass",h:29000}
   ],
   ff:[
-    {d:"70 Diamonds",h:15000},
-    {d:"140 Diamonds",h:30000},
-    {d:"355 Diamonds",h:70000},
-    {d:"720 Diamonds",h:140000}
+    {d:"💎 70 Diamonds",h:15000},
+    {d:"💎 140 Diamonds",h:30000},
+    {d:"💎 Membership Mingguan",h:28000},
+    {d:"💎 Membership Bulanan",h:81000}
   ]
 };
 
@@ -282,24 +234,30 @@ function setGame(g){
 }
 
 btn.onclick=()=>{
-  if(!userid.value.trim()) return alert("Masukkan User ID!");
+  if(!userid.value) return alert("Masukkan User ID!");
   if(!selected) return alert("Pilih nominal!");
 
-  loader.style.display="block";
-  setTimeout(()=>{
-    loader.style.display="none";
-    qrisBox.style.display="block";
-    orderNote.style.display="block";
+  qrisBox.style.display="block";
+  orderNote.style.display="block";
+  waBtn.style.display="block";
 
-    orderNote.innerHTML=`
-    <b>DETAIL PESANAN</b><br>
-    Game: ${game.toUpperCase()}<br>
-    User ID: ${userid.value}<br>
-    Item: ${selected.d}<br>
-    Harga: Rp ${selected.h.toLocaleString()}<br>
-    Estimasi proses: 1–3 menit
-    `;
-  },1200);
+  let pesan=`Halo Admin, saya ingin konfirmasi top up:
+Game: ${game.toUpperCase()}
+User ID: ${userid.value}
+Item: ${selected.d}
+Harga: Rp ${selected.h.toLocaleString()}`;
+
+  orderNote.innerHTML=`
+  <b>DETAIL PESANAN</b><br>
+  Game: ${game.toUpperCase()}<br>
+  User ID: ${userid.value}<br>
+  Item: ${selected.d}<br>
+  Harga: Rp ${selected.h.toLocaleString()}
+  `;
+
+  waBtn.onclick=()=>{
+    window.open("https://wa.me/6282195594060?text="+encodeURIComponent(pesan));
+  };
 };
 </script>
 
