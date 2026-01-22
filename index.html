@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Up Game ENTERPRISE</title>
+<title>Top Up Game PRO+++ Admin</title>
 
 <style>
 :root{
@@ -27,25 +27,33 @@ body{
 
 .container{
   width:95%;
-  max-width:460px;
+  max-width:440px;
   background:linear-gradient(180deg,#0f172a,#020617);
   border-radius:30px;
   padding:22px;
-  box-shadow:0 0 60px rgba(56,189,248,.35);
+  box-shadow:0 0 50px rgba(56,189,248,.3);
 }
 
-h1{text-align:center;color:var(--accent)}
+h1{
+  text-align:center;
+  color:var(--accent);
+  margin-bottom:14px;
+}
 
 /* GAME */
-.game-list{display:flex;gap:14px}
+.game-list{
+  display:flex;
+  gap:14px;
+}
 .game{
   flex:1;
   background:#020617;
   border-radius:22px;
-  padding:16px;
+  padding:16px 10px;
   text-align:center;
   cursor:pointer;
   opacity:.55;
+  transition:.3s;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -55,8 +63,8 @@ h1{text-align:center;color:var(--accent)}
   border:1px solid var(--accent);
 }
 .game img{
-  width:78px;
-  height:78px;
+  width:76px;
+  height:76px;
   border-radius:20px;
 }
 .game span{
@@ -71,20 +79,35 @@ h1{text-align:center;color:var(--accent)}
   border-left:4px solid #facc15;
   padding:12px;
   border-radius:14px;
-  margin:14px 0;
+  margin-top:14px;
   font-size:12px;
+  line-height:1.6;
 }
 
 /* FORM */
-label{font-size:13px;margin-top:12px;display:block}
+label{
+  display:block;
+  margin-top:12px;
+  font-size:13px;
+}
 input{
   width:100%;
   padding:12px;
   border-radius:14px;
   border:none;
+  margin-top:6px;
   background:#020617;
   color:#fff;
 }
+
+/* CHECK */
+.check{
+  display:flex;
+  gap:8px;
+  font-size:12px;
+  margin-top:12px;
+}
+.check input{width:auto}
 
 /* NOMINAL */
 .nominal-grid{
@@ -95,14 +118,21 @@ input{
 }
 .nominal{
   background:#020617;
-  padding:12px;
   border-radius:14px;
+  padding:12px;
   cursor:pointer;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,.08);
 }
 .nominal.active{
-  border:1px solid var(--accent);
+  border-color:var(--accent);
+  box-shadow:0 0 16px rgba(56,189,248,.35);
 }
-.nominal small{display:block;opacity:.7}
+.nominal small{
+  display:block;
+  margin-top:4px;
+  opacity:.75;
+}
 
 /* BUTTON */
 button{
@@ -113,25 +143,43 @@ button{
   margin-top:18px;
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
   font-weight:900;
+  cursor:pointer;
 }
 
 /* LOADING */
-.loading{text-align:center;display:none;margin-top:14px}
+.loading{
+  text-align:center;
+  margin-top:16px;
+  display:none;
+}
 .spinner{
-  width:40px;height:40px;
+  width:42px;
+  height:42px;
   border:4px solid var(--accent);
   border-top:4px solid transparent;
   border-radius:50%;
   animation:spin 1s linear infinite;
-  margin:auto;
+  margin:0 auto 8px;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* QRIS */
-#qrisBox{display:none;text-align:center;margin-top:14px}
+#qrisBox{
+  display:none;
+  text-align:center;
+  margin-top:16px;
+}
 #qrisBox img{
   width:240px;
   border-radius:18px;
+  box-shadow:0 0 24px rgba(56,189,248,.4);
+}
+
+/* TIMER */
+.timer{
+  font-size:13px;
+  margin-top:6px;
+  color:#facc15;
 }
 
 /* NOTE */
@@ -141,21 +189,19 @@ button{
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
+  line-height:1.6;
 }
 
 /* WA */
-.wa{background:var(--green)}
-.reset{background:var(--red);color:#fff}
+.wa{
+  background:var(--green);
+  color:#000;
+}
 
-/* HISTORY */
-.history{
-  background:#020617;
-  padding:12px;
-  border-radius:14px;
-  margin-top:14px;
-  font-size:11px;
-  max-height:120px;
-  overflow:auto;
+/* RESET */
+.reset{
+  background:#ef4444;
+  color:#fff;
 }
 </style>
 </head>
@@ -163,23 +209,33 @@ button{
 <body>
 
 <div class="container">
-<h1>⚡ TOP UP GAME</h1>
+<h1>⚡ TOP UP GAME ADMIN</h1>
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
-    <img src="ml.png"><span>Mobile Legends</span>
+    <img src="ml.png">
+    <span>Mobile Legends</span>
   </div>
   <div class="game" id="ff" onclick="setGame('ff')">
-    <img src="ff.png"><span>Free Fire</span>
+    <img src="ff.png">
+    <span>Free Fire</span>
   </div>
 </div>
 
 <div class="notice" contenteditable="true">
-⚠️ Pastikan User ID benar. Diamond tidak dapat direfund.
+⚠️ <b>PERHATIAN</b><br>
+• Pastikan User ID benar<br>
+• Diamond tidak bisa direfund<br>
+• Salah input bukan tanggung jawab admin
 </div>
 
 <label>User ID</label>
-<input id="userid">
+<input id="userid" placeholder="Masukkan User ID">
+
+<div class="check">
+  <input type="checkbox" id="agree">
+  <label for="agree">Saya sudah memastikan data di atas benar</label>
+</div>
 
 <label>Pilih Nominal</label>
 <div class="nominal-grid" id="nominalBox"></div>
@@ -194,29 +250,25 @@ button{
 <div id="qrisBox">
   <h3>Scan QRIS</h3>
   <img src="qris.png">
+  <div class="timer" id="timer"></div>
 </div>
 
 <div id="orderNote" class="note" style="display:none"></div>
 
 <button id="waBtn" class="wa" style="display:none">
-💬 Konfirmasi WhatsApp
+💬 Konfirmasi via WhatsApp
 </button>
 
 <button id="resetBtn" class="reset" style="display:none">
-🔄 Order Baru
+🔄 Reset Order
 </button>
-
-<div class="history" id="historyBox" style="display:none"></div>
 </div>
 
 <script>
 let game="ml";
 let selected=null;
-
-const adminWA=[
-  "6282195594060",
-  "6281234567890"
-];
+let time=300;
+let countdown;
 
 const price={
   ml:[
@@ -229,23 +281,19 @@ const price={
   ]
 };
 
-function orderCode(){
-  return "ORD-"+Date.now().toString().slice(-6);
-}
-
 function loadNominal(){
   nominalBox.innerHTML="";
   selected=null;
   price[game].forEach(p=>{
-    let d=document.createElement("div");
-    d.className="nominal";
-    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
-    d.onclick=()=>{
+    let div=document.createElement("div");
+    div.className="nominal";
+    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
+    div.onclick=()=>{
       document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
-      d.classList.add("active");
+      div.classList.add("active");
       selected=p;
     };
-    nominalBox.appendChild(d);
+    nominalBox.appendChild(div);
   });
 }
 loadNominal();
@@ -258,7 +306,10 @@ function setGame(g){
 }
 
 btn.onclick=()=>{
-  if(!userid.value || !selected) return alert("Lengkapi data!");
+  if(!userid.value) return alert("Masukkan User ID!");
+  if(!agree.checked) return alert("Centang persetujuan!");
+  if(!selected) return alert("Pilih nominal!");
+
   loading.style.display="block";
 
   setTimeout(()=>{
@@ -268,32 +319,35 @@ btn.onclick=()=>{
     waBtn.style.display="block";
     resetBtn.style.display="block";
 
-    let code=orderCode();
-    let admin=adminWA[Math.floor(Math.random()*adminWA.length)];
+    time=300;
+    timer.textContent="⏳ Waktu pembayaran: 05:00";
+    countdown=setInterval(()=>{
+      time--;
+      let m=String(Math.floor(time/60)).padStart(2,"0");
+      let s=String(time%60).padStart(2,"0");
+      timer.textContent=`⏳ Waktu pembayaran: ${m}:${s}`;
+      if(time<=0){
+        clearInterval(countdown);
+        timer.textContent="❌ QRIS kadaluarsa";
+      }
+    },1000);
 
-    let pesan=`Halo Admin,
-Kode: ${code}
+    let pesan=`Halo Admin, saya ingin konfirmasi top up:
 Game: ${game.toUpperCase()}
 User ID: ${userid.value}
 Item: ${selected.d}
 Harga: Rp ${selected.h.toLocaleString()}`;
 
     orderNote.innerHTML=`
-<b>KODE ORDER</b>: ${code}<br>
-Game: ${game.toUpperCase()}<br>
-User ID: ${userid.value}<br>
-Item: ${selected.d}<br>
-Harga: Rp ${selected.h.toLocaleString()}
-`;
-
-    let history=JSON.parse(localStorage.getItem("history")||"[]");
-    history.unshift(`${code} - ${selected.d}`);
-    localStorage.setItem("history",JSON.stringify(history));
-    historyBox.style.display="block";
-    historyBox.innerHTML=history.join("<br>");
+    <b>DETAIL PESANAN</b><br>
+    Game: ${game.toUpperCase()}<br>
+    User ID: ${userid.value}<br>
+    Item: ${selected.d}<br>
+    Harga: Rp ${selected.h.toLocaleString()}
+    `;
 
     waBtn.onclick=()=>{
-      window.open("https://wa.me/"+admin+"?text="+encodeURIComponent(pesan));
+      window.open("https://wa.me/6282195594060?text="+encodeURIComponent(pesan));
     };
   },2000);
 };
