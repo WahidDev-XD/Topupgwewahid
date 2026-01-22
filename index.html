@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Up Game PRO++</title>
+<title>Top Up Game PRO+++ Admin</title>
 
 <style>
 :root{
   --accent:#38bdf8;
   --green:#22c55e;
+  --red:#ef4444;
   --text:#e5e7eb;
 }
 *{box-sizing:border-box}
@@ -26,11 +27,11 @@ body{
 
 .container{
   width:95%;
-  max-width:430px;
+  max-width:440px;
   background:linear-gradient(180deg,#0f172a,#020617);
-  border-radius:28px;
+  border-radius:30px;
   padding:22px;
-  box-shadow:0 0 45px rgba(56,189,248,.25);
+  box-shadow:0 0 50px rgba(56,189,248,.3);
 }
 
 h1{
@@ -72,6 +73,17 @@ h1{
   font-size:13px;
 }
 
+/* NOTICE */
+.notice{
+  background:#020617;
+  border-left:4px solid #facc15;
+  padding:12px;
+  border-radius:14px;
+  margin-top:14px;
+  font-size:12px;
+  line-height:1.6;
+}
+
 /* FORM */
 label{
   display:block;
@@ -88,16 +100,14 @@ input{
   color:#fff;
 }
 
-/* NOTICE */
-.notice{
-  background:#020617;
-  border-left:4px solid #facc15;
-  padding:12px;
-  border-radius:14px;
-  margin-top:14px;
+/* CHECK */
+.check{
+  display:flex;
+  gap:8px;
   font-size:12px;
-  line-height:1.6;
+  margin-top:12px;
 }
+.check input{width:auto}
 
 /* NOMINAL */
 .nominal-grid{
@@ -155,14 +165,21 @@ button{
 
 /* QRIS */
 #qrisBox{
+  display:none;
   text-align:center;
   margin-top:16px;
-  display:none;
 }
 #qrisBox img{
   width:240px;
   border-radius:18px;
   box-shadow:0 0 24px rgba(56,189,248,.4);
+}
+
+/* TIMER */
+.timer{
+  font-size:13px;
+  margin-top:6px;
+  color:#facc15;
 }
 
 /* NOTE */
@@ -180,13 +197,19 @@ button{
   background:var(--green);
   color:#000;
 }
+
+/* RESET */
+.reset{
+  background:#ef4444;
+  color:#fff;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h1>⚡ TOP UP GAME PRO++</h1>
+<h1>⚡ TOP UP GAME ADMIN</h1>
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
@@ -199,15 +222,20 @@ button{
   </div>
 </div>
 
-<div class="notice">
+<div class="notice" contenteditable="true">
 ⚠️ <b>PERHATIAN</b><br>
-• Pastikan User ID & Server sudah benar<br>
-• Diamond / Membership <b>tidak dapat direfund</b><br>
-• Kesalahan input bukan tanggung jawab admin
+• Pastikan User ID benar<br>
+• Diamond tidak bisa direfund<br>
+• Salah input bukan tanggung jawab admin
 </div>
 
 <label>User ID</label>
 <input id="userid" placeholder="Masukkan User ID">
+
+<div class="check">
+  <input type="checkbox" id="agree">
+  <label for="agree">Saya sudah memastikan data di atas benar</label>
+</div>
 
 <label>Pilih Nominal</label>
 <div class="nominal-grid" id="nominalBox"></div>
@@ -222,6 +250,7 @@ button{
 <div id="qrisBox">
   <h3>Scan QRIS</h3>
   <img src="qris.png">
+  <div class="timer" id="timer"></div>
 </div>
 
 <div id="orderNote" class="note" style="display:none"></div>
@@ -229,21 +258,25 @@ button{
 <button id="waBtn" class="wa" style="display:none">
 💬 Konfirmasi via WhatsApp
 </button>
+
+<button id="resetBtn" class="reset" style="display:none">
+🔄 Reset Order
+</button>
 </div>
 
 <script>
 let game="ml";
 let selected=null;
+let time=300;
+let countdown;
 
 const price={
   ml:[
     {d:"💎 86 Diamonds",h:20000},
-    {d:"💎 172 Diamonds",h:40000},
     {d:"💎 Weekly Diamond Pass",h:29000}
   ],
   ff:[
     {d:"💎 70 Diamonds",h:15000},
-    {d:"💎 Membership Mingguan",h:28000},
     {d:"💎 Membership Bulanan",h:81000}
   ]
 };
@@ -274,16 +307,30 @@ function setGame(g){
 
 btn.onclick=()=>{
   if(!userid.value) return alert("Masukkan User ID!");
+  if(!agree.checked) return alert("Centang persetujuan!");
   if(!selected) return alert("Pilih nominal!");
 
   loading.style.display="block";
-  qrisBox.style.display="none";
 
   setTimeout(()=>{
     loading.style.display="none";
     qrisBox.style.display="block";
     orderNote.style.display="block";
     waBtn.style.display="block";
+    resetBtn.style.display="block";
+
+    time=300;
+    timer.textContent="⏳ Waktu pembayaran: 05:00";
+    countdown=setInterval(()=>{
+      time--;
+      let m=String(Math.floor(time/60)).padStart(2,"0");
+      let s=String(time%60).padStart(2,"0");
+      timer.textContent=`⏳ Waktu pembayaran: ${m}:${s}`;
+      if(time<=0){
+        clearInterval(countdown);
+        timer.textContent="❌ QRIS kadaluarsa";
+      }
+    },1000);
 
     let pesan=`Halo Admin, saya ingin konfirmasi top up:
 Game: ${game.toUpperCase()}
@@ -304,6 +351,8 @@ Harga: Rp ${selected.h.toLocaleString()}`;
     };
   },2000);
 };
+
+resetBtn.onclick=()=>location.reload();
 </script>
 
 </body>
