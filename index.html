@@ -3,110 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopUp ML & FF</title>
+<title>TopUp Game</title>
 
 <style>
 :root{
   --bg:#020617;
-  --card:rgba(30,41,59,.95);
-  --text:#e5e7eb;
+  --card:#0f172a;
+  --soft:#020617;
   --accent:#38bdf8;
+  --text:#e5e7eb;
 }
+*{box-sizing:border-box}
 body{
   margin:0;
   min-height:100vh;
+  background:
+    radial-gradient(circle at top,#0f172a,#000);
   font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,#020617,#000);
   color:var(--text);
   display:flex;
   justify-content:center;
   align-items:center;
 }
+
 .container{
   width:95%;
   max-width:420px;
-  background:var(--card);
-  border-radius:20px;
+  background:linear-gradient(180deg,#0f172a,#020617);
+  border-radius:22px;
   padding:22px;
+  box-shadow:0 0 40px rgba(56,189,248,.15);
 }
+
+/* ===== TITLE ===== */
 h1{
-  margin:0;
   text-align:center;
+  margin:0 0 18px;
   font-size:22px;
   color:var(--accent);
+  text-shadow:0 0 12px rgba(56,189,248,.4);
 }
 
+/* ===== GAME SELECT ===== */
 .game-list{
   display:flex;
-  justify-content:space-around;
-  margin:18px 0;
-}
-.game{
-  text-align:center;
-  cursor:pointer;
-  opacity:.5;
-  transition:.2s;
-}
-.game.active{
-  opacity:1;
-  transform:scale(1.1);
-}
-.game img{
-  width:64px;
-  display:block;
-  margin:auto;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:18px;
 }
 
+.game{
+  flex:1;
+  background:#020617;
+  border-radius:18px;
+  padding:14px 10px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:.25s;
+  opacity:.55;
+  border:1px solid transparent;
+}
+
+.game.active{
+  opacity:1;
+  transform:translateY(-4px);
+  border-color:var(--accent);
+  box-shadow:0 0 18px rgba(56,189,248,.25);
+}
+
+/* 🔥 GAMBAR GAME */
+.game img{
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:16px; /* <-- SUDUT MEMBULAT */
+  display:block;
+  margin:0 auto 6px;
+}
+
+/* 🔥 NAMA GAME */
+.game span{
+  display:block;
+  margin-top:4px;      /* <-- AGAK TURUN */
+  font-weight:600;     /* <-- LEBIH TEBAL */
+  font-size:13px;
+  letter-spacing:.3px;
+}
+
+/* ===== FORM ===== */
 label{
   font-size:13px;
   margin-top:10px;
   display:block;
+  opacity:.85;
 }
+
 input,select{
   width:100%;
-  padding:10px;
-  border-radius:10px;
+  padding:11px 12px;
+  border-radius:14px;
   border:none;
+  margin-top:6px;
   background:#020617;
   color:#fff;
-  margin-top:5px;
+  outline:none;
 }
 
 button{
   width:100%;
-  padding:12px;
-  margin-top:15px;
-  background:var(--accent);
-  color:#000;
-  font-weight:bold;
+  padding:13px;
+  border-radius:16px;
+  margin-top:16px;
+  background:linear-gradient(90deg,#38bdf8,#0ea5e9);
   border:none;
-  border-radius:12px;
+  font-weight:700;
   cursor:pointer;
+  color:#000;
+  box-shadow:0 0 18px rgba(56,189,248,.35);
 }
 
+/* ===== LOADER ===== */
 .loader{
-  width:40px;
-  height:40px;
-  border:4px solid var(--accent);
+  width:42px;
+  height:42px;
+  border:4px solid #38bdf8;
   border-top:4px solid transparent;
   border-radius:50%;
   animation:spin 1s linear infinite;
-  margin:10px auto;
+  margin:12px auto;
   display:none;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ===== QRIS ===== */
 #qrisBox img{
-  width:220px;
-  margin-top:10px;
+  width:230px;
+  margin-top:12px;
+  border-radius:14px;
+  box-shadow:0 0 20px rgba(56,189,248,.25);
 }
 
+/* ===== NOTE ===== */
 .note{
   background:#020617;
-  padding:10px;
-  border-radius:10px;
+  padding:12px;
+  border-radius:14px;
   font-size:12px;
-  margin-top:10px;
+  margin-top:12px;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -114,17 +158,17 @@ button{
 <body>
 
 <div class="container">
-<h1>⚡ TopUp Game || gwewahid</h1>
+<h1>⚡ TOP UP GAME</h1>
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
-    <img src="ml.png" alt="Mobile Legends">
-    <div>Mobile Legends</div>
+    <img src="ml.png">
+    <span>Mobile Legends</span>
   </div>
 
   <div class="game" id="ff" onclick="setGame('ff')">
-    <img src="ff.png" alt="Free Fire">
-    <div>Free Fire</div>
+    <img src="ff.png">
+    <span>Free Fire</span>
   </div>
 </div>
 
@@ -134,29 +178,29 @@ button{
 <label>Nominal</label>
 <select id="nominal"></select>
 
-<label>Metode Pembayaran</label>
+<label>Pembayaran</label>
 <input value="DANA (QRIS)" disabled>
 
-<button id="btn">Top Up Sekarang</button>
+<button id="btn">LANJUT PEMBAYARAN</button>
 
 <div class="loader" id="loader"></div>
 
 <div id="qrisBox" style="display:none;text-align:center">
-  <h3>Scan QRIS DANA</h3>
-  <img src="qris.png" alt="QRIS">
+  <h3>Scan QRIS</h3>
+  <img src="qris.png">
 </div>
 
 <div id="orderNote" class="note" style="display:none"></div>
 
-<button id="waBtn" style="display:none;background:#22c55e">
-  💬 Konfirmasi via WhatsApp
+<button id="waBtn"
+style="display:none;background:#22c55e;color:#000">
+💬 Konfirmasi WhatsApp
 </button>
 
 </div>
 
 <script>
 let game="ml";
-
 const price={
   ml:[
     {d:"86 Diamonds",h:20000},
@@ -190,46 +234,30 @@ function setGame(g){
 }
 
 btn.onclick=()=>{
-  let id=userid.value.trim();
-  if(!id) return alert("Masukkan User ID!");
-
+  if(!userid.value.trim()) return alert("Masukkan User ID!");
   loader.style.display="block";
-  qrisBox.style.display="none";
-  orderNote.style.display="none";
-  waBtn.style.display="none";
-
   setTimeout(()=>{
     loader.style.display="none";
-
-    let opt=nominal.options[nominal.selectedIndex];
-    let item=opt.dataset.item;
-    let harga=opt.value;
-
     qrisBox.style.display="block";
     orderNote.style.display="block";
     waBtn.style.display="block";
 
+    let opt=nominal.options[nominal.selectedIndex];
     orderNote.innerHTML=`
-    <b>CATATAN ORDER</b><br><br>
-    User ID: <b>${id}</b><br>
-    Game: <b>${game.toUpperCase()}</b><br>
-    Item: <b>${item}</b><br>
-    Harga: <b>Rp ${Number(harga).toLocaleString()}</b><br>
-    Payment: <b>DANA (QRIS)</b>
+    <b>DETAIL PESANAN</b><br>
+    Game: ${game.toUpperCase()}<br>
+    User ID: ${userid.value}<br>
+    Item: ${opt.dataset.item}<br>
+    Harga: Rp ${Number(opt.value).toLocaleString()}
     `;
 
-    let pesan=
-`Halo Admin, saya sudah membayar.
-User ID: ${id}
-Game: ${game.toUpperCase()}
-Item: ${item}
-Harga: Rp ${Number(harga).toLocaleString()}
-Payment: DANA (QRIS)`;
-
     waBtn.onclick=()=>{
-      window.open("https://wa.me/6282195594060?text="+encodeURIComponent(pesan));
+      window.open(
+        "https://wa.me/6282195594060?text="+
+        encodeURIComponent(orderNote.innerText)
+      );
     };
-  },1200);
+  },1000);
 };
 </script>
 
