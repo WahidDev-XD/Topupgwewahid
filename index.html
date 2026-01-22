@@ -32,13 +32,13 @@ body{
   box-shadow:0 0 40px rgba(56,189,248,.25);
 }
 
-/* TITLE */
+/* TITLE (DIBERI JARAK KE ATAS) */
 h1{
   text-align:center;
   font-size:18px;
-  margin-bottom:30px; /* ⬅️ JARAK DITAMBAH */
+  margin:0 0 28px;
   color:#7dd3fc;
-  text-shadow:0 0 14px rgba(56,189,248,.6);
+  text-shadow:0 0 12px rgba(56,189,248,.8);
 }
 
 /* GAME */
@@ -53,7 +53,8 @@ h1{
   padding:14px 10px;
   text-align:center;
   cursor:pointer;
-  opacity:.5;
+  opacity:.45;
+  transition:.3s;
 }
 .game.active{
   opacity:1;
@@ -71,6 +72,7 @@ h1{
   font-size:13px;
 }
 
+/* NOTICE */
 .notice{
   background:#020617;
   border-left:4px solid #facc15;
@@ -80,6 +82,7 @@ h1{
   font-size:12px;
 }
 
+/* FORM */
 label{
   display:block;
   margin-top:14px;
@@ -95,6 +98,16 @@ input{
   color:#fff;
 }
 
+/* CHECK */
+.check{
+  display:flex;
+  gap:8px;
+  font-size:12px;
+  margin-top:12px;
+}
+.check input{width:auto}
+
+/* NOMINAL */
 .nominal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -111,8 +124,15 @@ input{
 }
 .nominal.active{
   border-color:var(--accent);
+  box-shadow:0 0 14px rgba(56,189,248,.35);
+}
+.nominal small{
+  display:block;
+  margin-top:4px;
+  opacity:.7;
 }
 
+/* BUTTON */
 button{
   width:100%;
   padding:14px;
@@ -121,28 +141,47 @@ button{
   margin-top:18px;
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
   font-weight:900;
+  cursor:pointer;
 }
 
 /* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.75);
   display:none;
   justify-content:center;
   align-items:center;
 }
+.modal.active{display:flex}
+
 .modal-box{
-  background:#020617;
   width:90%;
   max-width:360px;
+  background:#020617;
+  border-radius:22px;
   padding:20px;
-  border-radius:20px;
   text-align:center;
+  box-shadow:0 0 30px rgba(56,189,248,.35);
 }
-.modal-box img{
-  width:200px;
-  margin-top:14px;
+
+.loader{
+  width:42px;
+  height:42px;
+  border:4px solid #38bdf8;
+  border-top-color:transparent;
+  border-radius:50%;
+  margin:30px auto;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.qr{
+  width:180px;
+  height:180px;
+  background:#000;
+  margin:16px auto;
+  border-radius:16px;
 }
 </style>
 </head>
@@ -164,16 +203,20 @@ button{
 </div>
 
 <div class="notice">
-⚠️ Pastikan User ID & Server benar
+⚠️ Pastikan User ID & Server benar sebelum lanjut.
 </div>
 
 <label>User ID</label>
-<input id="userid">
+<input id="userid" placeholder="Masukkan User ID">
 
-<!-- SERVER ID KHUSUS ML -->
 <div id="serverBox">
   <label>Server ID</label>
-  <input id="serverid" placeholder="Contoh: 4321">
+  <input id="serverid" placeholder="Contoh: 1234">
+</div>
+
+<div class="check">
+  <input type="checkbox" id="agree">
+  <label for="agree">Saya sudah memastikan data benar</label>
 </div>
 
 <label>Pilih Nominal</label>
@@ -182,33 +225,87 @@ button{
 <button onclick="checkout()">LANJUT PEMBAYARAN</button>
 </div>
 
-<!-- MODAL DETAIL -->
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-box" id="modalContent"></div>
 </div>
 
 <script>
-let game="ml";
-let selected=null;
+let game="ml", selected=null;
 
+/* LIST DIAMOND LENGKAP & AMAN */
 const price={
-  ml:[{d:"86 Diamonds",h:20000},{d:"172 Diamonds",h:40000}],
-  ff:[{d:"70 Diamonds",h:15000},{d:"140 Diamonds",h:30000}]
+  ml:[
+    {d:"💎 Weekly Diamond Pass",h:29000},
+    {d:"💎 36 Diamonds",h:10500},
+    {d:"💎 56 Diamonds",h:15500},
+    {d:"💎 70 Diamonds",h:19500},
+    {d:"💎 112 Diamonds",h:31000},
+    {d:"💎 140 Diamonds",h:38000},
+    {d:"💎 170 Diamonds",h:46000},
+    {d:"💎 184 Diamonds",h:50000},
+    {d:"💎 222 Diamonds",h:58000},
+    {d:"💎 240 Diamonds",h:63000},
+    {d:"💎 258 Diamonds",h:70000},
+    {d:"💎 284 Diamonds",h:75000},
+    {d:"💎 296 Diamonds",h:78000},
+    {d:"💎 344 Diamonds",h:91000},
+    {d:"💎 355 Diamonds",h:93000},
+    {d:"💎 408 Diamonds",h:108000},
+    {d:"💎 429 Diamonds",h:113000},
+    {d:"💎 514 Diamonds",h:135000},
+    {d:"💎 568 Diamonds",h:147000},
+    {d:"💎 706 Diamonds",h:183000},
+    {d:"💎 878 Diamonds",h:225000},
+    {d:"💎 963 Diamonds",h:244000},
+    {d:"💎 1159 Diamonds",h:295000},
+    {d:"💎 1412 Diamonds",h:362000},
+    {d:"💎 2195 Diamonds",h:530000},
+    {d:"💎 3688 Diamonds",h:915000}
+  ],
+  ff:[
+    {d:"💎 Membership Mingguan",h:28000},
+    {d:"💎 Membership Bulanan",h:81000},
+    {d:"💎 50 Diamonds",h:7000},
+    {d:"💎 70 Diamonds",h:10000},
+    {d:"💎 100 Diamonds",h:14000},
+    {d:"💎 140 Diamonds",h:18000},
+    {d:"💎 160 Diamonds",h:21000},
+    {d:"💎 200 Diamonds",h:26000},
+    {d:"💎 250 Diamonds",h:33000},
+    {d:"💎 300 Diamonds",h:39000},
+    {d:"💎 355 Diamonds",h:43500},
+    {d:"💎 405 Diamonds",h:50000},
+    {d:"💎 475 Diamonds",h:62000},
+    {d:"💎 500 Diamonds",h:65000},
+    {d:"💎 565 Diamonds",h:71000},
+    {d:"💎 600 Diamonds",h:77000},
+    {d:"💎 720 Diamonds",h:88000},
+    {d:"💎 770 Diamonds",h:96000},
+    {d:"💎 800 Diamonds",h:100000},
+    {d:"💎 860 Diamonds",h:107000},
+    {d:"💎 930 Diamonds",h:115000},
+    {d:"💎 1000 Diamonds",h:125000},
+    {d:"💎 1080 Diamonds",h:135000},
+    {d:"💎 1450 Diamonds",h:180000},
+    {d:"💎 2000 Diamonds",h:247000},
+    {d:"💎 2160 Diamonds",h:267000}
+  ]
 };
 
 function loadNominal(){
   nominalBox.innerHTML="";
   selected=null;
   price[game].forEach(p=>{
-    const d=document.createElement("div");
-    d.className="nominal";
-    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
-    d.onclick=()=>{
-      document.querySelectorAll(".nominal").forEach(x=>x.classList.remove("active"));
-      d.classList.add("active");
+    const div=document.createElement("div");
+    div.className="nominal";
+    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
+    div.onclick=()=>{
+      document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
+      div.classList.add("active");
       selected=p;
     };
-    nominalBox.appendChild(d);
+    nominalBox.appendChild(div);
   });
 }
 loadNominal();
@@ -222,26 +319,23 @@ function setGame(g){
 }
 
 function checkout(){
-  if(!userid.value || !selected) return alert("Lengkapi data");
-  modal.style.display="flex";
-  modalContent.innerHTML=`
-    <h3>DETAIL PESANAN</h3>
-    <p>ID: ${userid.value}</p>
-    ${game==="ml"?`<p>Server: ${serverid.value}</p>`:""}
-    <p>${selected.d}</p>
-    <b>Rp ${selected.h.toLocaleString()}</b>
-    <button onclick="showQR()">BAYAR SEKARANG</button>
-  `;
-}
+  if(!userid.value || !selected || !agree.checked) return alert("Lengkapi data!");
+  modal.classList.add("active");
+  modalContent.innerHTML='<div class="loader"></div><p>Memproses pesanan...</p>';
 
-function showQR(){
-  modalContent.innerHTML=`
-    <h3>Scan QR</h3>
-    <img src="qris.png">
-    <p>Setelah bayar, kirim bukti ke admin</p>
-  `;
+  setTimeout(()=>{
+    modalContent.innerHTML=`
+      <h3>Detail Pesanan</h3>
+      <p><b>Game:</b> ${game==="ml"?"Mobile Legends":"Free Fire"}</p>
+      <p><b>User ID:</b> ${userid.value}</p>
+      ${game==="ml"?`<p><b>Server:</b> ${serverid.value}</p>`:""}
+      <p><b>Item:</b> ${selected.d}</p>
+      <p><b>Total:</b> Rp ${selected.h.toLocaleString("id-ID")}</p>
+      <div class="qr"></div>
+      <small>Scan QR untuk pembayaran</small>
+    `;
+  },1000);
 }
 </script>
-
 </body>
 </html>
