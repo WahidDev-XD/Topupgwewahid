@@ -25,7 +25,6 @@ body{
   align-items:center;
 }
 
-/* CONTAINER */
 .container{
   width:95%;
   max-width:440px;
@@ -33,17 +32,19 @@ body{
   border-radius:30px;
   padding:22px;
   box-shadow:0 0 50px rgba(56,189,248,.3);
-  animation:pop .6s ease;
-}
-@keyframes pop{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1;transform:scale(1)}
 }
 
-h1{text-align:center;color:var(--accent);margin-bottom:14px}
+h1{
+  text-align:center;
+  color:var(--accent);
+  margin-bottom:14px;
+}
 
 /* GAME */
-.game-list{display:flex;gap:14px}
+.game-list{
+  display:flex;
+  gap:14px;
+}
 .game{
   flex:1;
   background:#020617;
@@ -52,15 +53,25 @@ h1{text-align:center;color:var(--accent);margin-bottom:14px}
   text-align:center;
   cursor:pointer;
   opacity:.55;
-  transition:.35s;
+  transition:.3s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 .game.active{
   opacity:1;
   border:1px solid var(--accent);
-  transform:translateY(-4px);
 }
-.game img{width:76px;height:76px;border-radius:20px}
-.game span{margin-top:6px;font-weight:800;font-size:13px}
+.game img{
+  width:76px;
+  height:76px;
+  border-radius:20px;
+}
+.game span{
+  margin-top:6px;
+  font-weight:800;
+  font-size:13px;
+}
 
 /* NOTICE */
 .notice{
@@ -70,23 +81,40 @@ h1{text-align:center;color:var(--accent);margin-bottom:14px}
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
+  line-height:1.6;
 }
 
 /* FORM */
-label{margin-top:12px;display:block;font-size:13px}
+label{
+  display:block;
+  margin-top:12px;
+  font-size:13px;
+}
 input{
-  width:100%;padding:12px;border-radius:14px;
-  background:#020617;border:none;color:#fff
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  margin-top:6px;
+  background:#020617;
+  color:#fff;
 }
 
 /* CHECK */
-.check{display:flex;gap:8px;font-size:12px;margin-top:12px}
+.check{
+  display:flex;
+  gap:8px;
+  font-size:12px;
+  margin-top:12px;
+}
+.check input{width:auto}
 
 /* NOMINAL */
 .nominal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;margin-top:10px
+  gap:10px;
+  margin-top:10px;
 }
 .nominal{
   background:#020617;
@@ -95,71 +123,86 @@ input{
   cursor:pointer;
   font-size:13px;
   border:1px solid rgba(255,255,255,.08);
-  transition:.3s;
 }
 .nominal.active{
   border-color:var(--accent);
-  box-shadow:0 0 16px rgba(56,189,248,.4);
-  transform:scale(1.05);
+  box-shadow:0 0 16px rgba(56,189,248,.35);
+}
+.nominal small{
+  display:block;
+  margin-top:4px;
+  opacity:.75;
 }
 
 /* BUTTON */
 button{
-  width:100%;padding:14px;border-radius:18px;
-  border:none;margin-top:18px;
+  width:100%;
+  padding:14px;
+  border-radius:18px;
+  border:none;
+  margin-top:18px;
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
-  font-weight:900;cursor:pointer;
-  position:relative;overflow:hidden
-}
-
-/* RIPPLE */
-button::after{
-  content:"";position:absolute;
-  width:0;height:0;
-  background:rgba(255,255,255,.4);
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  pointer-events:none
-}
-button:active::after{
-  width:300px;height:300px;
-  transition:0s
+  font-weight:900;
+  cursor:pointer;
 }
 
 /* LOADING */
-.loading{text-align:center;margin-top:16px;display:none}
+.loading{
+  text-align:center;
+  margin-top:16px;
+  display:none;
+}
 .spinner{
-  width:42px;height:42px;
+  width:42px;
+  height:42px;
   border:4px solid var(--accent);
   border-top:4px solid transparent;
   border-radius:50%;
   animation:spin 1s linear infinite;
-  margin:auto
+  margin:0 auto 8px;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* QRIS */
-#qrisBox{display:none;text-align:center;margin-top:16px;animation:fade .6s ease}
-@keyframes fade{from{opacity:0;transform:scale(.9)}}
+#qrisBox{
+  display:none;
+  text-align:center;
+  margin-top:16px;
+}
 #qrisBox img{
-  width:240px;border-radius:18px;
-  box-shadow:0 0 24px rgba(56,189,248,.4)
+  width:240px;
+  border-radius:18px;
+  box-shadow:0 0 24px rgba(56,189,248,.4);
 }
 
 /* TIMER */
-.timer{font-size:13px;color:#facc15;margin-top:6px}
+.timer{
+  font-size:13px;
+  margin-top:6px;
+  color:#facc15;
+}
 
 /* NOTE */
 .note{
-  background:#020617;padding:14px;
-  border-radius:14px;margin-top:14px;
-  animation:slide .5s ease
+  background:#020617;
+  padding:14px;
+  border-radius:14px;
+  margin-top:14px;
+  font-size:12px;
+  line-height:1.6;
 }
-@keyframes slide{from{opacity:0;transform:translateY(10px)}}
 
-/* WA & RESET */
-.wa{background:var(--green)}
-.reset{background:var(--red);color:#fff}
+/* WA */
+.wa{
+  background:var(--green);
+  color:#000;
+}
+
+/* RESET */
+.reset{
+  background:#ef4444;
+  color:#fff;
+}
 </style>
 </head>
 
@@ -170,24 +213,28 @@ button:active::after{
 
 <div class="game-list">
   <div class="game active" id="ml" onclick="setGame('ml')">
-    <img src="ml.png"><span>Mobile Legends</span>
+    <img src="ml.png">
+    <span>Mobile Legends</span>
   </div>
   <div class="game" id="ff" onclick="setGame('ff')">
-    <img src="ff.png"><span>Free Fire</span>
+    <img src="ff.png">
+    <span>Free Fire</span>
   </div>
 </div>
 
 <div class="notice" contenteditable="true">
 ⚠️ <b>PERHATIAN</b><br>
-Pastikan User ID benar sebelum membayar
+• Pastikan User ID benar<br>
+• Diamond tidak bisa direfund<br>
+• Salah input bukan tanggung jawab admin
 </div>
 
 <label>User ID</label>
-<input id="userid">
+<input id="userid" placeholder="Masukkan User ID">
 
 <div class="check">
   <input type="checkbox" id="agree">
-  <label for="agree">Saya sudah memastikan data benar</label>
+  <label for="agree">Saya sudah memastikan data di atas benar</label>
 </div>
 
 <label>Pilih Nominal</label>
@@ -208,12 +255,20 @@ Pastikan User ID benar sebelum membayar
 
 <div id="orderNote" class="note" style="display:none"></div>
 
-<button id="waBtn" class="wa" style="display:none">💬 WhatsApp Admin</button>
-<button id="resetBtn" class="reset" style="display:none">🔄 Reset</button>
+<button id="waBtn" class="wa" style="display:none">
+💬 Konfirmasi via WhatsApp
+</button>
+
+<button id="resetBtn" class="reset" style="display:none">
+🔄 Reset Order
+</button>
 </div>
 
 <script>
-let game="ml", selected=null, time=300, cd;
+let game="ml";
+let selected=null;
+let time=300;
+let countdown;
 
 const price={
   ml:[
@@ -230,16 +285,15 @@ function loadNominal(){
   nominalBox.innerHTML="";
   selected=null;
   price[game].forEach(p=>{
-    let d=document.createElement("div");
-    d.className="nominal";
-    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
-    d.onclick=()=>{
-      document.querySelectorAll(".nominal").forEach(x=>x.classList.remove("active"));
-      d.classList.add("active");
+    let div=document.createElement("div");
+    div.className="nominal";
+    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString()}</small>`;
+    div.onclick=()=>{
+      document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
+      div.classList.add("active");
       selected=p;
-      navigator.vibrate?.(30);
     };
-    nominalBox.appendChild(d);
+    nominalBox.appendChild(div);
   });
 }
 loadNominal();
@@ -252,8 +306,9 @@ function setGame(g){
 }
 
 btn.onclick=()=>{
-  if(!userid.value||!agree.checked||!selected)
-    return alert("Lengkapi data!");
+  if(!userid.value) return alert("Masukkan User ID!");
+  if(!agree.checked) return alert("Centang persetujuan!");
+  if(!selected) return alert("Pilih nominal!");
 
   loading.style.display="block";
 
@@ -265,24 +320,36 @@ btn.onclick=()=>{
     resetBtn.style.display="block";
 
     time=300;
-    cd=setInterval(()=>{
+    timer.textContent="⏳ Waktu pembayaran: 05:00";
+    countdown=setInterval(()=>{
       time--;
-      timer.textContent=`⏳ ${Math.floor(time/60)}:${String(time%60).padStart(2,"0")}`;
-      if(time<=0){clearInterval(cd);timer.textContent="❌ QRIS EXPIRED"}
+      let m=String(Math.floor(time/60)).padStart(2,"0");
+      let s=String(time%60).padStart(2,"0");
+      timer.textContent=`⏳ Waktu pembayaran: ${m}:${s}`;
+      if(time<=0){
+        clearInterval(countdown);
+        timer.textContent="❌ QRIS kadaluarsa";
+      }
     },1000);
 
+    let pesan=`Halo Admin, saya ingin konfirmasi top up:
+Game: ${game.toUpperCase()}
+User ID: ${userid.value}
+Item: ${selected.d}
+Harga: Rp ${selected.h.toLocaleString()}`;
+
     orderNote.innerHTML=`
-<b>DETAIL PESANAN</b><br>
-Game: ${game.toUpperCase()}<br>
-User ID: ${userid.value}<br>
-Item: ${selected.d}<br>
-Harga: Rp ${selected.h.toLocaleString()}
-`;
+    <b>DETAIL PESANAN</b><br>
+    Game: ${game.toUpperCase()}<br>
+    User ID: ${userid.value}<br>
+    Item: ${selected.d}<br>
+    Harga: Rp ${selected.h.toLocaleString()}
+    `;
 
     waBtn.onclick=()=>{
-      window.open("https://wa.me/6282195594060?text="+encodeURIComponent(orderNote.innerText));
+      window.open("https://wa.me/6282195594060?text="+encodeURIComponent(pesan));
     };
-  },1800);
+  },2000);
 };
 
 resetBtn.onclick=()=>location.reload();
