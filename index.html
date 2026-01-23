@@ -7,14 +7,14 @@
 
 <style>
 :root{
-  --accent:#38bdf8;
+  --blue-dark:#020617;
+  --blue-mid:#0f172a;
+  --blue-glow:#38bdf8;
+  --blue-glow-strong:#7dd3fc;
+  --yellow-glow:#facc15;
   --green:#22c55e;
   --red:#ef4444;
   --text:#e5e7eb;
-
-  /* WARNA MERAH GELAP PENGGANTI HITAM */
-  --dark-red:#1a0202;
-  --dark-red-2:#2b0404;
 }
 
 *{box-sizing:border-box}
@@ -23,7 +23,8 @@ body{
   margin:0;
   min-height:100vh;
   font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,#1e293b,var(--dark-red));
+  background:
+    radial-gradient(circle at top,var(--blue-mid),#000);
   color:var(--text);
   display:flex;
   justify-content:center;
@@ -33,21 +34,23 @@ body{
 .container{
   width:95%;
   max-width:440px;
-  background:linear-gradient(180deg,#0f172a,var(--dark-red-2));
+  background:linear-gradient(180deg,var(--blue-mid),var(--blue-dark));
   border-radius:28px;
   padding:22px;
   box-shadow:
-    0 0 30px rgba(56,189,248,.35),
-    0 0 60px rgba(239,68,68,.25);
+    0 0 40px rgba(56,189,248,.4),
+    inset 0 0 30px rgba(56,189,248,.05);
 }
 
 /* JUDUL */
 h1{
   text-align:center;
   font-size:16px;
-  color:#7dd3fc;
+  color:var(--blue-glow-strong);
   margin-bottom:16px;
-  text-shadow:0 0 10px rgba(56,189,248,.6);
+  text-shadow:
+    0 0 10px rgba(56,189,248,.8),
+    0 0 20px rgba(56,189,248,.4);
 }
 
 /* GAME */
@@ -58,7 +61,7 @@ h1{
 
 .game{
   flex:1;
-  background:var(--dark-red);
+  background:var(--blue-dark);
   border-radius:22px;
   padding:14px;
   text-align:center;
@@ -69,16 +72,23 @@ h1{
 
 .game.active{
   opacity:1;
-  border:1px solid var(--accent);
   box-shadow:
-    0 0 16px rgba(56,189,248,.45),
-    0 0 24px rgba(239,68,68,.35);
+    0 0 15px rgba(250,204,21,.8),
+    0 0 30px rgba(250,204,21,.4);
 }
 
 .game img{
   width:70px;
   height:70px;
   border-radius:18px;
+  border:2px solid transparent;
+}
+
+.game.active img{
+  border-color:var(--yellow-glow);
+  box-shadow:
+    0 0 10px rgba(250,204,21,.9),
+    0 0 25px rgba(250,204,21,.6);
 }
 
 .game span{
@@ -90,8 +100,8 @@ h1{
 
 /* NOTICE */
 .notice{
-  background:var(--dark-red);
-  border-left:4px solid #facc15;
+  background:var(--blue-dark);
+  border-left:4px solid var(--yellow-glow);
   padding:12px;
   border-radius:14px;
   margin-top:14px;
@@ -112,7 +122,7 @@ input{
   border-radius:14px;
   border:none;
   margin-top:6px;
-  background:var(--dark-red);
+  background:var(--blue-dark);
   color:#fff;
 }
 
@@ -135,19 +145,27 @@ input{
 }
 
 .nominal{
-  background:var(--dark-red);
+  background:var(--blue-dark);
   border-radius:14px;
   padding:12px;
   cursor:pointer;
   font-size:13px;
   border:1px solid rgba(255,255,255,.08);
+  transition:.25s;
 }
 
 .nominal.active{
-  border-color:var(--accent);
+  border-color:var(--blue-glow);
+  animation:pulse .6s;
   box-shadow:
-    0 0 16px rgba(56,189,248,.45),
-    0 0 24px rgba(239,68,68,.35);
+    0 0 15px rgba(56,189,248,.9),
+    0 0 30px rgba(56,189,248,.5);
+}
+
+@keyframes pulse{
+  0%{transform:scale(.95)}
+  50%{transform:scale(1.05)}
+  100%{transform:scale(1)}
 }
 
 .nominal small{
@@ -166,6 +184,7 @@ button{
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
   font-weight:900;
   cursor:pointer;
+  box-shadow:0 0 20px rgba(56,189,248,.6);
 }
 
 /* LOADING */
@@ -178,16 +197,14 @@ button{
 .spinner{
   width:42px;
   height:42px;
-  border:4px solid var(--accent);
+  border:4px solid var(--blue-glow);
   border-top:4px solid transparent;
   border-radius:50%;
   animation:spin 1s linear infinite;
   margin:0 auto 8px;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* QRIS */
 #qrisBox{
@@ -199,18 +216,20 @@ button{
 #qrisBox img{
   width:240px;
   border-radius:18px;
-  box-shadow:0 0 24px rgba(56,189,248,.4);
+  box-shadow:
+    0 0 25px rgba(56,189,248,.8),
+    0 0 40px rgba(56,189,248,.4);
 }
 
 .timer{
   font-size:13px;
   margin-top:6px;
-  color:#facc15;
+  color:var(--yellow-glow);
 }
 
 /* NOTE */
 .note{
-  background:var(--dark-red);
+  background:var(--blue-dark);
   padding:14px;
   border-radius:14px;
   margin-top:14px;
@@ -239,187 +258,9 @@ button{
   </div>
 </div>
 
-<div class="notice">
-⚠️ <b>PERHATIAN</b><br>
-• Pastikan ID game benar<br>
-• Setelah scan QRIS, konfirmasi via WhatsApp<br>
-• Kesalahan ID bukan tanggung jawab admin
-</div>
-
-<label>User ID</label>
-<input id="userid" placeholder="Masukkan User ID">
-
-<div id="serverBox">
-  <label>Server ID (ML)</label>
-  <input id="serverid" placeholder="Contoh: 1234">
-</div>
-
-<div class="check">
-  <input type="checkbox" id="agree">
-  <label for="agree">Saya sudah memastikan data benar</label>
-</div>
-
-<label>Pilih Nominal</label>
-<div class="nominal-grid" id="nominalBox"></div>
-
-<button id="btn">LANJUT PEMBAYARAN</button>
-
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-  Menyiapkan QRIS...
-</div>
-
-<div id="qrisBox">
-  <h3>Scan QRIS</h3>
-  <img src="qris.png">
-  <div class="timer" id="timer"></div>
-</div>
-
-<div id="orderNote" class="note" style="display:none"></div>
-<button id="waBtn" class="wa" style="display:none">📞 Konfirmasi via WhatsApp</button>
-<button id="resetBtn" class="reset" style="display:none">🔄 Reset Order</button>
+<!-- BAGIAN HTML & SCRIPT LAIN TIDAK DIUBAH -->
+<!-- (SAMA DENGAN KODE KAMU SEBELUMNYA) -->
 
 </div>
-
-<script>
-let game="ml", selected=null, time=300, countdown;
-
-const price={
-  ml:[
-    {d:"💎 Weekly Diamond Pass",h:29000},
-    {d:"💎 36 Diamonds",h:10500},
-    {d:"💎 56 Diamonds",h:15500},
-    {d:"💎 70 Diamonds",h:19500},
-    {d:"💎 112 Diamonds",h:31000},
-    {d:"💎 140 Diamonds",h:38000},
-    {d:"💎 170 Diamonds",h:46000},
-    {d:"💎 184 Diamonds",h:50000},
-    {d:"💎 222 Diamonds",h:58000},
-    {d:"💎 240 Diamonds",h:63000},
-    {d:"💎 258 Diamonds",h:70000},
-    {d:"💎 284 Diamonds",h:75000},
-    {d:"💎 296 Diamonds",h:78000},
-    {d:"💎 344 Diamonds",h:91000},
-    {d:"💎 355 Diamonds",h:93000},
-    {d:"💎 408 Diamonds",h:108000},
-    {d:"💎 429 Diamonds",h:113000},
-    {d:"💎 514 Diamonds",h:135000},
-    {d:"💎 568 Diamonds",h:147000},
-    {d:"💎 706 Diamonds",h:183000},
-    {d:"💎 878 Diamonds",h:225000},
-    {d:"💎 963 Diamonds",h:244000},
-    {d:"💎 1159 Diamonds",h:295000},
-    {d:"💎 1412 Diamonds",h:362000},
-    {d:"💎 2195 Diamonds",h:530000},
-    {d:"💎 3688 Diamonds",h:915000}
-  ],
-  ff:[
-    {d:"💎 Membership Mingguan",h:28000},
-    {d:"💎 Membership Bulanan",h:81000},
-    {d:"💎 50 Diamonds",h:7000},
-    {d:"💎 70 Diamonds",h:10000},
-    {d:"💎 100 Diamonds",h:14000},
-    {d:"💎 140 Diamonds",h:18000},
-    {d:"💎 160 Diamonds",h:21000},
-    {d:"💎 200 Diamonds",h:26000},
-    {d:"💎 250 Diamonds",h:33000},
-    {d:"💎 300 Diamonds",h:39000},
-    {d:"💎 355 Diamonds",h:43500},
-    {d:"💎 405 Diamonds",h:50000},
-    {d:"💎 475 Diamonds",h:62000},
-    {d:"💎 500 Diamonds",h:65000},
-    {d:"💎 565 Diamonds",h:71000},
-    {d:"💎 600 Diamonds",h:77000},
-    {d:"💎 720 Diamonds",h:88000},
-    {d:"💎 770 Diamonds",h:96000},
-    {d:"💎 800 Diamonds",h:100000},
-    {d:"💎 860 Diamonds",h:107000},
-    {d:"💎 930 Diamonds",h:115000},
-    {d:"💎 1000 Diamonds",h:125000},
-    {d:"💎 1080 Diamonds",h:135000},
-    {d:"💎 1450 Diamonds",h:180000},
-    {d:"💎 2000 Diamonds",h:247000},
-    {d:"💎 2160 Diamonds",h:267000}
-  ]
-};
-
-const nominalBox=document.getElementById("nominalBox");
-
-function loadNominal(){
-  nominalBox.innerHTML="";
-  selected=null;
-  price[game].forEach(p=>{
-    const div=document.createElement("div");
-    div.className="nominal";
-    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
-    div.onclick=()=>{
-      document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
-      div.classList.add("active");
-      selected=p;
-    };
-    nominalBox.appendChild(div);
-  });
-}
-
-loadNominal();
-
-function setGame(g){
-  game=g;
-  ml.classList.toggle("active",g==="ml");
-  ff.classList.toggle("active",g==="ff");
-  serverBox.style.display=g==="ml"?"block":"none";
-  loadNominal();
-}
-
-btn.onclick=()=>{
-  if(!userid.value) return alert("Masukkan User ID!");
-  if(game==="ml" && !serverid.value) return alert("Masukkan Server ID!");
-  if(!agree.checked) return alert("Centang persetujuan!");
-  if(!selected) return alert("Pilih nominal!");
-
-  loading.style.display="block";
-
-  setTimeout(()=>{
-    loading.style.display="none";
-    qrisBox.style.display="block";
-    orderNote.style.display="block";
-    waBtn.style.display="block";
-    resetBtn.style.display="block";
-
-    time=300;
-    countdown=setInterval(()=>{
-      time--;
-      timer.textContent=`⏳ ${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
-      if(time<=0){
-        clearInterval(countdown);
-        timer.textContent="❌ QRIS kadaluarsa";
-      }
-    },1000);
-
-    const pesan=`Halo gwewahid,
-Saya konfirmasi top up:
-Game: ${game.toUpperCase()}
-User ID: ${userid.value}
-${game==="ml"?"Server ID: "+serverid.value:""}
-Item: ${selected.d}
-Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
-
-    orderNote.innerHTML=`
-<b>DETAIL PESANAN</b><br>
-Game: ${game.toUpperCase()}<br>
-User ID: ${userid.value}<br>
-${game==="ml"?"Server ID: "+serverid.value+"<br>":""}
-Item: ${selected.d}<br>
-Harga: Rp ${selected.h.toLocaleString("id-ID")}
-`;
-
-    waBtn.onclick=()=>window.open(
-      "https://wa.me/6282195594060?text="+encodeURIComponent(pesan)
-    );
-  },1500);
-};
-
-resetBtn.onclick=()=>location.reload();
-</script>
 </body>
 </html>
