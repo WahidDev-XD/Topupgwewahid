@@ -387,7 +387,8 @@ btn.onclick=()=>{
     },1000);
 
     const pesan=`# Halo gwewahid,
-Saya ingin konfirmasi top up:<b>
+Saya ingin konfirmasi top up:
+
 • Game: ${game.toUpperCase()}
 • User ID: ${userid.value}
 ${game==="ml"?"Server ID: "+serverid.value:""}
@@ -397,7 +398,7 @@ ${game==="ml"?"Server ID: "+serverid.value:""}
     orderNote.innerHTML=`
 <b># DETAIL PESANAN</b><br>
 • Game : ${game.toUpperCase()}<br>
-• User ID : ${userid.value}<br>
+• User ID : ${userid.value}
 ${game==="ml"?"Server ID : "+serverid.value+"<br>":""}
 • Item : ${selected.d}<br>
 • Harga : Rp ${selected.h.toLocaleString("id-ID")}
