@@ -23,8 +23,7 @@ body{
   margin:0;
   min-height:100vh;
   font-family:system-ui,Arial;
-  background:
-    radial-gradient(circle at top,var(--blue-mid),#000);
+  background:radial-gradient(circle at top,var(--blue-mid),#000);
   color:var(--text);
   display:flex;
   justify-content:center;
@@ -37,9 +36,7 @@ body{
   background:linear-gradient(180deg,var(--blue-mid),var(--blue-dark));
   border-radius:28px;
   padding:22px;
-  box-shadow:
-    0 0 40px rgba(56,189,248,.4),
-    inset 0 0 30px rgba(56,189,248,.05);
+  box-shadow:0 0 40px rgba(56,189,248,.4);
 }
 
 /* JUDUL */
@@ -48,9 +45,7 @@ h1{
   font-size:16px;
   color:var(--blue-glow-strong);
   margin-bottom:16px;
-  text-shadow:
-    0 0 10px rgba(56,189,248,.8),
-    0 0 20px rgba(56,189,248,.4);
+  text-shadow:0 0 12px rgba(56,189,248,.8);
 }
 
 /* GAME */
@@ -72,9 +67,7 @@ h1{
 
 .game.active{
   opacity:1;
-  box-shadow:
-    0 0 15px rgba(250,204,21,.8),
-    0 0 30px rgba(250,204,21,.4);
+  box-shadow:0 0 20px rgba(250,204,21,.6);
 }
 
 .game img{
@@ -86,9 +79,7 @@ h1{
 
 .game.active img{
   border-color:var(--yellow-glow);
-  box-shadow:
-    0 0 10px rgba(250,204,21,.9),
-    0 0 25px rgba(250,204,21,.6);
+  box-shadow:0 0 15px rgba(250,204,21,.9);
 }
 
 .game span{
@@ -106,7 +97,6 @@ h1{
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
-  line-height:1.6;
 }
 
 /* FORM */
@@ -156,16 +146,9 @@ input{
 
 .nominal.active{
   border-color:var(--blue-glow);
-  animation:pulse .6s;
   box-shadow:
     0 0 15px rgba(56,189,248,.9),
     0 0 30px rgba(56,189,248,.5);
-}
-
-@keyframes pulse{
-  0%{transform:scale(.95)}
-  50%{transform:scale(1.05)}
-  100%{transform:scale(1)}
 }
 
 .nominal small{
@@ -184,19 +167,18 @@ button{
   background:linear-gradient(90deg,#38bdf8,#0ea5e9);
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 0 20px rgba(56,189,248,.6);
 }
 
 /* LOADING */
 .loading{
+  display:none;
   text-align:center;
   margin-top:16px;
-  display:none;
 }
 
 .spinner{
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
   border:4px solid var(--blue-glow);
   border-top:4px solid transparent;
   border-radius:50%;
@@ -214,27 +196,25 @@ button{
 }
 
 #qrisBox img{
-  width:240px;
+  width:220px;
   border-radius:18px;
-  box-shadow:
-    0 0 25px rgba(56,189,248,.8),
-    0 0 40px rgba(56,189,248,.4);
+  box-shadow:0 0 30px rgba(56,189,248,.7);
 }
 
 .timer{
-  font-size:13px;
   margin-top:6px;
   color:var(--yellow-glow);
+  font-size:13px;
 }
 
 /* NOTE */
 .note{
+  display:none;
   background:var(--blue-dark);
   padding:14px;
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
-  line-height:1.6;
 }
 
 .wa{background:var(--green);color:#000}
@@ -248,19 +228,106 @@ button{
 <h1>⚡ Top Up Order by gwewahid</h1>
 
 <div class="game-list">
-  <div class="game active" id="ml" onclick="setGame('ml')">
+  <div class="game active" id="ml">
     <img src="ml.png">
     <span>Mobile Legends</span>
   </div>
-  <div class="game" id="ff" onclick="setGame('ff')">
+  <div class="game" id="ff">
     <img src="ff.png">
     <span>Free Fire</span>
   </div>
 </div>
 
-<!-- BAGIAN HTML & SCRIPT LAIN TIDAK DIUBAH -->
-<!-- (SAMA DENGAN KODE KAMU SEBELUMNYA) -->
+<div class="notice">
+• Pastikan ID benar<br>
+• Scan QRIS lalu konfirmasi WhatsApp
+</div>
+
+<label>User ID</label>
+<input id="userid">
+
+<div id="serverBox">
+  <label>Server ID (ML)</label>
+  <input id="serverid">
+</div>
+
+<div class="check">
+  <input type="checkbox" id="agree">
+  <label for="agree">Data sudah benar</label>
+</div>
+
+<label>Pilih Nominal</label>
+<div class="nominal-grid" id="nominalBox"></div>
+
+<button id="btn">LANJUT PEMBAYARAN</button>
+
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  Menyiapkan QRIS...
+</div>
+
+<div id="qrisBox">
+  <img src="qris.png">
+  <div class="timer" id="timer"></div>
+</div>
+
+<div class="note" id="orderNote"></div>
+<button class="wa" id="waBtn" style="display:none">📞 WhatsApp</button>
+<button class="reset" onclick="location.reload()">🔄 Reset</button>
 
 </div>
+
+<script>
+let game="ml", selected=null, time=300, countdown;
+
+const price={
+  ml:[{d:"36 Diamonds",h:10500},{d:"112 Diamonds",h:31000}],
+  ff:[{d:"70 Diamonds",h:10000},{d:"140 Diamonds",h:18000}]
+};
+
+const nominalBox=document.getElementById("nominalBox");
+
+function loadNominal(){
+  nominalBox.innerHTML="";
+  price[game].forEach(p=>{
+    const d=document.createElement("div");
+    d.className="nominal";
+    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
+    d.onclick=()=>{
+      document.querySelectorAll(".nominal").forEach(x=>x.classList.remove("active"));
+      d.classList.add("active");
+      selected=p;
+    };
+    nominalBox.appendChild(d);
+  });
+}
+loadNominal();
+
+ml.onclick=()=>{game="ml";ml.classList.add("active");ff.classList.remove("active");serverBox.style.display="block";loadNominal();}
+ff.onclick=()=>{game="ff";ff.classList.add("active");ml.classList.remove("active");serverBox.style.display="none";loadNominal();}
+
+btn.onclick=()=>{
+  if(!userid.value||!agree.checked||!selected) return alert("Lengkapi data!");
+  loading.style.display="block";
+  setTimeout(()=>{
+    loading.style.display="none";
+    qrisBox.style.display="block";
+    orderNote.style.display="block";
+    waBtn.style.display="block";
+
+    orderNote.innerHTML=`Game: ${game}<br>ID: ${userid.value}<br>${selected.d}<br>Rp ${selected.h.toLocaleString("id-ID")}`;
+
+    let t=300;
+    countdown=setInterval(()=>{
+      timer.textContent=`⏳ ${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+      if(--t<0) clearInterval(countdown);
+    },1000);
+
+    waBtn.onclick=()=>window.open(
+      "https://wa.me/6282195594060?text="+encodeURIComponent(orderNote.innerText)
+    );
+  },1200);
+};
+</script>
 </body>
 </html>
