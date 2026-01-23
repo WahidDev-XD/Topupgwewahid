@@ -49,10 +49,7 @@ h1{
 }
 
 /* GAME */
-.game-list{
-  display:flex;
-  gap:14px;
-}
+.game-list{display:flex;gap:14px}
 
 .game{
   flex:1;
@@ -82,12 +79,7 @@ h1{
   box-shadow:0 0 15px rgba(250,204,21,.9);
 }
 
-.game span{
-  display:block;
-  margin-top:6px;
-  font-weight:700;
-  font-size:13px;
-}
+.game span{display:block;margin-top:6px;font-weight:700;font-size:13px}
 
 /* NOTICE */
 .notice{
@@ -100,11 +92,7 @@ h1{
 }
 
 /* FORM */
-label{
-  display:block;
-  margin-top:14px;
-  font-size:13px;
-}
+label{display:block;margin-top:14px;font-size:13px}
 
 input{
   width:100%;
@@ -117,13 +105,7 @@ input{
 }
 
 /* CHECK */
-.check{
-  display:flex;
-  gap:8px;
-  font-size:12px;
-  margin-top:12px;
-}
-
+.check{display:flex;gap:8px;font-size:12px;margin-top:12px}
 .check input{width:auto}
 
 /* NOMINAL */
@@ -146,16 +128,10 @@ input{
 
 .nominal.active{
   border-color:var(--blue-glow);
-  box-shadow:
-    0 0 15px rgba(56,189,248,.9),
-    0 0 30px rgba(56,189,248,.5);
+  box-shadow:0 0 18px rgba(56,189,248,.8);
 }
 
-.nominal small{
-  display:block;
-  margin-top:4px;
-  opacity:.75;
-}
+.nominal small{display:block;margin-top:4px;opacity:.75}
 
 /* BUTTON */
 button{
@@ -170,15 +146,10 @@ button{
 }
 
 /* LOADING */
-.loading{
-  display:none;
-  text-align:center;
-  margin-top:16px;
-}
+.loading{display:none;text-align:center;margin-top:16px}
 
 .spinner{
-  width:40px;
-  height:40px;
+  width:40px;height:40px;
   border:4px solid var(--blue-glow);
   border-top:4px solid transparent;
   border-radius:50%;
@@ -189,23 +160,13 @@ button{
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* QRIS */
-#qrisBox{
-  display:none;
-  text-align:center;
-  margin-top:16px;
-}
-
+#qrisBox{display:none;text-align:center;margin-top:16px}
 #qrisBox img{
   width:220px;
   border-radius:18px;
   box-shadow:0 0 30px rgba(56,189,248,.7);
 }
-
-.timer{
-  margin-top:6px;
-  color:var(--yellow-glow);
-  font-size:13px;
-}
+.timer{margin-top:6px;color:var(--yellow-glow);font-size:13px}
 
 /* NOTE */
 .note{
@@ -228,14 +189,8 @@ button{
 <h1>⚡ Top Up Order by gwewahid</h1>
 
 <div class="game-list">
-  <div class="game active" id="ml">
-    <img src="ml.png">
-    <span>Mobile Legends</span>
-  </div>
-  <div class="game" id="ff">
-    <img src="ff.png">
-    <span>Free Fire</span>
-  </div>
+  <div class="game active" id="ml"><img src="ml.png"><span>Mobile Legends</span></div>
+  <div class="game" id="ff"><img src="ff.png"><span>Free Fire</span></div>
 </div>
 
 <div class="notice">
@@ -278,17 +233,72 @@ button{
 </div>
 
 <script>
-let game="ml", selected=null, time=300, countdown;
+let game="ml", selected=null, countdown, time=300;
 
 const price={
-  ml:[{d:"36 Diamonds",h:10500},{d:"112 Diamonds",h:31000}],
-  ff:[{d:"70 Diamonds",h:10000},{d:"140 Diamonds",h:18000}]
+ml:[
+{d:"💎 Weekly Diamond Pass",h:29000},
+{d:"💎 36 Diamonds",h:10500},
+{d:"💎 56 Diamonds",h:15500},
+{d:"💎 70 Diamonds",h:19500},
+{d:"💎 112 Diamonds",h:31000},
+{d:"💎 140 Diamonds",h:38000},
+{d:"💎 170 Diamonds",h:46000},
+{d:"💎 184 Diamonds",h:50000},
+{d:"💎 222 Diamonds",h:58000},
+{d:"💎 240 Diamonds",h:63000},
+{d:"💎 258 Diamonds",h:70000},
+{d:"💎 284 Diamonds",h:75000},
+{d:"💎 296 Diamonds",h:78000},
+{d:"💎 344 Diamonds",h:91000},
+{d:"💎 355 Diamonds",h:93000},
+{d:"💎 408 Diamonds",h:108000},
+{d:"💎 429 Diamonds",h:113000},
+{d:"💎 514 Diamonds",h:135000},
+{d:"💎 568 Diamonds",h:147000},
+{d:"💎 706 Diamonds",h:183000},
+{d:"💎 878 Diamonds",h:225000},
+{d:"💎 963 Diamonds",h:244000},
+{d:"💎 1159 Diamonds",h:295000},
+{d:"💎 1412 Diamonds",h:362000},
+{d:"💎 2195 Diamonds",h:530000},
+{d:"💎 3688 Diamonds",h:915000}
+],
+ff:[
+{d:"💎 Membership Mingguan",h:28000},
+{d:"💎 Membership Bulanan",h:81000},
+{d:"💎 50 Diamonds",h:7000},
+{d:"💎 70 Diamonds",h:10000},
+{d:"💎 100 Diamonds",h:14000},
+{d:"💎 140 Diamonds",h:18000},
+{d:"💎 160 Diamonds",h:21000},
+{d:"💎 200 Diamonds",h:26000},
+{d:"💎 250 Diamonds",h:33000},
+{d:"💎 300 Diamonds",h:39000},
+{d:"💎 355 Diamonds",h:43500},
+{d:"💎 405 Diamonds",h:50000},
+{d:"💎 475 Diamonds",h:62000},
+{d:"💎 500 Diamonds",h:65000},
+{d:"💎 565 Diamonds",h:71000},
+{d:"💎 600 Diamonds",h:77000},
+{d:"💎 720 Diamonds",h:88000},
+{d:"💎 770 Diamonds",h:96000},
+{d:"💎 800 Diamonds",h:100000},
+{d:"💎 860 Diamonds",h:107000},
+{d:"💎 930 Diamonds",h:115000},
+{d:"💎 1000 Diamonds",h:125000},
+{d:"💎 1080 Diamonds",h:135000},
+{d:"💎 1450 Diamonds",h:180000},
+{d:"💎 2000 Diamonds",h:247000},
+{d:"💎 2160 Diamonds",h:267000}
+]
 };
 
 const nominalBox=document.getElementById("nominalBox");
 
 function loadNominal(){
   nominalBox.innerHTML="";
+  selected=null;
   price[game].forEach(p=>{
     const d=document.createElement("div");
     d.className="nominal";
@@ -309,18 +319,24 @@ ff.onclick=()=>{game="ff";ff.classList.add("active");ml.classList.remove("active
 btn.onclick=()=>{
   if(!userid.value||!agree.checked||!selected) return alert("Lengkapi data!");
   loading.style.display="block";
+
   setTimeout(()=>{
     loading.style.display="none";
     qrisBox.style.display="block";
     orderNote.style.display="block";
     waBtn.style.display="block";
 
-    orderNote.innerHTML=`Game: ${game}<br>ID: ${userid.value}<br>${selected.d}<br>Rp ${selected.h.toLocaleString("id-ID")}`;
+    orderNote.innerHTML=
+      `Game: ${game.toUpperCase()}<br>
+       User ID: ${userid.value}<br>
+       ${game==="ml"?"Server ID: "+serverid.value+"<br>":""}
+       ${selected.d}<br>
+       Rp ${selected.h.toLocaleString("id-ID")}`;
 
-    let t=300;
+    time=300;
     countdown=setInterval(()=>{
-      timer.textContent=`⏳ ${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
-      if(--t<0) clearInterval(countdown);
+      timer.textContent=`⏳ ${Math.floor(time/60)}:${String(time%60).padStart(2,"0")}`;
+      if(--time<0) clearInterval(countdown);
     },1000);
 
     waBtn.onclick=()=>window.open(
