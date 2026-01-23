@@ -7,11 +7,7 @@
 
 <style>
 :root{
-  --blue-dark:#020617;
-  --blue-mid:#0f172a;
-  --blue-glow:#38bdf8;
-  --blue-glow-strong:#7dd3fc;
-  --yellow-glow:#facc15;
+  --accent:#38bdf8;
   --green:#22c55e;
   --red:#ef4444;
   --text:#e5e7eb;
@@ -23,7 +19,7 @@ body{
   margin:0;
   min-height:100vh;
   font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,var(--blue-mid),#000);
+  background:radial-gradient(circle at top,#0f172a,#000);
   color:var(--text);
   display:flex;
   justify-content:center;
@@ -33,27 +29,30 @@ body{
 .container{
   width:95%;
   max-width:440px;
-  background:linear-gradient(180deg,var(--blue-mid),var(--blue-dark));
+  background:linear-gradient(180deg,#0f172a,#020617);
   border-radius:28px;
   padding:22px;
-  box-shadow:0 0 40px rgba(56,189,248,.4);
+  box-shadow:0 0 40px rgba(56,189,248,.35);
 }
 
 /* JUDUL */
 h1{
   text-align:center;
   font-size:16px;
-  color:var(--blue-glow-strong);
+  color:#7dd3fc;
   margin-bottom:16px;
-  text-shadow:0 0 12px rgba(56,189,248,.8);
+  text-shadow:0 0 10px rgba(56,189,248,.6);
 }
 
 /* GAME */
-.game-list{display:flex;gap:14px}
+.game-list{
+  display:flex;
+  gap:14px;
+}
 
 .game{
   flex:1;
-  background:var(--blue-dark);
+  background:#020617;
   border-radius:22px;
   padding:14px;
   text-align:center;
@@ -64,35 +63,40 @@ h1{
 
 .game.active{
   opacity:1;
-  box-shadow:0 0 20px rgba(250,204,21,.6);
+  border:1px solid var(--accent);
+  box-shadow:0 0 16px rgba(56,189,248,.3);
 }
 
 .game img{
   width:70px;
   height:70px;
   border-radius:18px;
-  border:2px solid transparent;
 }
 
-.game.active img{
-  border-color:var(--yellow-glow);
-  box-shadow:0 0 15px rgba(250,204,21,.9);
+.game span{
+  display:block;
+  margin-top:6px;
+  font-weight:700;
+  font-size:13px;
 }
-
-.game span{display:block;margin-top:6px;font-weight:700;font-size:13px}
 
 /* NOTICE */
 .notice{
-  background:var(--blue-dark);
-  border-left:4px solid var(--yellow-glow);
+  background:#020617;
+  border-left:4px solid #facc15;
   padding:12px;
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
+  line-height:1.6;
 }
 
 /* FORM */
-label{display:block;margin-top:14px;font-size:13px}
+label{
+  display:block;
+  margin-top:14px;
+  font-size:13px;
+}
 
 input{
   width:100%;
@@ -100,12 +104,18 @@ input{
   border-radius:14px;
   border:none;
   margin-top:6px;
-  background:var(--blue-dark);
+  background:#020617;
   color:#fff;
 }
 
 /* CHECK */
-.check{display:flex;gap:8px;font-size:12px;margin-top:12px}
+.check{
+  display:flex;
+  gap:8px;
+  font-size:12px;
+  margin-top:12px;
+}
+
 .check input{width:auto}
 
 /* NOMINAL */
@@ -117,21 +127,24 @@ input{
 }
 
 .nominal{
-  background:var(--blue-dark);
+  background:#020617;
   border-radius:14px;
   padding:12px;
   cursor:pointer;
   font-size:13px;
   border:1px solid rgba(255,255,255,.08);
-  transition:.25s;
 }
 
 .nominal.active{
-  border-color:var(--blue-glow);
-  box-shadow:0 0 18px rgba(56,189,248,.8);
+  border-color:var(--accent);
+  box-shadow:0 0 16px rgba(56,189,248,.35);
 }
 
-.nominal small{display:block;margin-top:4px;opacity:.75}
+.nominal small{
+  display:block;
+  margin-top:4px;
+  opacity:.75;
+}
 
 /* BUTTON */
 button{
@@ -146,36 +159,53 @@ button{
 }
 
 /* LOADING */
-.loading{display:none;text-align:center;margin-top:16px}
+.loading{
+  text-align:center;
+  margin-top:16px;
+  display:none;
+}
 
 .spinner{
-  width:40px;height:40px;
-  border:4px solid var(--blue-glow);
+  width:42px;
+  height:42px;
+  border:4px solid var(--accent);
   border-top:4px solid transparent;
   border-radius:50%;
   animation:spin 1s linear infinite;
   margin:0 auto 8px;
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
 
 /* QRIS */
-#qrisBox{display:none;text-align:center;margin-top:16px}
-#qrisBox img{
-  width:220px;
-  border-radius:18px;
-  box-shadow:0 0 30px rgba(56,189,248,.7);
+#qrisBox{
+  display:none;
+  text-align:center;
+  margin-top:16px;
 }
-.timer{margin-top:6px;color:var(--yellow-glow);font-size:13px}
+
+#qrisBox img{
+  width:240px;
+  border-radius:18px;
+  box-shadow:0 0 24px rgba(56,189,248,.4);
+}
+
+.timer{
+  font-size:13px;
+  margin-top:6px;
+  color:#facc15;
+}
 
 /* NOTE */
 .note{
-  display:none;
-  background:var(--blue-dark);
+  background:#020617;
   padding:14px;
   border-radius:14px;
   margin-top:14px;
   font-size:12px;
+  line-height:1.6;
 }
 
 .wa{background:var(--green);color:#000}
@@ -189,26 +219,34 @@ button{
 <h1>⚡ Top Up Order by gwewahid</h1>
 
 <div class="game-list">
-  <div class="game active" id="ml"><img src="ml.png"><span>Mobile Legends</span></div>
-  <div class="game" id="ff"><img src="ff.png"><span>Free Fire</span></div>
+  <div class="game active" id="ml" onclick="setGame('ml')">
+    <img src="ml.png">
+    <span>Mobile Legends</span>
+  </div>
+  <div class="game" id="ff" onclick="setGame('ff')">
+    <img src="ff.png">
+    <span>Free Fire</span>
+  </div>
 </div>
 
 <div class="notice">
-• Pastikan ID benar<br>
-• Scan QRIS lalu konfirmasi WhatsApp
+⚠️ <b>PERHATIAN</b><br>
+• Pastikan ID game benar<br>
+• Setelah scan QRIS, konfirmasi via WhatsApp ( SS Transfer )<br>
+• Kesalahan ID bukan tanggung jawab admin
 </div>
 
 <label>User ID</label>
-<input id="userid">
+<input id="userid" placeholder="Masukkan User ID">
 
 <div id="serverBox">
   <label>Server ID (ML)</label>
-  <input id="serverid">
+  <input id="serverid" placeholder="Contoh: 1234">
 </div>
 
 <div class="check">
   <input type="checkbox" id="agree">
-  <label for="agree">Data sudah benar</label>
+  <label for="agree">Saya sudah memastikan data benar</label>
 </div>
 
 <label>Pilih Nominal</label>
@@ -222,76 +260,77 @@ button{
 </div>
 
 <div id="qrisBox">
+  <h3>Scan QRIS</h3>
   <img src="qris.png">
   <div class="timer" id="timer"></div>
 </div>
 
-<div class="note" id="orderNote"></div>
-<button class="wa" id="waBtn" style="display:none">📞 WhatsApp</button>
-<button class="reset" onclick="location.reload()">🔄 Reset</button>
+<div id="orderNote" class="note" style="display:none"></div>
+<button id="waBtn" class="wa" style="display:none">📞 Konfirmasi via WhatsApp</button>
+<button id="resetBtn" class="reset" style="display:none">🔄 Reset Order</button>
 
 </div>
 
 <script>
-let game="ml", selected=null, countdown, time=300;
+let game="ml", selected=null, time=300, countdown;
 
 const price={
-ml:[
-{d:"💎 Weekly Diamond Pass",h:29000},
-{d:"💎 36 Diamonds",h:10500},
-{d:"💎 56 Diamonds",h:15500},
-{d:"💎 70 Diamonds",h:19500},
-{d:"💎 112 Diamonds",h:31000},
-{d:"💎 140 Diamonds",h:38000},
-{d:"💎 170 Diamonds",h:46000},
-{d:"💎 184 Diamonds",h:50000},
-{d:"💎 222 Diamonds",h:58000},
-{d:"💎 240 Diamonds",h:63000},
-{d:"💎 258 Diamonds",h:70000},
-{d:"💎 284 Diamonds",h:75000},
-{d:"💎 296 Diamonds",h:78000},
-{d:"💎 344 Diamonds",h:91000},
-{d:"💎 355 Diamonds",h:93000},
-{d:"💎 408 Diamonds",h:108000},
-{d:"💎 429 Diamonds",h:113000},
-{d:"💎 514 Diamonds",h:135000},
-{d:"💎 568 Diamonds",h:147000},
-{d:"💎 706 Diamonds",h:183000},
-{d:"💎 878 Diamonds",h:225000},
-{d:"💎 963 Diamonds",h:244000},
-{d:"💎 1159 Diamonds",h:295000},
-{d:"💎 1412 Diamonds",h:362000},
-{d:"💎 2195 Diamonds",h:530000},
-{d:"💎 3688 Diamonds",h:915000}
-],
-ff:[
-{d:"💎 Membership Mingguan",h:28000},
-{d:"💎 Membership Bulanan",h:81000},
-{d:"💎 50 Diamonds",h:7000},
-{d:"💎 70 Diamonds",h:10000},
-{d:"💎 100 Diamonds",h:14000},
-{d:"💎 140 Diamonds",h:18000},
-{d:"💎 160 Diamonds",h:21000},
-{d:"💎 200 Diamonds",h:26000},
-{d:"💎 250 Diamonds",h:33000},
-{d:"💎 300 Diamonds",h:39000},
-{d:"💎 355 Diamonds",h:43500},
-{d:"💎 405 Diamonds",h:50000},
-{d:"💎 475 Diamonds",h:62000},
-{d:"💎 500 Diamonds",h:65000},
-{d:"💎 565 Diamonds",h:71000},
-{d:"💎 600 Diamonds",h:77000},
-{d:"💎 720 Diamonds",h:88000},
-{d:"💎 770 Diamonds",h:96000},
-{d:"💎 800 Diamonds",h:100000},
-{d:"💎 860 Diamonds",h:107000},
-{d:"💎 930 Diamonds",h:115000},
-{d:"💎 1000 Diamonds",h:125000},
-{d:"💎 1080 Diamonds",h:135000},
-{d:"💎 1450 Diamonds",h:180000},
-{d:"💎 2000 Diamonds",h:247000},
-{d:"💎 2160 Diamonds",h:267000}
-]
+  ml:[
+    {d:"💎 Weekly Diamond Pass",h:29000},
+    {d:"💎 36 Diamonds",h:10500},
+    {d:"💎 56 Diamonds",h:15500},
+    {d:"💎 70 Diamonds",h:19500},
+    {d:"💎 112 Diamonds",h:31000},
+    {d:"💎 140 Diamonds",h:38000},
+    {d:"💎 170 Diamonds",h:46000},
+    {d:"💎 184 Diamonds",h:50000},
+    {d:"💎 222 Diamonds",h:58000},
+    {d:"💎 240 Diamonds",h:63000},
+    {d:"💎 258 Diamonds",h:70000},
+    {d:"💎 284 Diamonds",h:75000},
+    {d:"💎 296 Diamonds",h:78000},
+    {d:"💎 344 Diamonds",h:91000},
+    {d:"💎 355 Diamonds",h:93000},
+    {d:"💎 408 Diamonds",h:108000},
+    {d:"💎 429 Diamonds",h:113000},
+    {d:"💎 514 Diamonds",h:135000},
+    {d:"💎 568 Diamonds",h:147000},
+    {d:"💎 706 Diamonds",h:183000},
+    {d:"💎 878 Diamonds",h:225000},
+    {d:"💎 963 Diamonds",h:244000},
+    {d:"💎 1159 Diamonds",h:295000},
+    {d:"💎 1412 Diamonds",h:362000},
+    {d:"💎 2195 Diamonds",h:530000},
+    {d:"💎 3688 Diamonds",h:915000}
+  ],
+  ff:[
+    {d:"💎 Membership Mingguan",h:28000},
+    {d:"💎 Membership Bulanan",h:81000},
+    {d:"💎 50 Diamonds",h:7000},
+    {d:"💎 70 Diamonds",h:10000},
+    {d:"💎 100 Diamonds",h:14000},
+    {d:"💎 140 Diamonds",h:18000},
+    {d:"💎 160 Diamonds",h:21000},
+    {d:"💎 200 Diamonds",h:26000},
+    {d:"💎 250 Diamonds",h:33000},
+    {d:"💎 300 Diamonds",h:39000},
+    {d:"💎 355 Diamonds",h:43500},
+    {d:"💎 405 Diamonds",h:50000},
+    {d:"💎 475 Diamonds",h:62000},
+    {d:"💎 500 Diamonds",h:65000},
+    {d:"💎 565 Diamonds",h:71000},
+    {d:"💎 600 Diamonds",h:77000},
+    {d:"💎 720 Diamonds",h:88000},
+    {d:"💎 770 Diamonds",h:96000},
+    {d:"💎 800 Diamonds",h:100000},
+    {d:"💎 860 Diamonds",h:107000},
+    {d:"💎 930 Diamonds",h:115000},
+    {d:"💎 1000 Diamonds",h:125000},
+    {d:"💎 1080 Diamonds",h:135000},
+    {d:"💎 1450 Diamonds",h:180000},
+    {d:"💎 2000 Diamonds",h:247000},
+    {d:"💎 2160 Diamonds",h:267000}
+  ]
 };
 
 const nominalBox=document.getElementById("nominalBox");
@@ -300,24 +339,34 @@ function loadNominal(){
   nominalBox.innerHTML="";
   selected=null;
   price[game].forEach(p=>{
-    const d=document.createElement("div");
-    d.className="nominal";
-    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
-    d.onclick=()=>{
-      document.querySelectorAll(".nominal").forEach(x=>x.classList.remove("active"));
-      d.classList.add("active");
+    const div=document.createElement("div");
+    div.className="nominal";
+    div.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
+    div.onclick=()=>{
+      document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
+      div.classList.add("active");
       selected=p;
     };
-    nominalBox.appendChild(d);
+    nominalBox.appendChild(div);
   });
 }
+
 loadNominal();
 
-ml.onclick=()=>{game="ml";ml.classList.add("active");ff.classList.remove("active");serverBox.style.display="block";loadNominal();}
-ff.onclick=()=>{game="ff";ff.classList.add("active");ml.classList.remove("active");serverBox.style.display="none";loadNominal();}
+function setGame(g){
+  game=g;
+  ml.classList.toggle("active",g==="ml");
+  ff.classList.toggle("active",g==="ff");
+  serverBox.style.display=g==="ml"?"block":"none";
+  loadNominal();
+}
 
 btn.onclick=()=>{
-  if(!userid.value||!agree.checked||!selected) return alert("Lengkapi data!");
+  if(!userid.value) return alert("Masukkan User ID!");
+  if(game==="ml" && !serverid.value) return alert("Masukkan Server ID!");
+  if(!agree.checked) return alert("Centang persetujuan!");
+  if(!selected) return alert("Pilih nominal!");
+
   loading.style.display="block";
 
   setTimeout(()=>{
@@ -325,25 +374,42 @@ btn.onclick=()=>{
     qrisBox.style.display="block";
     orderNote.style.display="block";
     waBtn.style.display="block";
-
-    orderNote.innerHTML=
-      `Game: ${game.toUpperCase()}<br>
-       User ID: ${userid.value}<br>
-       ${game==="ml"?"Server ID: "+serverid.value+"<br>":""}
-       ${selected.d}<br>
-       Rp ${selected.h.toLocaleString("id-ID")}`;
+    resetBtn.style.display="block";
 
     time=300;
     countdown=setInterval(()=>{
-      timer.textContent=`⏳ ${Math.floor(time/60)}:${String(time%60).padStart(2,"0")}`;
-      if(--time<0) clearInterval(countdown);
+      time--;
+      timer.textContent=`⏳ WAKTU PEMBAYARAN${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
+      if(time<=0){
+        clearInterval(countdown);
+        timer.textContent="❌ QRIS kadaluarsa";
+      }
     },1000);
 
+    const pesan=`Halo gwewahid,
+Saya konfirmasi top up:
+Game: ${game.toUpperCase()}
+User ID: ${userid.value}
+${game==="ml"?"Server ID: "+serverid.value:""}
+Item: ${selected.d}
+Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
+
+    orderNote.innerHTML=`
+<b># DETAIL PESANAN</b><br><br>
+Game : ${game.toUpperCase()}<br>
+User ID : ${userid.value}<br>
+${game==="ml"?"Server ID : "+serverid.value+"<br>":""}
+Item : ${selected.d}<br>
+Harga : Rp ${selected.h.toLocaleString("id-ID")}
+`;
+
     waBtn.onclick=()=>window.open(
-      "https://wa.me/6282195594060?text="+encodeURIComponent(orderNote.innerText)
+      "https://wa.me/6282195594060?text="+encodeURIComponent(pesan)
     );
-  },1200);
+  },1500);
 };
+
+resetBtn.onclick=()=>location.reload();
 </script>
 </body>
 </html>
