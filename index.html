@@ -267,7 +267,7 @@ button{
 
 <div id="orderNote" class="note" style="display:none"></div>
 <button id="waBtn" class="wa" style="display:none">📞 Konfirmasi via WhatsApp</button>
-<button id="resetBtn" class="reset" style="display:none">🔄 Reset Order</button>
+<button id="resetBtn" class="reset" style="display:none">Reset Order</button>
 
 </div>
 
@@ -379,28 +379,28 @@ btn.onclick=()=>{
     time=300;
     countdown=setInterval(()=>{
       time--;
-      timer.textContent=`⏳ WAKTU PEMBAYARAN${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
+      timer.textContent=`⏳ WAKTU PEMBAYARAN ${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
       if(time<=0){
         clearInterval(countdown);
         timer.textContent="❌ QRIS kadaluarsa";
       }
     },1000);
 
-    const pesan=`Halo gwewahid,
-Saya konfirmasi top up:
-Game: ${game.toUpperCase()}
-User ID: ${userid.value}
+    const pesan=`# Halo gwewahid,
+Saya ingin konfirmasi top up:<b>
+• Game: ${game.toUpperCase()}
+• User ID: ${userid.value}
 ${game==="ml"?"Server ID: "+serverid.value:""}
-Item: ${selected.d}
-Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
+• Item: ${selected.d}
+• Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
 
     orderNote.innerHTML=`
-<b># DETAIL PESANAN</b><br><br>
-Game : ${game.toUpperCase()}<br>
-User ID : ${userid.value}<br>
+<b># DETAIL PESANAN</b><br>
+• Game : ${game.toUpperCase()}<br>
+• User ID : ${userid.value}<br>
 ${game==="ml"?"Server ID : "+serverid.value+"<br>":""}
-Item : ${selected.d}<br>
-Harga : Rp ${selected.h.toLocaleString("id-ID")}
+• Item : ${selected.d}<br>
+• Harga : Rp ${selected.h.toLocaleString("id-ID")}
 `;
 
     waBtn.onclick=()=>window.open(
