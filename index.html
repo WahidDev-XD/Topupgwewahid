@@ -390,15 +390,14 @@ btn.onclick=()=>{
 Saya ingin konfirmasi top up:
 
 • Game: ${game.toUpperCase()}
-• User ID: ${userid.value}
-${game==="ml"?"Server ID: "+serverid.value:""}
+• User ID: ${userid.value} ${game==="ml"?"Server ID: "+serverid.value:""}
 • Item: ${selected.d}
 • Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
 
     orderNote.innerHTML=`
 <b># DETAIL PESANAN</b><br>
 • Game : ${game.toUpperCase()}<br>
-• User ID : ${userid.value}
+• User ID : ${userid.value}<br>
 ${game==="ml"?"Server ID : "+serverid.value+"<br>":""}
 • Item : ${selected.d}<br>
 • Harga : Rp ${selected.h.toLocaleString("id-ID")}
