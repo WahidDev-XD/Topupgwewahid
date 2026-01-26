@@ -35,7 +35,6 @@ body{
   box-shadow:0 0 40px rgba(56,189,248,.35);
 }
 
-/* JUDUL */
 h1{
   text-align:center;
   font-size:16px;
@@ -44,7 +43,6 @@ h1{
   text-shadow:0 0 10px rgba(56,189,248,.6);
 }
 
-/* GAME */
 .game-list{
   display:flex;
   gap:14px;
@@ -80,7 +78,6 @@ h1{
   font-size:13px;
 }
 
-/* NOTICE */
 .notice{
   background:#020617;
   border-left:4px solid #facc15;
@@ -91,7 +88,6 @@ h1{
   line-height:1.6;
 }
 
-/* FORM */
 label{
   display:block;
   margin-top:14px;
@@ -108,7 +104,6 @@ input{
   color:#fff;
 }
 
-/* CHECK */
 .check{
   display:flex;
   gap:8px;
@@ -118,7 +113,6 @@ input{
 
 .check input{width:auto}
 
-/* NOMINAL */
 .nominal-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -146,7 +140,6 @@ input{
   opacity:.75;
 }
 
-/* BUTTON */
 button{
   width:100%;
   padding:14px;
@@ -158,7 +151,6 @@ button{
   cursor:pointer;
 }
 
-/* LOADING */
 .loading{
   text-align:center;
   margin-top:16px;
@@ -179,7 +171,6 @@ button{
   to{transform:rotate(360deg)}
 }
 
-/* QRIS */
 #qrisBox{
   display:none;
   text-align:center;
@@ -198,7 +189,6 @@ button{
   color:#facc15;
 }
 
-/* NOTE */
 .note{
   background:#020617;
   padding:14px;
@@ -216,10 +206,10 @@ button{
 <body>
 <div class="container">
 
-<h1>⚡ Top Up Order by gwewahid</h1>
+<h1>🏷️ Top Up Order by gwewahid</h1>
 
 <div class="game-list">
-  <div class="game active" id="ml" onclick="setGame('ml')">
+  <div class="game" id="ml" onclick="setGame('ml')">
     <img src="ml.png">
     <span>Mobile Legends</span>
   </div>
@@ -232,12 +222,12 @@ button{
 <div class="notice">
 ⚠️ <b>PERHATIAN</b><br>
 • Pastikan ID game benar<br>
-• Setelah scan QRIS, konfirmasi via WhatsApp ( SS Transfer )<br>
+• Setelah scan QRIS, konfirmasi via WhatsApp<br>( Kirimkan Bukti Transfer )<br>
 • Kesalahan ID bukan tanggung jawab admin
 </div>
 
 <label>User ID</label>
-<input id="userid" placeholder="Masukkan User ID">
+<input id="userid" placeholder="Masukkan ID Game">
 
 <div id="serverBox">
   <label>Server ID (ML)</label>
@@ -246,13 +236,13 @@ button{
 
 <div class="check">
   <input type="checkbox" id="agree">
-  <label for="agree">Saya sudah memastikan data benar</label>
+  <label for="agree">Saya sudah memastikan ID saya benar</label>
 </div>
 
 <label>Pilih Nominal</label>
 <div class="nominal-grid" id="nominalBox"></div>
 
-<button id="btn">LANJUT PEMBAYARAN</button>
+<button id="btn">LANJUT KE PEMBAYARAN</button>
 
 <div class="loading" id="loading">
   <div class="spinner"></div>
@@ -272,11 +262,15 @@ button{
 </div>
 
 <script>
-let game="ml", selected=null, time=300, countdown;
+const params=new URLSearchParams(window.location.search);
+let game=params.get("game")||"ml";
+let selected=null,time=300,countdown;
 
 const price={
   ml:[
-    {d:"💎 Weekly Diamond Pass",h:29000},
+    {d:"⚡ 1x Weekly Diamond Pass ( 220 Diamond )",h:29000},
+    {d:"⚡ 2x Weekly Diamond Pass ( 440 Diamond )",h:58000},
+    {d:"⚡ 3x Weekly Diamond Pass ( 660 Diamond )",h:87000},
     {d:"💎 36 Diamonds",h:10500},
     {d:"💎 56 Diamonds",h:15500},
     {d:"💎 70 Diamonds",h:19500},
@@ -304,8 +298,8 @@ const price={
     {d:"💎 3688 Diamonds",h:915000}
   ],
   ff:[
-    {d:"💎 Membership Mingguan",h:28000},
-    {d:"💎 Membership Bulanan",h:81000},
+    {d:"⚡ Membership Mingguan",h:28000},
+    {d:"⚡ Membership Bulanan",h:81000},
     {d:"💎 50 Diamonds",h:7000},
     {d:"💎 70 Diamonds",h:10000},
     {d:"💎 100 Diamonds",h:14000},
@@ -351,8 +345,6 @@ function loadNominal(){
   });
 }
 
-loadNominal();
-
 function setGame(g){
   game=g;
   ml.classList.toggle("active",g==="ml");
@@ -361,9 +353,11 @@ function setGame(g){
   loadNominal();
 }
 
+setGame(game);
+
 btn.onclick=()=>{
-  if(!userid.value) return alert("Masukkan User ID!");
-  if(game==="ml" && !serverid.value) return alert("Masukkan Server ID!");
+  if(!userid.value) return alert("Masukkan ID Game!");
+  if(game==="ml"&&!serverid.value) return alert("Masukkan Server ID!");
   if(!agree.checked) return alert("Centang persetujuan!");
   if(!selected) return alert("Pilih nominal!");
 
@@ -379,7 +373,7 @@ btn.onclick=()=>{
     time=300;
     countdown=setInterval(()=>{
       time--;
-      timer.textContent=`⏳ WAKTU PEMBAYARAN ${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
+      timer.textContent=`⏳ MENUNGGU PEMBAYARAN ${String(Math.floor(time/60)).padStart(2,"0")}:${String(time%60).padStart(2,"0")}`;
       if(time<=0){
         clearInterval(countdown);
         timer.textContent="❌ QRIS kadaluarsa";
@@ -387,7 +381,7 @@ btn.onclick=()=>{
     },1000);
 
     const pesan=`# Halo gwewahid,
-Saya ingin konfirmasi top up:
+Saya konfirmasi top up:
 
 • Game: ${game.toUpperCase()}
 • User ID: ${userid.value}
@@ -396,12 +390,12 @@ ${game==="ml"?"• Server ID: "+serverid.value:""}
 • Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
 
     orderNote.innerHTML=`
-<b># DETAIL PESANAN</b><br>
-• Game : ${game.toUpperCase()}<br>
-• User ID : ${userid.value}<br>
-${game==="ml"?"• Server ID : "+serverid.value+"<br>":""}
-• Item : ${selected.d}<br>
-• Harga : Rp ${selected.h.toLocaleString("id-ID")}
+<b>DETAIL PESANAN</b><br>
+Game: ${game.toUpperCase()}<br>
+User ID: ${userid.value}<br>
+${game==="ml"?"Server ID: "+serverid.value+"<br>":""}
+Item: ${selected.d}<br>
+Harga: Rp ${selected.h.toLocaleString("id-ID")}
 `;
 
     waBtn.onclick=()=>window.open(
