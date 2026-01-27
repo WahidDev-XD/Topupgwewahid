@@ -7,76 +7,110 @@
 
 <style>
 :root{
-  --accent:#6366f1;
-  --bg:#020617;
-  --card:#020617;
-  --border:rgba(255,255,255,.15);
-  --text:#e5e7eb;
+  --blue:#2563eb;
+  --bg:#2563eb;
 }
 
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,#1e003a,#020617);
-  color:var(--text);
+  background:linear-gradient(#2563eb,#22c1dc);
+  color:#000;
   display:flex;
   justify-content:center;
 }
 .container{
   width:100%;
-  max-width:460px;
-  padding:18px;
+  max-width:420px;
+  padding:16px;
 }
 
-h2{text-align:center}
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#fff;
+  font-weight:700;
+}
+.header span{font-size:14px}
 
+/* GAME PICK */
 .game-pick{
   display:flex;
   gap:12px;
+  margin:14px 0;
 }
 .game{
   flex:1;
-  background:var(--card);
-  border-radius:20px;
-  padding:12px;
+  background:#fff;
+  border-radius:14px;
+  padding:10px;
   text-align:center;
   cursor:pointer;
   opacity:.5;
-  border:1px solid var(--border);
 }
 .game.active{
   opacity:1;
-  border-color:var(--accent);
-  box-shadow:0 0 18px rgba(99,102,241,.4);
+  box-shadow:0 0 10px rgba(0,0,0,.3);
 }
-.game img{width:64px;border-radius:16px}
+.game img{width:60px}
+
+/* CARD STEP */
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:14px;
+  margin-top:14px;
+}
+.step{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+}
+.step span{
+  background:#2563eb;
+  color:#fff;
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
 input{
   width:100%;
   padding:12px;
-  border-radius:14px;
-  border:none;
+  border-radius:10px;
+  border:2px solid #000;
   margin-top:10px;
 }
 
+/* GRID DIAMOND */
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
   margin-top:14px;
 }
 
 .nominal{
-  background:var(--card);
-  border-radius:16px;
-  padding:12px;
+  background:#fff;
+  border:2px solid #000;
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
   cursor:pointer;
-  border:2px solid var(--border); /* garis pinggir */
+}
+.nominal img{width:40px;margin:6px 0}
+.nominal .harga{
+  color:red;
+  font-weight:700;
 }
 .nominal.active{
-  border-color:var(--accent);
-  box-shadow:0 0 14px rgba(99,102,241,.45);
+  outline:3px solid #2563eb;
 }
 
 button{
@@ -84,8 +118,8 @@ button{
   padding:14px;
   margin-top:18px;
   border:none;
-  border-radius:16px;
-  background:linear-gradient(90deg,#6366f1,#4f46e5);
+  border-radius:14px;
+  background:#2563eb;
   color:#fff;
   font-weight:900;
 }
@@ -95,7 +129,10 @@ button{
 <body>
 <div class="container">
 
-<h2>TOP UP GAME</h2>
+<div class="header">
+  <span>Free Fire</span>
+  <span>TopUp @gwewahid</span>
+</div>
 
 <div class="game-pick">
   <div class="game active" onclick="setGame('ml',this)">
@@ -106,10 +143,21 @@ button{
   </div>
 </div>
 
-<input id="userid" placeholder="User ID">
-<input id="serverid" placeholder="Server ID (ML)">
+<div class="card">
+  <div class="step"><span>1</span> MASUKKAN ID GAME</div>
+  <input id="userid" placeholder="Masukkan ID game">
+  <input id="serverid" placeholder="Zone ID">
+  <small>
+    • Perhatikan ID dengan benar<br>
+    • Kirim bukti ke admin WhatsApp<br>
+    • Kesalahan ID bukan tanggung jawab admin
+  </small>
+</div>
 
-<div class="grid" id="nominalBox"></div>
+<div class="card">
+  <div class="step"><span>2</span> LIST DIAMOND</div>
+  <div class="grid" id="nominalBox"></div>
+</div>
 
 <button onclick="checkout()">LANJUT CHECKOUT</button>
 
@@ -118,7 +166,7 @@ button{
 <script>
 let game="ml",selected=null;
 
-/* === LIST DIAMOND LENGKAP (SAMA PERSIS) === */
+/* LIST DIAMOND — SAMA PERSIS */
 const price={
 ml:[
 {d:"⚡ 1x Weekly Diamond Pass (220 Diamond)",h:29000},
@@ -187,7 +235,11 @@ function loadNominal(){
   price[game].forEach(p=>{
     const d=document.createElement("div");
     d.className="nominal";
-    d.innerHTML=`${p.d}<br><small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
+    d.innerHTML=`
+      <div>${p.d}</div>
+      <img src="diamond.png">
+      <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
+    `;
     d.onclick=()=>{
       document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
       d.classList.add("active");
@@ -209,12 +261,7 @@ function checkout(){
   if(!userid.value) return alert("Isi User ID");
   if(game==="ml"&&!serverid.value) return alert("Isi Server ID");
   if(!selected) return alert("Pilih nominal");
-
-  const q=new URLSearchParams({
-    game,userid:userid.value,server:serverid.value,
-    item:selected.d,price:selected.h
-  });
-  location.href="checkout.html?"+q.toString();
+  alert("Pesanan siap diproses!");
 }
 
 loadNominal();
