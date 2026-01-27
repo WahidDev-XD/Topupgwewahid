@@ -49,14 +49,18 @@ input{
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
   gap:10px;margin-top:14px
 }
 .nominal{
   background:#fff;border:2px solid #000;border-radius:12px;
   padding:10px;text-align:center;cursor:pointer
 }
-.nominal img{width:38px;margin:6px 0}
+.nominal img{
+  width:42px;
+  display:block;
+  margin:8px auto;
+}
 .nominal .harga{color:red;font-weight:700}
 .nominal.active{outline:3px solid #2563eb}
 
@@ -103,6 +107,7 @@ button{
 let game="ml",selected=null;
 const icon="https://cdn-icons-png.flaticon.com/512/2583/2583344.png";
 
+/* LIST DIAMOND 100% SAMA */
 const price={
 ml:[
 {d:"⚡ 1x Weekly Diamond Pass (220 Diamond)",h:29000},
@@ -189,10 +194,8 @@ function setGame(g,el){
   game=g;
   document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
-
   document.getElementById("gameTitle").innerText =
     g==="ml" ? "Mobile Legends" : "Free Fire";
-
   serverid.style.display=g==="ml"?"block":"none";
   loadNominal();
 }
