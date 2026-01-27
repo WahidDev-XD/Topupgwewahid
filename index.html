@@ -8,13 +8,13 @@
 <style>
 :root{
   --blue:#2563eb;
-  --bg:#0f172a;
+  --blue2:#60a5fa;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,Arial;
-  background:linear-gradient(#0f172a,#020617);
+  background:linear-gradient(180deg,#60a5fa,#2563eb);
   color:#fff;
   display:flex;
   justify-content:center;
@@ -28,7 +28,7 @@ body{
   padding:10px;text-align:center;cursor:pointer;
   color:#000;opacity:.5
 }
-.game.active{opacity:1;box-shadow:0 0 12px rgba(37,99,235,.7)}
+.game.active{opacity:1;box-shadow:0 0 12px rgba(0,0,0,.3)}
 .game img{width:60px}
 
 /* CARD */
@@ -43,7 +43,7 @@ body{
 }
 input{
   width:100%;padding:12px;border-radius:10px;
-  border:2px solid #000;margin-top:10px
+  border:2px solid #2563eb;margin-top:10px
 }
 
 /* GRID */
@@ -53,7 +53,7 @@ input{
   gap:10px;margin-top:14px
 }
 .nominal{
-  background:#fff;border:2px solid #000;border-radius:12px;
+  background:#fff;border:2px solid #2563eb;border-radius:12px;
   padding:10px;text-align:center;cursor:pointer
 }
 .nominal img{
@@ -65,11 +65,11 @@ input{
   color:#dc2626;
   font-weight:700;
 }
-.nominal.active{outline:3px solid #2563eb}
+.nominal.active{outline:3px solid #1d4ed8}
 
 button{
   width:100%;padding:14px;margin-top:18px;border:none;
-  border-radius:14px;background:#2563eb;
+  border-radius:14px;background:#1d4ed8;
   color:#fff;font-weight:900
 }
 </style>
@@ -90,7 +90,7 @@ button{
 <div class="card">
   <div class="step"><span>1</span> MASUKKAN ID GAME</div>
   <input id="userid" placeholder="Masukkan ID game">
-  <input id="serverid" placeholder="Zone ID">
+  <input id="serverid" placeholder="Zone ID (ML)">
 </div>
 
 <div class="card">
@@ -105,7 +105,7 @@ button{
 <script>
 let game="ml",selected=null;
 
-/* LIST LENGKAP */
+/* ===== LIST DIAMOND LENGKAP & AKURAT ===== */
 const price={
 ml:[
 {d:"1x Weekly Diamond Pass (220 Diamond)",h:29000},
@@ -200,7 +200,12 @@ function checkout(){
   if(!userid.value) return alert("Isi User ID");
   if(game==="ml"&&!serverid.value) return alert("Isi Server ID");
   if(!selected) return alert("Pilih nominal");
-  alert("Pesanan siap diproses!");
+
+  const q=new URLSearchParams({
+    game,userid:userid.value,server:serverid.value,
+    item:selected.d,price:selected.h
+  });
+  location.href="checkout.html?"+q.toString();
 }
 
 loadNominal();
