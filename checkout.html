@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,Arial;
+  background:#020617;
+  color:#e5e7eb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.box{
+  width:95%;
+  max-width:420px;
+  background:#020617;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 0 30px rgba(99,102,241,.35);
+  text-align:center;
+}
+img{
+  width:240px;
+  border-radius:18px;
+  box-shadow:0 0 18px rgba(99,102,241,.45);
+}
+button{
+  width:100%;
+  padding:14px;
+  margin-top:14px;
+  border:none;
+  border-radius:16px;
+  font-weight:900;
+}
+.wa{background:#22c55e;color:#000}
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h3>SCAN QRIS</h3>
+<img src="qris.png">
+
+<p id="timer"></p>
+
+<div id="detail"></div>
+
+<button class="wa" id="waBtn">Konfirmasi WhatsApp</button>
+
+</div>
+
+<script>
+const p=new URLSearchParams(location.search);
+const game=p.get("game");
+const userid=p.get("userid");
+const server=p.get("server");
+const item=p.get("item");
+const price=p.get("price");
+
+detail.innerHTML=`
+<b>DETAIL PESANAN</b><br><br>
+Game: ${game.toUpperCase()}<br>
+User ID: ${userid}<br>
+${game==="ml"?"Server: "+server+"<br>":""}
+Item: ${item}<br>
+Harga: Rp ${Number(price).toLocaleString("id-ID")}
+`;
+
+let t=300;
+setInterval(()=>{
+  t--;
+  timer.textContent=`⏳ Menunggu pembayaran ${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+},1000);
+
+waBtn.onclick=()=>{
+  const msg=`Halo Admin,
+Saya sudah melakukan pembayaran.
+
+Game: ${game.toUpperCase()}
+User ID: ${userid}
+${game==="ml"?"Server: "+server:""}
+Item: ${item}
+Harga: Rp ${Number(price).toLocaleString("id-ID")}`;
+
+  window.open("https://wa.me/6282195594060?text="+encodeURIComponent(msg));
+};
+</script>
+</body>
+</html>
