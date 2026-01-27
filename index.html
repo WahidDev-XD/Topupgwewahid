@@ -26,24 +26,16 @@ body{
 .game{
   flex:1;background:#fff;border-radius:14px;
   padding:10px;text-align:center;cursor:pointer;
-  color:#000;opacity:.5;
-  position:relative;
+  color:#000;opacity:.5;position:relative
 }
 .game.active{opacity:1;box-shadow:0 0 12px rgba(0,0,0,.3)}
 .game img{width:60px}
 
 /* BADGE */
 .badge{
-  position:absolute;
-  top:6px;
-  right:6px;
-  background:#2563eb;
-  color:#fff;
-  font-size:9px;
-  padding:2px 6px;
-  border-radius:999px;
-  font-weight:700;
-  box-shadow:0 0 6px rgba(0,0,0,.4);
+  position:absolute;top:6px;right:6px;
+  background:#2563eb;color:#fff;font-size:9px;
+  padding:2px 6px;border-radius:999px;font-weight:700
 }
 
 /* CARD */
@@ -72,7 +64,7 @@ input{
   padding:10px;text-align:center;cursor:pointer
 }
 .nominal img{
-  width:40px;
+  width:42px;
   display:block;
   margin:8px auto;
 }
@@ -121,12 +113,12 @@ button{
 <script>
 let game="ml",selected=null;
 
-/* ===== LIST DIAMOND LENGKAP & AKURAT ===== */
+/* ===== LIST DIAMOND LENGKAP ===== */
 const price={
 ml:[
-{d:"1x Weekly Diamond Pass (220 Diamond)",h:29000},
-{d:"2x Weekly Diamond Pass (440 Diamond)",h:58000},
-{d:"3x Weekly Diamond Pass (660 Diamond)",h:87000},
+{d:"Weekly Diamond Pass",h:29000,type:"wdp"},
+{d:"2x Weekly Diamond Pass",h:58000,type:"wdp"},
+{d:"3x Weekly Diamond Pass",h:87000,type:"wdp"},
 {d:"36 Diamonds",h:10500},
 {d:"56 Diamonds",h:15500},
 {d:"70 Diamonds",h:19500},
@@ -154,8 +146,8 @@ ml:[
 {d:"3688 Diamonds",h:915000}
 ],
 ff:[
-{d:"Membership Mingguan",h:28000},
-{d:"Membership Bulanan",h:81000},
+{d:"Membership Mingguan",h:28000,type:"membership"},
+{d:"Membership Bulanan",h:81000,type:"membership"},
 {d:"50 Diamonds",h:7000},
 {d:"70 Diamonds",h:10000},
 {d:"100 Diamonds",h:14000},
@@ -188,11 +180,15 @@ const box=document.getElementById("nominalBox");
 function loadNominal(){
   box.innerHTML="";
   price[game].forEach(p=>{
+    let img="diamonds.png";
+    if(p.type==="wdp") img="wdp.png";
+    if(p.type==="membership") img="membership.png";
+
     const d=document.createElement("div");
     d.className="nominal";
     d.innerHTML=`
       <div>${p.d}</div>
-      <img src="diamonds.png">
+      <img src="${img}">
       <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
     `;
     d.onclick=()=>{
