@@ -6,122 +6,63 @@
 <title>Top Up Game</title>
 
 <style>
-:root{
-  --blue:#2563eb;
-  --bg:#2563eb;
-}
-
+:root{--blue:#2563eb}
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,Arial;
   background:linear-gradient(#2563eb,#22c1dc);
-  color:#000;
-  display:flex;
-  justify-content:center;
+  display:flex;justify-content:center
 }
-.container{
-  width:100%;
-  max-width:420px;
-  padding:16px;
-}
+.container{max-width:420px;width:100%;padding:16px}
 
 /* HEADER */
 .header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:#fff;
-  font-weight:700;
+  display:flex;justify-content:space-between;
+  color:#fff;font-weight:700
 }
-.header span{font-size:14px}
 
 /* GAME PICK */
-.game-pick{
-  display:flex;
-  gap:12px;
-  margin:14px 0;
-}
+.game-pick{display:flex;gap:12px;margin:14px 0}
 .game{
-  flex:1;
-  background:#fff;
-  border-radius:14px;
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
-  opacity:.5;
+  flex:1;background:#fff;border-radius:14px;
+  padding:10px;text-align:center;cursor:pointer;opacity:.5
 }
-.game.active{
-  opacity:1;
-  box-shadow:0 0 10px rgba(0,0,0,.3);
-}
+.game.active{opacity:1;box-shadow:0 0 10px rgba(0,0,0,.3)}
 .game img{width:60px}
 
-/* CARD STEP */
+/* CARD */
 .card{
-  background:#fff;
-  border-radius:16px;
-  padding:14px;
-  margin-top:14px;
+  background:#fff;border-radius:16px;
+  padding:14px;margin-top:14px
 }
-.step{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-}
+.step{display:flex;align-items:center;gap:10px;font-weight:700}
 .step span{
-  background:#2563eb;
-  color:#fff;
-  width:32px;height:32px;
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background:#2563eb;color:#fff;width:32px;height:32px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center
 }
-
 input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:2px solid #000;
-  margin-top:10px;
+  width:100%;padding:12px;border-radius:10px;
+  border:2px solid #000;margin-top:10px
 }
 
-/* GRID DIAMOND */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:14px;
+  gap:10px;margin-top:14px
 }
-
 .nominal{
-  background:#fff;
-  border:2px solid #000;
-  border-radius:12px;
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
+  background:#fff;border:2px solid #000;border-radius:12px;
+  padding:10px;text-align:center;cursor:pointer
 }
-.nominal img{width:40px;margin:6px 0}
-.nominal .harga{
-  color:red;
-  font-weight:700;
-}
-.nominal.active{
-  outline:3px solid #2563eb;
-}
+.nominal img{width:38px;margin:6px 0}
+.nominal .harga{color:red;font-weight:700}
+.nominal.active{outline:3px solid #2563eb}
 
 button{
-  width:100%;
-  padding:14px;
-  margin-top:18px;
-  border:none;
-  border-radius:14px;
-  background:#2563eb;
-  color:#fff;
-  font-weight:900;
+  width:100%;padding:14px;margin-top:18px;border:none;
+  border-radius:14px;background:#2563eb;color:#fff;font-weight:900
 }
 </style>
 </head>
@@ -130,7 +71,7 @@ button{
 <div class="container">
 
 <div class="header">
-  <span>Free Fire</span>
+  <span id="gameTitle">Mobile Legends</span>
   <span>TopUp @gwewahid</span>
 </div>
 
@@ -147,11 +88,6 @@ button{
   <div class="step"><span>1</span> MASUKKAN ID GAME</div>
   <input id="userid" placeholder="Masukkan ID game">
   <input id="serverid" placeholder="Zone ID">
-  <small>
-    • Perhatikan ID dengan benar<br>
-    • Kirim bukti ke admin WhatsApp<br>
-    • Kesalahan ID bukan tanggung jawab admin
-  </small>
 </div>
 
 <div class="card">
@@ -165,8 +101,8 @@ button{
 
 <script>
 let game="ml",selected=null;
+const icon="https://cdn-icons-png.flaticon.com/512/2583/2583344.png";
 
-/* LIST DIAMOND — SAMA PERSIS */
 const price={
 ml:[
 {d:"⚡ 1x Weekly Diamond Pass (220 Diamond)",h:29000},
@@ -237,7 +173,7 @@ function loadNominal(){
     d.className="nominal";
     d.innerHTML=`
       <div>${p.d}</div>
-      <img src="diamond.png">
+      <img src="${icon}">
       <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
     `;
     d.onclick=()=>{
@@ -253,6 +189,10 @@ function setGame(g,el){
   game=g;
   document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
+
+  document.getElementById("gameTitle").innerText =
+    g==="ml" ? "Mobile Legends" : "Free Fire";
+
   serverid.style.display=g==="ml"?"block":"none";
   loadNominal();
 }
