@@ -19,7 +19,19 @@ body{
   display:flex;
   justify-content:center;
 }
-.container{max-width:420px;width:100%;padding:16px}
+.container{max-width:420px;width:100%;padding:16px;position:relative}
+
+/* WATERMARK */
+.watermark{
+  position:fixed;
+  top:6px;
+  right:10px;
+  font-size:11px;
+  font-weight:700;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.5px;
+  pointer-events:none;
+}
 
 /* GAME PICK */
 .game-pick{display:flex;gap:12px;margin-bottom:14px}
@@ -30,20 +42,6 @@ body{
 }
 .game.active{opacity:1;box-shadow:0 0 12px rgba(0,0,0,.3)}
 .game img{width:60px}
-
-/* BADGE */
-.badge{
-  position:absolute;
-  top:-8px;
-  right:50%;
-  transform:translateX(50%);
-  background:#2563eb;
-  color:#fff;
-  font-size:9px;
-  padding:2px 8px;
-  border-radius:999px;
-  font-weight:700;
-}
 
 /* CARD */
 .card{
@@ -101,6 +99,9 @@ button{
 </head>
 
 <body>
+
+<div class="watermark">TopUp @gwewahid</div>
+
 <div class="container">
 
 <div class="game-pick">
@@ -108,7 +109,6 @@ button{
     <img src="ml.png"><br>Mobile Legends
   </div>
   <div class="game" onclick="setGame('ff',this)">
-    <div class="badge">TopUp @gwewahid</div>
     <img src="ff.png"><br>Free Fire
   </div>
 </div>
