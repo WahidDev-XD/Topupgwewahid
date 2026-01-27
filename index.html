@@ -3,109 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopUp ML & FF</title>
+<title>Top Up Game</title>
 
 <style>
 :root{
   --accent:#3b82f6;
   --bg:#020617;
-  --card:rgba(15,23,42,.92);
+  --card:rgba(15,23,42,.95);
+  --border:rgba(255,255,255,.12);
   --text:#e5e7eb;
 }
 
 *{box-sizing:border-box}
-
 body{
   margin:0;
-  min-height:100vh;
   font-family:system-ui,Arial;
   background:radial-gradient(circle at top,#60a5fa,#020617);
   color:var(--text);
   display:flex;
   justify-content:center;
 }
-
 .container{
-  width:95%;
-  max-width:420px;
-  padding:16px;
+  width:100%;
+  max-width:460px;
+  padding:18px;
 }
 
-/* GAME */
-.games{
+h2{text-align:center;margin:10px 0}
+
+/* GAME PICK */
+.game-pick{
   display:flex;
-  gap:10px;
-  margin-bottom:10px;
+  gap:12px;
 }
 .game{
   flex:1;
-  background:#fff;
-  color:#000;
-  border-radius:16px;
-  padding:10px;
+  background:var(--card);
+  border-radius:20px;
+  padding:12px;
   text-align:center;
   cursor:pointer;
   opacity:.5;
+  border:1px solid var(--border);
 }
 .game.active{
   opacity:1;
-  box-shadow:0 0 16px rgba(96,165,250,.9);
+  border-color:var(--accent);
+  box-shadow:0 0 18px rgba(59,130,246,.45);
 }
-.game img{width:60px}
+.game img{width:64px;border-radius:16px}
 
-/* CARD */
-.card{
-  background:var(--card);
-  border-radius:18px;
-  padding:14px;
-  margin-top:14px;
-}
-.step{
-  font-weight:800;
-  margin-bottom:8px;
-}
+/* INPUT */
 input{
   width:100%;
   padding:12px;
-  border-radius:12px;
+  border-radius:14px;
   border:none;
-  margin-bottom:8px;
+  margin-top:10px;
 }
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+  grid-template-columns:1fr 1fr;
   gap:10px;
+  margin-top:14px;
 }
 .nominal{
-  background:#fff;
-  color:#000;
-  border-radius:14px;
+  background:var(--card);
+  border-radius:16px;
   padding:10px;
-  text-align:center;
   cursor:pointer;
-}
-.nominal img{
-  width:36px;
-  display:block;
-  margin:6px auto;
-}
-.nominal .harga{
-  color:#dc2626;
-  font-weight:800;
+  border:2px solid var(--border);
+  text-align:center;
+  font-size:13px;
 }
 .nominal.active{
-  outline:3px solid var(--accent);
+  border-color:var(--accent);
+  box-shadow:0 0 14px rgba(59,130,246,.5);
+}
+
+/* DIAMOND ICON CENTER */
+.diamond{
+  width:18px;
+  vertical-align:middle;
+  margin:0 4px;
 }
 
 button{
   width:100%;
   padding:14px;
-  margin-top:16px;
+  margin-top:18px;
   border:none;
-  border-radius:18px;
-  background:var(--accent);
+  border-radius:16px;
+  background:linear-gradient(90deg,#3b82f6,#1d4ed8);
   color:#fff;
   font-weight:900;
 }
@@ -115,61 +106,56 @@ button{
 <body>
 <div class="container">
 
-<!-- PILIH GAME -->
-<div class="games">
-  <div class="game active" onclick="setGame('ff',this)">
-    <img src="ff.png"><br>Free Fire
-  </div>
-  <div class="game" onclick="setGame('ml',this)">
+<h2>TOP UP GAME</h2>
+
+<div class="game-pick">
+  <div class="game active" onclick="setGame('ml',this)">
     <img src="ml.png"><br>Mobile Legends
   </div>
+  <div class="game" onclick="setGame('ff',this)">
+    <img src="ff.png"><br>Free Fire
+  </div>
 </div>
 
-<!-- ID -->
-<div class="card">
-  <div class="step">1. MASUKKAN ID</div>
-  <input id="userid" placeholder="User ID">
-  <input id="serverid" placeholder="Server ID (ML saja)">
-</div>
+<input id="userid" placeholder="User ID">
+<input id="serverid" placeholder="Server ID (ML)">
 
-<!-- LIST -->
-<div class="card">
-  <div class="step">2. LIST DIAMOND</div>
-  <div class="grid" id="nominalBox"></div>
-</div>
+<div class="grid" id="nominalBox"></div>
 
-<button onclick="checkout()">CHECKOUT</button>
+<button onclick="checkout()">LANJUT CHECKOUT</button>
 
 </div>
 
 <script>
-let game="ff", selected=null;
+let game="ml",selected=null;
 
-/* LIST DIAMOND FREE FIRE (SESUAI GAMBAR) */
+/* ===== LIST DIAMOND 100% SAMA ===== */
 const price={
+ml:[
+{d:"1x Weekly Diamond Pass (220)",h:29000},
+{d:"2x Weekly Diamond Pass (440)",h:58000},
+{d:"3x Weekly Diamond Pass (660)",h:87000},
+{d:"36",h:10500},{d:"56",h:15500},{d:"70",h:19500},
+{d:"112",h:31000},{d:"140",h:38000},{d:"170",h:46000},
+{d:"184",h:50000},{d:"222",h:58000},{d:"240",h:63000},
+{d:"258",h:70000},{d:"284",h:75000},{d:"296",h:78000},
+{d:"344",h:91000},{d:"355",h:93000},{d:"408",h:108000},
+{d:"429",h:113000},{d:"514",h:135000},{d:"568",h:147000},
+{d:"706",h:183000},{d:"878",h:225000},{d:"963",h:244000},
+{d:"1159",h:295000},{d:"1412",h:362000},
+{d:"2195",h:530000},{d:"3688",h:915000}
+],
 ff:[
 {d:"Membership Mingguan",h:28000},
 {d:"Membership Bulanan",h:81000},
-{d:"50 Diamonds",h:7000},
-{d:"70 Diamonds",h:10000},
-{d:"100 Diamonds",h:14000},
-{d:"140 Diamonds",h:18000},
-{d:"160 Diamonds",h:21000},
-{d:"200 Diamonds",h:26000},
-{d:"250 Diamonds",h:33000},
-{d:"300 Diamonds",h:39000},
-{d:"355 Diamonds",h:43500},
-{d:"405 Diamonds",h:50000}
-],
-ml:[
-{d:"36 Diamonds",h:10500},
-{d:"56 Diamonds",h:15500},
-{d:"70 Diamonds",h:19500},
-{d:"112 Diamonds",h:31000},
-{d:"140 Diamonds",h:38000},
-{d:"170 Diamonds",h:46000},
-{d:"240 Diamonds",h:63000},
-{d:"355 Diamonds",h:93000}
+{d:"50",h:7000},{d:"70",h:10000},{d:"100",h:14000},
+{d:"140",h:18000},{d:"160",h:21000},{d:"200",h:26000},
+{d:"250",h:33000},{d:"300",h:39000},{d:"355",h:43500},
+{d:"405",h:50000},{d:"475",h:62000},{d:"500",h:65000},
+{d:"565",h:71000},{d:"600",h:77000},{d:"720",h:88000},
+{d:"770",h:96000},{d:"800",h:100000},{d:"860",h:107000},
+{d:"930",h:115000},{d:"1000",h:125000},{d:"1080",h:135000},
+{d:"1450",h:180000},{d:"2000",h:247000},{d:"2160",h:267000}
 ]
 };
 
@@ -181,9 +167,10 @@ function loadNominal(){
     const d=document.createElement("div");
     d.className="nominal";
     d.innerHTML=`
-      <div>${p.d}</div>
-      <img src="diamonds.png">
-      <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>`;
+      <img src="diamond.png" class="diamond">
+      ${p.d} Diamonds
+      <img src="diamond.png" class="diamond"><br>
+      <small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
     d.onclick=()=>{
       document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
       d.classList.add("active");
@@ -204,10 +191,13 @@ function setGame(g,el){
 function checkout(){
   if(!userid.value) return alert("Isi User ID");
   if(game==="ml"&&!serverid.value) return alert("Isi Server ID");
-  if(!selected) return alert("Pilih diamond");
+  if(!selected) return alert("Pilih nominal");
 
-  location.href=
-  `checkout.html?game=${game}&userid=${userid.value}&server=${serverid.value}&item=${selected.d}&price=${selected.h}`;
+  const q=new URLSearchParams({
+    game,userid:userid.value,server:serverid.value,
+    item:selected.d,price:selected.h
+  });
+  location.href="checkout.html?"+q.toString();
 }
 
 loadNominal();
