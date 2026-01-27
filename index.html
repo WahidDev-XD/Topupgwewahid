@@ -3,349 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>gwewahid Top Up</title>
+<title>Top Up ML & FF</title>
 
 <style>
 :root{
-  --accent:#38bdf8;
-  --green:#22c55e;
-  --red:#ef4444;
+  --purple:#4f46e5;
+  --bg:#0f172a;
+  --card:#ffffff;
   --text:#e5e7eb;
+  --muted:#94a3b8;
+  --danger:#ef4444;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  min-height:100vh;
   font-family:system-ui,Arial;
-  background:radial-gradient(circle at top,#0f172a,#000);
+  background:linear-gradient(180deg,#1e003a,#020617);
   color:var(--text);
   display:flex;
   justify-content:center;
-  align-items:center;
 }
 
 .container{
-  width:95%;
-  max-width:440px;
-  background:linear-gradient(180deg,#0f172a,#020617);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 0 40px rgba(56,189,248,.35);
+  width:100%;
+  max-width:460px;
+  padding:16px;
 }
 
 /* HEADER */
-h1{
-  text-align:center;
-  font-size:16px;
-  color:#7dd3fc;
+.header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:16px;
+}
+.header img{
+  width:56px;
+  border-radius:14px;
+}
+.header h2{
+  margin:0;
+  font-size:20px;
+}
+
+/* STEP */
+.step{
+  background:#fff;
+  color:#000;
+  border-radius:18px;
+  padding:16px;
   margin-bottom:16px;
 }
 
-/* GAME */
-.game-list{
+.step-title{
   display:flex;
-  gap:14px;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  margin-bottom:12px;
 }
 
+.step-circle{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--purple);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:900;
+}
+
+/* INPUT */
+.input-row{
+  display:flex;
+  gap:10px;
+}
+
+input{
+  flex:1;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+/* WELCOME */
+.welcome{
+  margin-top:10px;
+  background:#dcfce7;
+  color:#065f46;
+  padding:10px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+/* GAME PICK */
+.game-pick{
+  display:flex;
+  gap:10px;
+  margin-bottom:16px;
+}
 .game{
   flex:1;
   background:#020617;
-  border-radius:20px;
-  padding:14px;
+  border-radius:18px;
+  padding:12px;
   text-align:center;
   cursor:pointer;
   opacity:.4;
-  transition:.3s;
 }
-
 .game.active{
   opacity:1;
-  border:1px solid var(--accent);
-  box-shadow:0 0 16px rgba(56,189,248,.4);
+  outline:2px solid var(--purple);
 }
-
 .game img{
-  width:70px;
-  border-radius:16px;
+  width:60px;
+  border-radius:14px;
 }
-
 .game span{
   display:block;
   margin-top:6px;
   font-weight:700;
 }
 
-/* NOTICE */
-.notice{
-  background:#020617;
-  border-left:4px solid #facc15;
-  padding:12px;
-  border-radius:14px;
-  margin-top:14px;
-  font-size:12px;
-}
-
-/* FORM */
-label{
-  display:block;
-  margin-top:14px;
-  font-size:13px;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  margin-top:6px;
-  background:#020617;
-  color:#fff;
-}
-
-/* CHECK */
-.check{
-  display:flex;
-  gap:8px;
-  font-size:12px;
-  margin-top:12px;
-}
-
 /* NOMINAL */
-.nominal-grid{
+.grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:10px;
+  gap:12px;
 }
 
 .nominal{
-  background:#020617;
-  border-radius:14px;
-  padding:12px;
+  background:var(--card);
+  color:#000;
+  border-radius:18px;
+  padding:14px;
   cursor:pointer;
-  border:1px solid rgba(255,255,255,.08);
-  font-size:13px;
+  border:2px solid transparent;
 }
-
 .nominal.active{
-  border-color:var(--accent);
-  box-shadow:0 0 16px rgba(56,189,248,.35);
+  border-color:var(--purple);
 }
 
-.nominal small{
-  display:block;
-  opacity:.7;
-  margin-top:4px;
+.nominal h4{
+  margin:0;
+  font-size:14px;
+}
+
+.badge{
+  display:inline-block;
+  background:#dc2626;
+  color:#fff;
+  font-size:10px;
+  padding:3px 6px;
+  border-radius:8px;
+  margin-top:6px;
+}
+
+.price{
+  margin-top:10px;
+  color:#dc2626;
+  font-weight:900;
 }
 
 /* BUTTON */
 button{
   width:100%;
-  padding:14px;
-  border-radius:18px;
-  border:none;
   margin-top:18px;
-  background:linear-gradient(90deg,#38bdf8,#0ea5e9);
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:var(--purple);
+  color:#fff;
+  font-size:15px;
   font-weight:900;
 }
-
-/* LOADING */
-.loading{
-  text-align:center;
-  margin-top:16px;
-  display:none;
-}
-
-.spinner{
-  width:42px;
-  height:42px;
-  border:4px solid var(--accent);
-  border-top:4px solid transparent;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin:0 auto 8px;
-}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* QRIS */
-#qrisBox{
-  display:none;
-  text-align:center;
-  margin-top:16px;
-}
-
-#qrisBox img{
-  width:240px;
-  border-radius:18px;
-}
-
-.timer{
-  margin-top:8px;
-  color:#facc15;
-}
-
-/* NOTE */
-.note{
-  background:#020617;
-  padding:14px;
-  border-radius:14px;
-  margin-top:14px;
-  font-size:12px;
-}
-
-.wa{background:var(--green);color:#000}
-.reset{background:var(--red);color:#fff}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>🏷️ gwewahid Top Up</h1>
+<!-- GAME HEADER -->
+<div class="header">
+  <img src="ml.png" id="gameIcon">
+  <h2 id="gameTitle">Mobile Legends: Bang Bang</h2>
+</div>
 
-<!-- PILIH GAME -->
-<div class="game-list">
-  <div class="game" id="ml" onclick="setGame('ml')">
+<!-- GAME PICK -->
+<div class="game-pick">
+  <div class="game active" onclick="setGame('ml')">
     <img src="ml.png">
     <span>Mobile Legends</span>
   </div>
-  <div class="game" id="ff" onclick="setGame('ff')">
+  <div class="game" onclick="setGame('ff')">
     <img src="ff.png">
     <span>Free Fire</span>
   </div>
 </div>
 
-<div class="notice">
-<b>PERINGATAN</b><br>
-• Pastikan ID benar<br>
-• Setelah bayar, konfirmasi WA<br>
-• Kesalahan ID bukan tanggung jawab admin
+<!-- STEP 1 -->
+<div class="step">
+  <div class="step-title">
+    <div class="step-circle">1</div>
+    Masukkan User ID
+  </div>
+
+  <div class="input-row">
+    <input id="uid" placeholder="User ID">
+    <input id="server" placeholder="Server" />
+  </div>
+
+  <div class="welcome" id="welcome" style="display:none">
+    ✔ Selamat Datang <b>Zunesh.</b>
+  </div>
 </div>
 
-<label>User ID</label>
-<input id="userid" placeholder="Masukkan User ID">
+<!-- STEP 2 -->
+<div class="step">
+  <div class="step-title">
+    <div class="step-circle">2</div>
+    Pilih Nominal Top Up
+  </div>
 
-<div id="serverBox">
-  <label>Server ID (ML)</label>
-  <input id="serverid" placeholder="Contoh: 1234">
+  <div class="grid" id="nominalBox"></div>
 </div>
 
-<div class="check">
-  <input type="checkbox" id="agree">
-  <label for="agree">Saya yakin ID sudah benar</label>
-</div>
-
-<label>Pilih Nominal</label>
-<div class="nominal-grid" id="nominalBox"></div>
-
-<button id="btn">LANJUT PEMBAYARAN</button>
-
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-  Menyiapkan QRIS...
-</div>
-
-<div id="qrisBox">
-  <h3>Scan QRIS</h3>
-  <img src="qris.png">
-  <div class="timer" id="timer"></div>
-</div>
-
-<div id="orderNote" class="note" style="display:none"></div>
-<button id="waBtn" class="wa" style="display:none">Konfirmasi WhatsApp</button>
-<button id="resetBtn" class="reset" style="display:none">Reset</button>
+<button>Beli Sekarang</button>
 
 </div>
 
 <script>
-let game=null, selected=null, time=300, cd;
+let game="ml";
 
-const price={
+const data={
   ml:[
-    {d:"86 Diamonds",h:24000},
-    {d:"172 Diamonds",h:48000},
-    {d:"257 Diamonds",h:72000},
-    {d:"344 Diamonds",h:95000},
-    {d:"706 Diamonds",h:185000}
+    {d:"100 Diamonds (50+50)",p:"Rp 14.203"},
+    {d:"300 Diamonds (150+150)",p:"Rp 42.365"},
+    {d:"500 Diamonds (250+250)",p:"Rp 70.000"},
+    {d:"1000 Diamonds (500+500)",p:"Rp 135.000"}
   ],
   ff:[
-    {d:"70 Diamonds",h:10000},
-    {d:"140 Diamonds",h:18000},
-    {d:"355 Diamonds",h:43000},
-    {d:"720 Diamonds",h:88000},
-    {d:"1450 Diamonds",h:180000}
+    {d:"70 Diamonds",p:"Rp 10.000"},
+    {d:"140 Diamonds",p:"Rp 18.000"},
+    {d:"355 Diamonds",p:"Rp 43.500"},
+    {d:"720 Diamonds",p:"Rp 88.000"}
   ]
 };
 
 function setGame(g){
   game=g;
-  ml.classList.toggle("active",g==="ml");
-  ff.classList.toggle("active",g==="ff");
-  serverBox.style.display=g==="ml"?"block":"none";
+  document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+
+  server.style.display = g==="ml" ? "block" : "none";
+  gameIcon.src = g==="ml" ? "ml.png" : "ff.png";
+  gameTitle.textContent = g==="ml" ? "Mobile Legends: Bang Bang" : "Free Fire";
+
   loadNominal();
 }
 
 function loadNominal(){
   nominalBox.innerHTML="";
-  selected=null;
-  price[game].forEach(p=>{
-    const d=document.createElement("div");
-    d.className="nominal";
-    d.innerHTML=`${p.d}<small>Rp ${p.h.toLocaleString("id-ID")}</small>`;
-    d.onclick=()=>{
-      document.querySelectorAll(".nominal").forEach(x=>x.classList.remove("active"));
-      d.classList.add("active");
-      selected=p;
+  data[game].forEach(x=>{
+    const div=document.createElement("div");
+    div.className="nominal";
+    div.innerHTML=`
+      <h4>${x.d}</h4>
+      <span class="badge">pengisian pertama!</span>
+      <div class="price">${x.p}</div>
+    `;
+    div.onclick=()=>{
+      document.querySelectorAll(".nominal").forEach(n=>n.classList.remove("active"));
+      div.classList.add("active");
     };
-    nominalBox.appendChild(d);
+    nominalBox.appendChild(div);
   });
 }
 
-btn.onclick=()=>{
-  if(!game) return alert("Pilih game!");
-  if(!userid.value) return alert("Masukkan User ID!");
-  if(game==="ml"&&!serverid.value) return alert("Masukkan Server ID!");
-  if(!agree.checked) return alert("Centang persetujuan!");
-  if(!selected) return alert("Pilih nominal!");
-
-  loading.style.display="block";
-
-  setTimeout(()=>{
-    loading.style.display="none";
-    qrisBox.style.display="block";
-    orderNote.style.display="block";
-    waBtn.style.display="block";
-    resetBtn.style.display="block";
-
-    time=300;
-    cd=setInterval(()=>{
-      time--;
-      timer.textContent=`Menunggu pembayaran ${Math.floor(time/60)}:${String(time%60).padStart(2,"0")}`;
-      if(time<=0){clearInterval(cd);timer.textContent="QRIS kadaluarsa";}
-    },1000);
-
-    const msg=`Halo gwewahid,
-Konfirmasi Top Up:
-
-Game: ${game.toUpperCase()}
-User ID: ${userid.value}
-${game==="ml"?"Server ID: "+serverid.value:""}
-Item: ${selected.d}
-Harga: Rp ${selected.h.toLocaleString("id-ID")}`;
-
-    orderNote.innerHTML=msg.replace(/\n/g,"<br>");
-
-    waBtn.onclick=()=>window.open(
-      "https://wa.me/628xxxxxxxxxx?text="+encodeURIComponent(msg)
-    );
-  },1500);
+uid.oninput=()=>{
+  if(uid.value.length>5){
+    welcome.style.display="block";
+  }else{
+    welcome.style.display="none";
+  }
 };
 
-resetBtn.onclick=()=>location.reload();
+loadNominal();
 </script>
+
 </body>
-  </html>
-  
+</html>
