@@ -12,6 +12,7 @@
   --card:rgba(15,23,42,.92);
   --text:#e5e7eb;
   --green:#22c55e;
+  --red:#ef4444;
 }
 
 *{box-sizing:border-box}
@@ -79,6 +80,7 @@ h3{
   background:#020617;
   border-radius:16px;
   padding:14px;
+  text-align:left;
 }
 
 /* TIMER */
@@ -86,6 +88,12 @@ h3{
   margin-top:10px;
   font-size:13px;
   color:#facc15;
+}
+#expired{
+  display:none;
+  color:var(--red);
+  font-weight:800;
+  margin-top:10px;
 }
 
 /* BUTTON */
@@ -101,6 +109,10 @@ button{
 .wa{
   background:var(--green);
   color:#000;
+}
+.back{
+  background:#1f2937;
+  color:white;
 }
 </style>
 </head>
@@ -120,53 +132,64 @@ button{
 <div id="qrisBox">
   <img src="qris.png">
   <p id="timer"></p>
+  <p id="expired">QRIS KEDALUWARSA ❌</p>
 </div>
 
 <div id="detail"></div>
 
 <button class="wa" id="waBtn">Konfirmasi via WhatsApp</button>
+<button class="back" onclick="history.back()">Kembali</button>
 
 </div>
 
 <script>
-const p=new URLSearchParams(location.search);
-const game=p.get("game");
-const userid=p.get("userid");
-const server=p.get("server");
-const item=p.get("item");
-const price=p.get("price");
+const p = new URLSearchParams(location.search);
+const game   = p.get("game") || "-";
+const userid = p.get("userid") || "-";
+const server = p.get("server") || "-";
+const item   = p.get("item") || "-";
+const price  = p.get("price") || 0;
 
 /* DETAIL ORDER */
-detail.innerHTML=`
+detail.innerHTML = `
 <b>DETAIL PESANAN</b><br>
 Game: ${game.toUpperCase()}<br>
 User ID: ${userid}<br>
-${game==="ml"?"Server ID: "+server+"<br>":""}
+${game==="ml" ? "Server ID: "+server+"<br>" : ""}
 Item: ${item}<br>
-Harga: Rp ${Number(price).toLocaleString("id-ID")}
+Harga: <b>Rp ${Number(price).toLocaleString("id-ID")}</b>
 `;
 
-/* DELAY LOADING QRIS */
+/* LOADING */
 setTimeout(()=>{
   loading.style.display="none";
   qrisBox.style.display="block";
-},2500);
+},2000);
 
-/* TIMER */
-let t=300;
-setInterval(()=>{
+/* TIMER 5 MENIT */
+let t = 300;
+const interval = setInterval(()=>{
   t--;
-  timer.textContent=`⏳ Menunggu pembayaran ${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
+  if(t <= 0){
+    clearInterval(interval);
+    timer.style.display="none";
+    expired.style.display="block";
+    waBtn.disabled = true;
+    waBtn.textContent = "QRIS EXPIRED";
+    waBtn.style.opacity = .6;
+    return;
+  }
+  timer.textContent = `⏳ Menunggu pembayaran ${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;
 },1000);
 
 /* WHATSAPP */
-waBtn.onclick=()=>{
-  const msg=`Halo Admin,
+waBtn.onclick = ()=>{
+  const msg = `Halo Admin,
 Saya sudah melakukan pembayaran.
 
 Game: ${game.toUpperCase()}
 User ID: ${userid}
-${game==="ml"?"Server ID: "+server:""}
+${game==="ml" ? "Server ID: "+server : ""}
 Item: ${item}
 Harga: Rp ${Number(price).toLocaleString("id-ID")}`;
 
