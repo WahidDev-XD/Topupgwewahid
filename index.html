@@ -47,7 +47,7 @@ body{
 /* GAME CARD */
 .games{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:16px;
 }
 .game{
@@ -63,7 +63,7 @@ body{
 .game.active{
   border-color:var(--accent);
 }
-.game img{width:56px}
+.game img{width:48px}
 
 /* STEP */
 .step{
@@ -97,7 +97,7 @@ input{
   line-height:1.5;
 }
 
-/* GRID DIAMOND */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
@@ -136,9 +136,7 @@ button{
   font-weight:900;
   font-size:15px;
 }
-button:disabled{
-  opacity:.5;
-}
+button:disabled{opacity:.5}
 </style>
 </head>
 
@@ -150,32 +148,30 @@ button:disabled{
 
 <div class="container">
 
-<!-- GAME -->
+<!-- SERVICE -->
 <div class="games">
   <div class="game active" onclick="setGame('ml',this)">
     <img src="ml.png">
-    <div>
-      <b>Mobile Legends</b><br>
-      <small class="muted">Moonton</small>
-    </div>
+    <div><b>Mobile Legends</b></div>
   </div>
   <div class="game" onclick="setGame('ff',this)">
     <img src="ff.png">
-    <div>
-      <b>Free Fire</b><br>
-      <small class="muted">Garena</small>
-    </div>
+    <div><b>Free Fire</b></div>
+  </div>
+  <div class="game" onclick="setGame('dana',this)">
+    <img src="dana.png">
+    <div><b>Topup DANA</b></div>
   </div>
 </div>
 
 <!-- STEP 1 -->
-<div class="step">1. Masukkan User ID</div>
+<div class="step">1. Masukkan User ID / Nomor</div>
 <div class="card">
-  <input id="userid" placeholder="User ID">
+  <input id="userid" placeholder="User ID / No DANA">
   <input id="serverid" placeholder="Server / Zone ID">
   <div class="note">
-    • Pastikan ID benar<br>
-    • Kesalahan ID bukan tanggung jawab admin
+    • Untuk DANA isi nomor akun DANA<br>
+    • Untuk ML wajib isi server
   </div>
 </div>
 
@@ -191,9 +187,9 @@ button:disabled{
 
 <script>
 let game="ml", selected=null;
-const btn = document.getElementById("btnCheckout");
+const btn=document.getElementById("btnCheckout");
 
-/* ===== LIST DIAMOND LENGKAP ===== */
+/* ===== LIST LENGKAP ===== */
 const price={
 ml:[
 {d:"Weekly Diamond Pass",h:29000,type:"wdp"},
@@ -252,6 +248,28 @@ ff:[
 {d:"1450 Diamonds",h:180000},
 {d:"2000 Diamonds",h:247000},
 {d:"2160 Diamonds",h:267000}
+],
+dana:[
+{d:"Topup Dana 15.000",h:15198},
+{d:"Topup Dana 20.000",h:20198},
+{d:"Topup Dana 25.000",h:25198},
+{d:"Topup Dana 30.000",h:30198},
+{d:"Topup Dana 35.000",h:35198},
+{d:"Topup Dana 40.000",h:40198},
+{d:"Topup Dana 45.000",h:45198},
+{d:"Topup Dana 50.000",h:50198},
+{d:"Topup Dana 55.000",h:55198},
+{d:"Topup Dana 60.000",h:60198},
+{d:"Topup Dana 65.000",h:65198},
+{d:"Topup Dana 70.000",h:70198},
+{d:"Topup Dana 75.000",h:75198},
+{d:"Topup Dana 80.000",h:80198},
+{d:"Topup Dana 85.000",h:85198},
+{d:"Topup Dana 90.000",h:90198},
+{d:"Topup Dana 95.000",h:95198},
+{d:"Topup Dana 100.000",h:100198},
+{d:"Topup Dana 150.000",h:150198},
+{d:"Topup Dana 200.000",h:200198}
 ]
 };
 
@@ -262,6 +280,7 @@ function loadNominal(){
   selected=null;
   price[game].forEach(p=>{
     let img="diamonds.png";
+    if(game==="dana") img="dana.png";
     if(p.type==="wdp") img="wdp.png";
     if(p.type==="membership") img="membership.png";
 
@@ -286,28 +305,26 @@ function setGame(g,el){
   game=g;
   document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
-  serverid.style.display = g==="ml"?"block":"none";
+
+  serverid.style.display = g==="ml" ? "block" : "none";
+  serverid.value="";
+
   loadNominal();
   updateButton();
 }
 
-/* ENABLE / DISABLE BUTTON */
 function updateButton(){
   const ok =
     userid.value &&
     (game!=="ml" || serverid.value) &&
     selected;
-  btn.disabled = !ok;
+  btn.disabled=!ok;
 }
 
-userid.oninput = updateButton;
-serverid.oninput = updateButton;
+userid.oninput=updateButton;
+serverid.oninput=updateButton;
 
-/* CHECKOUT */
 function checkout(){
-  if(!/^\d+$/.test(userid.value))
-    return alert("User ID harus angka");
-
   const url =
     `checkout.html?game=${game}`+
     `&userid=${encodeURIComponent(userid.value)}`+
@@ -315,7 +332,7 @@ function checkout(){
     `&item=${encodeURIComponent(selected.d)}`+
     `&price=${selected.h}`;
 
-  window.location.href = url;
+  window.location.href=url;
 }
 
 loadNominal();
