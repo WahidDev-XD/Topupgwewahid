@@ -17,34 +17,21 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Inter,system-ui,Arial;
+  font-family:system-ui,Arial;
   background:var(--bg);
   color:var(--text);
 }
-
-/* HEADER */
 .header{
   background:#020617;
   padding:14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  font-weight:900;
   border-bottom:1px solid var(--line);
 }
-.header h1{
-  font-size:16px;
-  margin:0;
-  font-weight:800;
-}
-
-/* CONTAINER */
 .container{
   max-width:960px;
   margin:auto;
   padding:20px;
 }
-
-/* GAME CARD */
 .games{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -63,21 +50,18 @@ body{
 .game.active{
   border-color:var(--accent);
 }
-.game img{width:48px}
+.game img{width:42px}
 
-/* STEP */
 .step{
   margin-top:24px;
   font-weight:800;
-  margin-bottom:10px;
 }
-
-/* INPUT */
 .card{
   background:var(--card);
   padding:16px;
   border-radius:12px;
   border:1px solid var(--line);
+  margin-top:10px;
 }
 input{
   width:100%;
@@ -88,20 +72,17 @@ input{
   color:white;
   margin-top:8px;
 }
-
-/* NOTE */
 .note{
   margin-top:10px;
   font-size:12px;
   color:var(--muted);
-  line-height:1.5;
 }
 
-/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
   gap:14px;
+  margin-top:10px;
 }
 .item{
   background:#020617;
@@ -111,20 +92,12 @@ input{
   text-align:center;
   cursor:pointer;
 }
-.item img{
-  width:40px;
-  margin:6px auto;
-}
 .item.active{
   border-color:var(--accent);
-  box-shadow:0 0 0 2px rgba(59,130,246,.4);
 }
-.harga{
-  color:#22c55e;
-  font-weight:800;
-}
+.item img{width:40px}
+.harga{color:#22c55e;font-weight:800}
 
-/* BUTTON */
 button{
   width:100%;
   padding:14px;
@@ -134,48 +107,37 @@ button{
   background:var(--accent);
   color:white;
   font-weight:900;
-  font-size:15px;
 }
 button:disabled{opacity:.5}
 </style>
 </head>
 
 <body>
-
-<div class="header">
-  <h1>TopUp @gwewahid</h1>
-</div>
-
+<div class="header">TopUp @gwewahid</div>
 <div class="container">
 
-<!-- SERVICE -->
 <div class="games">
   <div class="game active" onclick="setGame('ml',this)">
-    <img src="ml.png">
-    <div><b>Mobile Legends</b></div>
+    <img src="ml.png"> Mobile Legends
   </div>
   <div class="game" onclick="setGame('ff',this)">
-    <img src="ff.png">
-    <div><b>Free Fire</b></div>
+    <img src="ff.png"> Free Fire
   </div>
   <div class="game" onclick="setGame('dana',this)">
-    <img src="dana.png">
-    <div><b>Topup DANA</b></div>
+    <img src="dana.png"> Topup DANA
   </div>
 </div>
 
-<!-- STEP 1 -->
-<div class="step">1. Masukkan User ID / Nomor</div>
+<div class="step">1. Masukkan Data</div>
 <div class="card">
-  <input id="userid" placeholder="User ID / No DANA">
-  <input id="serverid" placeholder="Server / Zone ID">
-  <div class="note">
-    • Untuk DANA isi nomor akun DANA<br>
-    • Untuk ML wajib isi server
+  <input id="userid" placeholder="Masukkan User ID">
+  <input id="serverid" placeholder="Server ID">
+  <div class="note" id="noteText">
+    • Untuk ML wajib isi Server<br>
+    • Untuk DANA isi nomor akun
   </div>
 </div>
 
-<!-- STEP 2 -->
 <div class="step">2. Pilih Nominal</div>
 <div class="grid" id="nominalBox"></div>
 
@@ -188,107 +150,52 @@ button:disabled{opacity:.5}
 <script>
 let game="ml", selected=null;
 const btn=document.getElementById("btnCheckout");
+const box=document.getElementById("nominalBox");
+const userid=document.getElementById("userid");
+const serverid=document.getElementById("serverid");
+const noteText=document.getElementById("noteText");
 
-/* ===== LIST LENGKAP ===== */
+/* ===== LIST ===== */
 const price={
 ml:[
-{d:"Weekly Diamond Pass",h:29000,type:"wdp"},
-{d:"2x Weekly Diamond Pass",h:58000,type:"wdp"},
-{d:"3x Weekly Diamond Pass",h:87000,type:"wdp"},
 {d:"36 Diamonds",h:10500},
 {d:"56 Diamonds",h:15500},
-{d:"70 Diamonds",h:19500},
 {d:"112 Diamonds",h:31000},
-{d:"140 Diamonds",h:38000},
-{d:"170 Diamonds",h:46000},
-{d:"184 Diamonds",h:50000},
-{d:"222 Diamonds",h:58000},
-{d:"240 Diamonds",h:63000},
-{d:"258 Diamonds",h:70000},
 {d:"284 Diamonds",h:75000},
-{d:"296 Diamonds",h:78000},
-{d:"344 Diamonds",h:91000},
-{d:"355 Diamonds",h:93000},
-{d:"408 Diamonds",h:108000},
-{d:"429 Diamonds",h:113000},
-{d:"514 Diamonds",h:135000},
-{d:"568 Diamonds",h:147000},
-{d:"706 Diamonds",h:183000},
-{d:"878 Diamonds",h:225000},
-{d:"963 Diamonds",h:244000},
-{d:"1159 Diamonds",h:295000},
-{d:"1412 Diamonds",h:362000},
-{d:"2195 Diamonds",h:530000},
-{d:"3688 Diamonds",h:915000}
+{d:"568 Diamonds",h:147000}
 ],
 ff:[
-{d:"Membership Mingguan",h:28000,type:"membership"},
-{d:"Membership Bulanan",h:81000,type:"membership"},
 {d:"50 Diamonds",h:7000},
-{d:"70 Diamonds",h:10000},
-{d:"100 Diamonds",h:14000},
 {d:"140 Diamonds",h:18000},
-{d:"160 Diamonds",h:21000},
-{d:"200 Diamonds",h:26000},
-{d:"250 Diamonds",h:33000},
-{d:"300 Diamonds",h:39000},
 {d:"355 Diamonds",h:43500},
-{d:"405 Diamonds",h:50000},
-{d:"475 Diamonds",h:62000},
-{d:"500 Diamonds",h:65000},
-{d:"565 Diamonds",h:71000},
-{d:"600 Diamonds",h:77000},
-{d:"720 Diamonds",h:88000},
-{d:"770 Diamonds",h:96000},
-{d:"800 Diamonds",h:100000},
-{d:"860 Diamonds",h:107000},
-{d:"930 Diamonds",h:115000},
-{d:"1000 Diamonds",h:125000},
-{d:"1080 Diamonds",h:135000},
-{d:"1450 Diamonds",h:180000},
-{d:"2000 Diamonds",h:247000},
-{d:"2160 Diamonds",h:267000}
+{d:"720 Diamonds",h:88000}
 ],
 dana:[
-{d:"Topup Dana 15.000",h:15198},
-{d:"Topup Dana 20.000",h:20198},
-{d:"Topup Dana 25.000",h:25198},
-{d:"Topup Dana 30.000",h:30198},
-{d:"Topup Dana 35.000",h:35198},
-{d:"Topup Dana 40.000",h:40198},
-{d:"Topup Dana 45.000",h:45198},
-{d:"Topup Dana 50.000",h:50198},
-{d:"Topup Dana 55.000",h:55198},
-{d:"Topup Dana 60.000",h:60198},
-{d:"Topup Dana 65.000",h:65198},
-{d:"Topup Dana 70.000",h:70198},
-{d:"Topup Dana 75.000",h:75198},
-{d:"Topup Dana 80.000",h:80198},
-{d:"Topup Dana 85.000",h:85198},
-{d:"Topup Dana 90.000",h:90198},
-{d:"Topup Dana 95.000",h:95198},
-{d:"Topup Dana 100.000",h:100198},
-{d:"Topup Dana 150.000",h:150198},
-{d:"Topup Dana 200.000",h:200198}
+{d:"Topup Dana 15.000",h:20000},
+{d:"Topup Dana 20.000",h:25000},
+{d:"Topup Dana 25.000",h:30000},
+{d:"Topup Dana 30.000",h:35000},
+{d:"Topup Dana 35.000",h:40000},
+{d:"Topup Dana 40.000",h:45000},
+{d:"Topup Dana 45.000",h:50000},
+{d:"Topup Dana 50.000",h:55000},
+{d:"Topup Dana 60.000",h:65000},
+{d:"Topup Dana 75.000",h:80000},
+{d:"Topup Dana 100.000",h:105000},
+{d:"Topup Dana 150.000",h:155000},
+{d:"Topup Dana 200.000",h:205000}
 ]
 };
-
-const box=document.getElementById("nominalBox");
 
 function loadNominal(){
   box.innerHTML="";
   selected=null;
   price[game].forEach(p=>{
-    let img="diamonds.png";
-    if(game==="dana") img="dana.png";
-    if(p.type==="wdp") img="wdp.png";
-    if(p.type==="membership") img="membership.png";
-
     const d=document.createElement("div");
     d.className="item";
     d.innerHTML=`
       <div>${p.d}</div>
-      <img src="${img}">
+      <img src="${game==="dana"?"dana.png":"diamonds.png"}">
       <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
     `;
     d.onclick=()=>{
@@ -303,20 +210,31 @@ function loadNominal(){
 
 function setGame(g,el){
   game=g;
+  selected=null;
+  userid.value="";
+  serverid.value="";
+  btn.disabled=true;
+
   document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
 
-  serverid.style.display = g==="ml" ? "block" : "none";
-  serverid.value="";
+  if(g==="dana"){
+    userid.placeholder="Masukkan Nomor DANA";
+    serverid.style.display="none";
+    noteText.innerHTML="• Isi nomor akun DANA tujuan";
+  }else{
+    userid.placeholder="Masukkan User ID";
+    serverid.style.display="block";
+    noteText.innerHTML="• Untuk ML wajib isi Server";
+  }
 
   loadNominal();
-  updateButton();
 }
 
 function updateButton(){
   const ok =
     userid.value &&
-    (game!=="ml" || serverid.value) &&
+    (game==="dana" || serverid.value) &&
     selected;
   btn.disabled=!ok;
 }
@@ -331,7 +249,6 @@ function checkout(){
     `&server=${encodeURIComponent(serverid.value||"-")}`+
     `&item=${encodeURIComponent(selected.d)}`+
     `&price=${selected.h}`;
-
   window.location.href=url;
 }
 
