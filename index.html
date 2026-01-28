@@ -136,6 +136,9 @@ button{
   font-weight:900;
   font-size:15px;
 }
+button:disabled{
+  opacity:.5;
+}
 </style>
 </head>
 
@@ -171,9 +174,8 @@ button{
   <input id="userid" placeholder="User ID">
   <input id="serverid" placeholder="Server / Zone ID">
   <div class="note">
-    • Perhatikan ID dengan benar<br>
-    • Kesalahan ID bukan tanggung jawab admin<br>
-    • Kirim bukti transfer ke WhatsApp
+    • Pastikan ID benar<br>
+    • Kesalahan ID bukan tanggung jawab admin
   </div>
 </div>
 
@@ -181,12 +183,15 @@ button{
 <div class="step">2. Pilih Nominal</div>
 <div class="grid" id="nominalBox"></div>
 
-<button onclick="checkout()">LANJUTKAN PEMBAYARAN</button>
+<button id="btnCheckout" onclick="checkout()" disabled>
+  LANJUTKAN PEMBAYARAN
+</button>
 
 </div>
 
 <script>
-let game="ml",selected=null;
+let game="ml", selected=null;
+const btn = document.getElementById("btnCheckout");
 
 /* ===== LIST DIAMOND LENGKAP ===== */
 const price={
@@ -254,6 +259,7 @@ const box=document.getElementById("nominalBox");
 
 function loadNominal(){
   box.innerHTML="";
+  selected=null;
   price[game].forEach(p=>{
     let img="diamonds.png";
     if(p.type==="wdp") img="wdp.png";
@@ -270,6 +276,7 @@ function loadNominal(){
       document.querySelectorAll(".item").forEach(n=>n.classList.remove("active"));
       d.classList.add("active");
       selected=p;
+      updateButton();
     };
     box.appendChild(d);
   });
@@ -279,21 +286,36 @@ function setGame(g,el){
   game=g;
   document.querySelectorAll(".game").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
-  serverid.style.display=g==="ml"?"block":"none";
+  serverid.style.display = g==="ml"?"block":"none";
   loadNominal();
+  updateButton();
 }
 
-function checkout(){
-  if(!userid.value) return alert("Isi User ID");
-  if(game==="ml"&&!serverid.value) return alert("Isi Server ID");
-  if(!selected) return alert("Pilih nominal");
+/* ENABLE / DISABLE BUTTON */
+function updateButton(){
+  const ok =
+    userid.value &&
+    (game!=="ml" || serverid.value) &&
+    selected;
+  btn.disabled = !ok;
+}
 
-  alert(
-    "ORDER\n"+
-    game.toUpperCase()+"\n"+
-    userid.value+"\n"+
-    selected.d+"\nRp "+selected.h.toLocaleString("id-ID")
-  );
+userid.oninput = updateButton;
+serverid.oninput = updateButton;
+
+/* CHECKOUT */
+function checkout(){
+  if(!/^\d+$/.test(userid.value))
+    return alert("User ID harus angka");
+
+  const url =
+    `checkout.html?game=${game}`+
+    `&userid=${encodeURIComponent(userid.value)}`+
+    `&server=${encodeURIComponent(serverid.value||"-")}`+
+    `&item=${encodeURIComponent(selected.d)}`+
+    `&price=${selected.h}`;
+
+  window.location.href = url;
 }
 
 loadNominal();
