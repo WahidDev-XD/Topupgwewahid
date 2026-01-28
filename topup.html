@@ -48,8 +48,9 @@ input{
   background:#020617;
   border:1px solid var(--line);
   padding:12px;
-  border-radius:8px;
+  border-radius:10px;
   color:white;
+  margin-bottom:10px;
 }
 .grid{
   display:grid;
@@ -60,13 +61,19 @@ input{
 .item{
   background:#020617;
   border:1px solid var(--line);
-  border-radius:12px;
+  border-radius:14px;
   padding:14px;
   text-align:center;
   cursor:pointer;
 }
 .item.active{border-color:var(--accent)}
-.item img{width:40px}
+.item img{
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:12px; /* ICON TUMPUL */
+  margin:8px 0;
+}
 .harga{color:#22c55e;font-weight:900}
 button{
   width:100%;
@@ -115,6 +122,7 @@ ml:[
 {d:"Weekly Diamond Pass",h:29000,type:"wdp"},
 {d:"2x Weekly Diamond Pass",h:58000,type:"wdp"},
 {d:"3x Weekly Diamond Pass",h:87000,type:"wdp"},
+
 {d:"36 Diamonds",h:10500},
 {d:"56 Diamonds",h:15500},
 {d:"70 Diamonds",h:19500},
@@ -144,6 +152,7 @@ ml:[
 ff:[
 {d:"Membership Mingguan",h:28000,type:"membership"},
 {d:"Membership Bulanan",h:81000,type:"membership"},
+
 {d:"50 Diamonds",h:7000},
 {d:"70 Diamonds",h:10000},
 {d:"100 Diamonds",h:14000},
@@ -193,12 +202,19 @@ if(game==="dana"){
   userid.placeholder="Masukkan User ID";
 }
 
+function getImage(item){
+  if(game==="dana") return "dana.png";
+  if(item.type==="wdp") return "wdp.png";
+  if(item.type==="membership") return "membership.png";
+  return "diamonds.png";
+}
+
 price[game].forEach(p=>{
   const d=document.createElement("div");
   d.className="item";
   d.innerHTML=`
     <div>${p.d}</div>
-    <img src="${game==="dana"?"dana.png":"diamonds.png"}">
+    <img src="${getImage(p)}">
     <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
   `;
   d.onclick=()=>{
@@ -218,7 +234,7 @@ function checkout(){
     `checkout.html?game=${game}`+
     `&userid=${userid.value}`+
     `&server=${serverid.value||"-"}`+
-    `&item=${selected.d}`+
+    `&item=${encodeURIComponent(selected.d)}`+
     `&price=${selected.h}`;
 }
 </script>
