@@ -3,100 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopUp</title>
+<title>Top Up Game</title>
 
 <style>
 :root{
-  --bg:#0b0f19;
-  --card:#141a2a;
-  --line:#1f2937;
-  --accent:#3b82f6;
+  --bg1:#2b1055;
+  --bg2:#7597de;
+  --card:#1e1b3a;
+  --line:rgba(255,255,255,.12);
+  --accent:#a855f7;
+  --green:#22c55e;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,Arial;
-  background:var(--bg);
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
   color:white;
-  height:100vh;
-  overflow:hidden;
+  min-height:100vh;
 }
 .header{
-  position:fixed;
-  top:0;left:0;right:0;
-  padding:14px;
+  padding:18px;
   font-weight:900;
-  background:#020617;
-  border-bottom:1px solid var(--line);
+  font-size:20px;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(10px);
 }
 .container{
-  position:absolute;
-  top:60px;
-  left:0;right:0;bottom:0;
-  overflow-y:auto;
-  padding:20px;
+  padding:18px;
+  max-width:720px;
+  margin:auto;
 }
-.step{font-weight:900;margin-top:10px}
+.step{
+  font-weight:900;
+  margin:18px 0 10px;
+}
 .card{
-  background:var(--card);
-  padding:16px;
-  border-radius:12px;
+  background:rgba(0,0,0,.35);
   border:1px solid var(--line);
+  padding:16px;
+  border-radius:16px;
 }
 input{
   width:100%;
-  background:#020617;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:12px;
   border:1px solid var(--line);
-  padding:12px;
-  border-radius:10px;
+  background:#0f0c29;
   color:white;
-  margin-bottom:10px;
+  font-size:15px;
 }
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px;
-  margin-top:10px;
 }
 .item{
-  background:#020617;
+  background:linear-gradient(180deg,#1b1645,#120f2d);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:18px;
   padding:14px;
   text-align:center;
   cursor:pointer;
+  transition:.25s;
 }
-.item.active{border-color:var(--accent)}
+.item:hover{transform:translateY(-3px)}
+.item.active{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(168,85,247,.35);
+}
 .item img{
-  width:48px;
-  height:48px;
+  width:54px;
+  height:54px;
   object-fit:cover;
-  border-radius:12px; /* ICON TUMPUL */
-  margin:8px 0;
+  border-radius:14px;
+  margin:10px 0;
 }
-.harga{color:#22c55e;font-weight:900}
+.nama{
+  font-weight:700;
+  font-size:14px;
+}
+.harga{
+  margin-top:6px;
+  font-weight:900;
+  color:var(--green);
+}
 button{
   width:100%;
-  padding:14px;
-  margin:20px 0;
+  margin:26px 0;
+  padding:16px;
   border:none;
-  border-radius:12px;
-  background:var(--accent);
-  color:white;
+  border-radius:16px;
+  font-size:16px;
   font-weight:900;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  color:white;
+  cursor:pointer;
 }
+button:hover{opacity:.9}
 </style>
 </head>
 
 <body>
 
-<div class="header" id="title">TopUp</div>
+<div class="header" id="title">Top Up</div>
 
 <div class="container">
 
 <div class="step">1. Masukkan Data</div>
 <div class="card">
-  <input id="userid">
+  <input id="userid" placeholder="User ID">
   <input id="serverid" placeholder="Server ID">
 </div>
 
@@ -117,125 +134,69 @@ const serverid=document.getElementById("serverid");
 const box=document.getElementById("nominalBox");
 let selected=null;
 
-const price={
+const data={
 ml:[
-{d:"Weekly Diamond Pass",h:29000,type:"wdp"},
-{d:"2x Weekly Diamond Pass",h:58000,type:"wdp"},
-{d:"3x Weekly Diamond Pass",h:87000,type:"wdp"},
-
-{d:"36 Diamonds",h:10500},
-{d:"56 Diamonds",h:15500},
-{d:"70 Diamonds",h:19500},
-{d:"112 Diamonds",h:31000},
-{d:"140 Diamonds",h:38000},
-{d:"170 Diamonds",h:46000},
-{d:"184 Diamonds",h:50000},
-{d:"222 Diamonds",h:58000},
-{d:"240 Diamonds",h:63000},
-{d:"258 Diamonds",h:70000},
-{d:"284 Diamonds",h:75000},
-{d:"296 Diamonds",h:78000},
-{d:"344 Diamonds",h:91000},
-{d:"355 Diamonds",h:93000},
-{d:"408 Diamonds",h:108000},
-{d:"429 Diamonds",h:113000},
-{d:"514 Diamonds",h:135000},
-{d:"568 Diamonds",h:147000},
-{d:"706 Diamonds",h:183000},
-{d:"878 Diamonds",h:225000},
-{d:"963 Diamonds",h:244000},
-{d:"1159 Diamonds",h:295000},
-{d:"1412 Diamonds",h:362000},
-{d:"2195 Diamonds",h:530000},
-{d:"3688 Diamonds",h:915000}
+{n:"Weekly Diamond Pass",p:29000,img:"img/ml_wdp.png"},
+{n:"36 Diamonds",p:10500,img:"img/ml_diamond.png"},
+{n:"56 Diamonds",p:15500,img:"img/ml_diamond.png"},
+{n:"112 Diamonds",p:31000,img:"img/ml_diamond.png"},
+{n:"170 Diamonds",p:46000,img:"img/ml_diamond.png"},
+{n:"284 Diamonds",p:75000,img:"img/ml_diamond.png"},
+{n:"568 Diamonds",p:147000,img:"img/ml_diamond.png"},
+{n:"1159 Diamonds",p:295000,img:"img/ml_diamond.png"}
 ],
 ff:[
-{d:"Membership Mingguan",h:28000,type:"membership"},
-{d:"Membership Bulanan",h:81000,type:"membership"},
-
-{d:"50 Diamonds",h:7000},
-{d:"70 Diamonds",h:10000},
-{d:"100 Diamonds",h:14000},
-{d:"140 Diamonds",h:18000},
-{d:"160 Diamonds",h:21000},
-{d:"200 Diamonds",h:26000},
-{d:"250 Diamonds",h:33000},
-{d:"300 Diamonds",h:39000},
-{d:"355 Diamonds",h:43500},
-{d:"405 Diamonds",h:50000},
-{d:"475 Diamonds",h:62000},
-{d:"500 Diamonds",h:65000},
-{d:"565 Diamonds",h:71000},
-{d:"600 Diamonds",h:77000},
-{d:"720 Diamonds",h:88000},
-{d:"770 Diamonds",h:96000},
-{d:"800 Diamonds",h:100000},
-{d:"860 Diamonds",h:107000},
-{d:"930 Diamonds",h:115000},
-{d:"1000 Diamonds",h:125000},
-{d:"1080 Diamonds",h:135000},
-{d:"1450 Diamonds",h:180000},
-{d:"2000 Diamonds",h:247000},
-{d:"2160 Diamonds",h:267000}
+{n:"Membership Mingguan",p:28000,img:"img/ff_member.png"},
+{n:"Membership Bulanan",p:81000,img:"img/ff_member.png"},
+{n:"100 Diamonds",p:14000,img:"img/ff_diamond.png"},
+{n:"300 Diamonds",p:39000,img:"img/ff_diamond.png"},
+{n:"720 Diamonds",p:88000,img:"img/ff_diamond.png"}
 ],
 dana:[
-{d:"Topup Dana 15.000",h:20000},
-{d:"Topup Dana 20.000",h:25000},
-{d:"Topup Dana 25.000",h:30000},
-{d:"Topup Dana 30.000",h:35000},
-{d:"Topup Dana 40.000",h:45000},
-{d:"Topup Dana 50.000",h:55000},
-{d:"Topup Dana 100.000",h:105000}
+{n:"Topup Dana 15.000",p:20000,img:"img/dana.png"},
+{n:"Topup Dana 25.000",p:30000,img:"img/dana.png"},
+{n:"Topup Dana 50.000",p:55000,img:"img/dana.png"},
+{n:"Topup Dana 100.000",p:105000,img:"img/dana.png"}
 ]
 };
 
 if(game==="dana"){
-  title.textContent="Topup DANA";
-  userid.placeholder="Masukkan Nomor DANA";
+  title.textContent="Top Up DANA";
+  userid.placeholder="Nomor DANA";
   serverid.style.display="none";
 }else if(game==="ff"){
   title.textContent="Free Fire";
-  userid.placeholder="Masukkan User ID";
   serverid.style.display="none";
 }else{
   title.textContent="Mobile Legends";
-  userid.placeholder="Masukkan User ID";
 }
 
-function getImage(item){
-  if(game==="dana") return "dana.png";
-  if(item.type==="wdp") return "wdp.png";
-  if(item.type==="membership") return "membership.png";
-  return "diamonds.png";
-}
-
-price[game].forEach(p=>{
-  const d=document.createElement("div");
-  d.className="item";
-  d.innerHTML=`
-    <div>${p.d}</div>
-    <img src="${getImage(p)}">
-    <div class="harga">Rp ${p.h.toLocaleString("id-ID")}</div>
+data[game].forEach(item=>{
+  const el=document.createElement("div");
+  el.className="item";
+  el.innerHTML=`
+    <div class="nama">${item.n}</div>
+    <img src="${item.img}">
+    <div class="harga">Rp ${item.p.toLocaleString("id-ID")}</div>
   `;
-  d.onclick=()=>{
+  el.onclick=()=>{
     document.querySelectorAll(".item").forEach(x=>x.classList.remove("active"));
-    d.classList.add("active");
-    selected=p;
+    el.classList.add("active");
+    selected=item;
   };
-  box.appendChild(d);
+  box.appendChild(el);
 });
 
 function checkout(){
-  if(!userid.value) return alert("Isi data");
-  if(game==="ml"&&!serverid.value) return alert("Isi server");
+  if(!userid.value) return alert("User ID wajib diisi");
+  if(game==="ml"&&!serverid.value) return alert("Server ID wajib diisi");
   if(!selected) return alert("Pilih nominal");
 
-  window.location.href=
-    `checkout.html?game=${game}`+
-    `&userid=${userid.value}`+
-    `&server=${serverid.value||"-"}`+
-    `&item=${encodeURIComponent(selected.d)}`+
-    `&price=${selected.h}`;
+  alert(
+    "GAME: "+game.toUpperCase()+
+    "\nITEM: "+selected.n+
+    "\nHARGA: Rp "+selected.p.toLocaleString("id-ID")
+  );
 }
 </script>
 
